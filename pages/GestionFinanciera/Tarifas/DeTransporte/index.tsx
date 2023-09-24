@@ -28,8 +28,8 @@ const DeTransportePage = () => {
   return (
     <Layout>
       <div>
-        <form className='flex flex-col items-center justify-center gap-6'>
-          <legend>TARIFAS DE TRANSPORTE SIN PARADA</legend>
+        <form className='flex flex-col items-center justify-center text-center gap-6 p-5 rounded-xl shadow-gray-300 shadow-xl'>
+          <legend className='font-semibold text-lg pb-4'>TARIFAS DE TRANSPORTE SIN PARADA</legend>
           <LabelInput inputType='number' id='valorPorKm'>
             Valor por kilómetro cubierto
           </LabelInput>
@@ -59,7 +59,7 @@ const DeTransportePage = () => {
               }}
             />
           </div>
-          <div className='flex items-center justify-center gap-6'>
+          <div className='flex items-center justify-center gap-6 pt-4'>
             <Button type='submit' text='GUARDAR' />
             <Button text='REGRESAR' onClick={() => router.back()} />
           </div>
