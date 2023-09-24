@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 export const Footer = () => {
   return (
     <footer className='bg-sky-600 flex items-start self-stretch pt-9 pb-14 px-36 gap-9'>
@@ -21,8 +23,8 @@ export const Footer = () => {
           AYUDA
         </div>
         <div className='text-slate-300 flex flex-col items-center pt-4 gap-3'>
-          <a href='blank'>Políticas de privacidad</a>
-          <a href='blank'>Políticas de uso</a>
+          <Link href='/blank'>Políticas de privacidad</Link>
+          <Link href='/blank'>Políticas de uso</Link>
         </div>
       </div>
     </footer>
