@@ -13,6 +13,8 @@ jobs:
         with:
           node-version: 16
           cache: 'npm'
+      - name: Depencencies Install
+        run: npm i
       - name: Lint
         run: npm run lint
       - name: Test
