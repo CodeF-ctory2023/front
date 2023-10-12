@@ -1,11 +1,11 @@
-import { ExampleComponent } from '@/components/ExampleComponent';
+import { PqrsCreateComponent } from '@/components/PqrsCreateComponent/PqrsCreateComponent';
 import { Footer } from '@/components/common/footer';
 
 const Home = () => {
   return (
     <div>
       <main className='flex h-screen w-full items-center justify-center'>
-        <ExampleComponent text='Welcome to CodeF@ctory' />
+        <PqrsCreateComponent />
       </main>
       <Footer />
     </div>
