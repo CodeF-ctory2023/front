@@ -1,8 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { faEdit, faTrashCan } from '@fortawesome/free-solid-svg-icons';
-import { faPenToSquare } from '@fortawesome/free-solid-svg-icons';
-import { faEye } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faTrashCan, faEye, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Popup from './PopUp';
 import { useState } from 'react';
