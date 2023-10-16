@@ -17,7 +17,7 @@ const CrearPqrs = () => {
 
   const pqrs: pqrsType = {
     createdBy: 'Jaime Ortiz',
-    state: 'Proceso',
+    state: 'Finalizado',
     createdAt: new Date(),
     type: tipoPQRS,
     subType: tipoSubPQRS,
