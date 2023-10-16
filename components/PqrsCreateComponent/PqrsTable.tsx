@@ -59,7 +59,7 @@ const PqrsTable: FC<Props> = ({ index, pqrs }) => {
       </td>
       <td className='text-center'>
         <button className='mr-2' onClick={() => deletePqrs(pqrs)}>
-          <i className='fa-solid fa-trash'></i>
+          <i className='fa-solid fa-trash hover:text-red-800 hover:scale-105 active:scale-95'></i>
           {/* Usando el icono de eliminar */}
         </button>
         <button className='mr-2'>
@@ -67,7 +67,7 @@ const PqrsTable: FC<Props> = ({ index, pqrs }) => {
           {/* Usando el icono de editar */}
         </button>
         <button>
-          <i className='fa-solid fa-eye'></i>
+          <i className='fa-solid fa-eye hover:text-blue-800 hover:scale-105 active:scale-95'></i>
           {/* Usando el icono de ver */}
         </button>
       </td>
