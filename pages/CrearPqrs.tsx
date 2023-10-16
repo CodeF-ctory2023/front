@@ -4,21 +4,33 @@ import { useForm } from '@/hooks/pqrsHooks/useForm';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { pqrsInfo } from '@/components/pqrsBd/pqrsInfo';
+import { OperationsButton } from '@/components/PqrsCreateComponent/OperationsButton';
+
+import { primaryColor, primaryColorHover, secondaryColor, secondaryColorHover } from '@/components/PqrsCreateComponent/Colors';
 
 const CrearPqrs = () => {
+
   const router = useRouter();
+
   const { tipoSubPQRS } = router.query as { tipoSubPQRS: string };
   const { tipoPQRS } = router.query as { tipoPQRS: string };
 
   const pqrs: pqrsType = {
     createdBy: 'Jaime Ortiz',
-    state: 'Pendiente',
+    state: 'Proceso',
     createdAt: new Date(),
     type: tipoPQRS,
     subType: tipoSubPQRS,
     description: '',
     file: '',
   };
+
+
+
+  const returnMenu = () => {
+    //add output confirmation message without saving
+    router.push('/');
+  }
 
   const sendPqrs = () => {
     pqrsInfo.push(values);
@@ -63,9 +75,9 @@ const CrearPqrs = () => {
           <label className='block text-gray-700 mb-4'>
             <span className='mr-2'>Subir una imagen:</span>
             <input type='file' accept='image/*'
-            name='file'
-            onChange={(e) => handleInputChange(e)}
-            className='mt-1' />
+              name='file'
+              onChange={(e) => handleInputChange(e)}
+              className='mt-1' />
           </label>
 
           {/* Botón para subir un archivo */}
@@ -73,22 +85,9 @@ const CrearPqrs = () => {
             <span className='mr-2'>Subir un archivo:</span>
             <input type='file' className='mt-1' />
           </label> */}
-          <div className='mt-5'>
-            <Link href={'/'}>
-              <button
-                className='bg-blue-500 hover:bg-blue-700 
-           hover:scale-105 px-5 py-2 text-sm leading-5 rounded-full font-semibold text-white focus:outline-none active:scale-95'
-              >
-                Volver
-              </button>
-            </Link>
-            <button
-              className='ml-5 bg-green-500 hover:bg-green-700 
-           hover:scale-105 px-5 py-2 text-sm leading-5 rounded-full font-semibold text-white focus:outline-none active:scale-95'
-           onClick={() => sendPqrs()}
-            >
-              Enviar
-            </button>
+          <div className='mt-5 space-x-4'>
+            <OperationsButton label='Volver' onClick={returnMenu} color={secondaryColor} colorHover={secondaryColorHover} />
+            <OperationsButton label='Enviar' onClick={() => sendPqrs()} color={primaryColor} colorHover={primaryColorHover} />
           </div>
 
           {/* Botón para volver a la página anterior */}

@@ -3,7 +3,8 @@ import { FC } from 'react';
 import { pqrsType } from '.';
 import { pqrsInfo } from '../pqrsBd/pqrsInfo';
 import { useRouter } from 'next/router';
-
+import { IconButton } from './IconButton';
+import { primaryColor, secondaryColor, bloodColor } from './Colors';
 interface Props {
   index: number;
   pqrs: pqrsType;
@@ -57,19 +58,12 @@ const PqrsTable: FC<Props> = ({ index, pqrs }) => {
       <td className='p-3 text-sm text-gray-700 whitespace-nowrap'>
         {pqrs.description}
       </td>
-      <td className='text-center'>
-        <button className='mr-2' onClick={() => deletePqrs(pqrs)}>
-          <i className='fa-solid fa-trash hover:text-red-800 hover:scale-105 active:scale-95'></i>
-          {/* Usando el icono de eliminar */}
-        </button>
-        <button className='mr-2'>
-          <i className='fa-solid fa-pen-to-square'></i>
-          {/* Usando el icono de editar */}
-        </button>
-        <button>
-          <i className='fa-solid fa-eye hover:text-blue-800 hover:scale-105 active:scale-95'></i>
-          {/* Usando el icono de ver */}
-        </button>
+      <td>
+        <div className='flex flex-center justify-center'>
+          <IconButton iconName='Delete' overColor={bloodColor} onClick={() => deletePqrs(pqrs)} />
+          <IconButton iconName='EditSquare' overColor={primaryColor} />
+          <IconButton iconName='RemoveRedEye' overColor={secondaryColor} />
+        </div>
       </td>
     </tr>
   );

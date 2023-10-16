@@ -8,6 +8,8 @@ import { pqrsInfo } from '../pqrsBd/pqrsInfo';
 import { pqrsType } from '.';
 import { useRouter } from 'next/router';
 import { PqrsTable } from './PqrsTable';
+import { OperationsButton } from './OperationsButton';
+import { primaryColor, primaryColorHover, secondaryColor, secondaryColorHover } from './Colors';
 
 const PqrsCreateComponent = () => {
   const router = useRouter();
@@ -49,20 +51,9 @@ const PqrsCreateComponent = () => {
             </tbody>
           </table>
         </div>
-        <div className='flex justify-end mt-4'>
-          <button
-            className='bg-green-500 hover:bg-green-700 
-           hover:scale-105 px-5 py-2 text-sm leading-5 rounded-full font-semibold text-white focus:outline-none active:scale-95'
-            onClick={openPopup}
-          >
-            Crear
-          </button>
-          <button
-            className='bg-blue-500 hover:bg-blue-700 ml-4
-           hover:scale-105 px-5 py-2 text-sm leading-5 rounded-full font-semibold text-white focus:outline-none active:scale-95'
-          >
-            Volver
-          </button>
+        <div className='flex justify-end mt-4 space-x-4'>
+          <OperationsButton label='Crear' onClick={openPopup} color={primaryColor} colorHover={primaryColorHover}/>
+          <OperationsButton label='Volver' color={secondaryColor} colorHover={secondaryColorHover}/>
         </div>
       </div>
       <PopUp isOpen={popupOpen} closePopup={closePopup} />

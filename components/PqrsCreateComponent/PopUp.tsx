@@ -4,7 +4,8 @@
 import { useRouter } from 'next/router';
 import { useState, FC } from 'react';
 import { PqrsMenu } from './PqrsMenu';
-
+import { OperationsButton } from './OperationsButton';
+import { secondaryColor, secondaryColorHover } from './Colors';
 interface Props {
   isOpen: boolean;
   closePopup: () => void;
@@ -65,7 +66,7 @@ const PopUp: FC<Props> = ({ isOpen, closePopup }) => {
       }
       return;
     }
-    
+
     router.push(`/CrearPqrs?tipoPQRS=${pqrs}`);
 
   };
@@ -84,9 +85,8 @@ const PopUp: FC<Props> = ({ isOpen, closePopup }) => {
         <div className='space-y-0'>
           {PQRS_OPTIONS.map((pqrs, index) => (
             <button
-              className={`w-full block text-left py-2 px-4 border border-gray-300 rounded text-gray-700 hover:bg-gray-100 focus:outline-none ${
-                selectedOption === pqrs ? 'bg-blue-500 text-white' : ''
-              }`}
+              className={`w-full block text-left py-2 px-4 border border-gray-300 rounded text-gray-700 hover:bg-gray-100 focus:outline-none ${selectedOption === pqrs ? 'bg-blue-500 text-white' : ''
+                }`}
               key={index}
               onClick={() => handleOptionClick(pqrs)}
             >
@@ -94,24 +94,20 @@ const PopUp: FC<Props> = ({ isOpen, closePopup }) => {
             </button>
           ))}
         </div>
-
-        <button
-          className='ml-0 mt-4 bg-blue-500 hover:bg-blue-700 hover:scale-105 px-5 py-2 text-sm leading-5 rounded-full font-semibold text-white focus:outline-none active:scale-95'
-          onClick={closePopup}
-        >
-          Cerrar
-        </button>
+        <div className='my-[1rem]'>
+          <OperationsButton label='Volver' onClick={closePopup} color={secondaryColor} colorHover={secondaryColorHover} />
+        </div>
       </div>
 
       {showQuejaMenu &&
-        selectedOption === 'Queja' && <PqrsMenu options={QUEJA_OPTIONS} type={'Queja'}/> // Mostrar el menú de quejas si showQuejaMenu es verdadero
-}
+        selectedOption === 'Queja' && <PqrsMenu options={QUEJA_OPTIONS} type={'Queja'} /> // Mostrar el menú de quejas si showQuejaMenu es verdadero
+      }
 
       {showReclamoMenu &&
-        selectedOption === 'Reclamo' && <PqrsMenu options={RECLAMO_OPTIONS} type={'Reclamo'}/> // Mostrar el menú de reclamos si showQuejaMenu es verdadero
-        }
+        selectedOption === 'Reclamo' && <PqrsMenu options={RECLAMO_OPTIONS} type={'Reclamo'} /> // Mostrar el menú de reclamos si showQuejaMenu es verdadero
+      }
     </div>
   );
 };
 
-export  {PopUp};
+export { PopUp };
