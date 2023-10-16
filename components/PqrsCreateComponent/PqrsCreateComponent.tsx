@@ -1,11 +1,16 @@
+/* eslint-disable no-restricted-imports */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { faEdit, faTrashCan, faEye, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Popup from './PopUp';
+
 import { useState } from 'react';
+import { PopUp } from './PopUp';
+import { pqrsInfo } from '../pqrsBd/pqrsInfo';
+import { pqrsType } from '.';
+import { useRouter } from 'next/router';
+import { PqrsTable } from './PqrsTable';
 
 const PqrsCreateComponent = () => {
+  const router = useRouter();
   const [popupOpen, setPopupOpen] = useState<boolean>(false);
 
   const openPopup = () => {
@@ -14,55 +19,6 @@ const PqrsCreateComponent = () => {
 
   const closePopup = () => {
     setPopupOpen(false);
-  };
-
-  const PQRS_INFORMATION = [
-    {
-      pqrsType: 'Queja',
-      createdAt: '10/10/2023',
-      pqrsState: 'Proceso',
-      createrBy: 'Usuario 001',
-      message: 'some text here',
-    },
-    {
-      pqrsType: 'Queja',
-      createdAt: '7/10/2022',
-      pqrsState: 'Pendiente',
-      createdBy: 'Usuario 007',
-      message: 'some text here',
-    },
-    {
-      pqrsType: 'Reclamo',
-      createdAt: '10/10/2023',
-      pqrsState: 'Finalizado',
-      createrBy: 'Usuario 001',
-      message: 'some text here',
-    },
-  ];
-
-  const getEstadoStyle = (pqrsState: string) => {
-    let color = '';
-    let backgroundColor = '';
-
-    switch (pqrsState) {
-      case 'Pendiente':
-        color = 'text-red-800'; // Cambia a tu color deseado
-        backgroundColor = 'bg-red-200'; // Cambia a tu color deseado
-        break;
-      case 'Proceso':
-        color = 'text-yellow-800'; // Cambia a tu color deseado
-        backgroundColor = 'bg-yellow-200'; // Cambia a tu color deseado
-        break;
-      case 'Finalizado':
-        color = 'text-green-800'; // Cambia a tu color deseado
-        backgroundColor = 'bg-green-200'; // Cambia a tu color deseado
-        break;
-      default:
-        color = 'text-gray-700';
-        backgroundColor = 'bg-gray-200';
-    }
-
-    return `${color} ${backgroundColor} p-1.5 text-xs font-medium uppercase tracking-wider rounded-lg bg-opacity-50`;
   };
 
   const HEADINGS = ['Tipo de PQRS', 'Fecha', 'Estado', 'Contenido', 'Opciones'];
@@ -87,37 +43,8 @@ const PqrsCreateComponent = () => {
               </tr>
             </thead>
             <tbody className='divide-y divide-gray-100'>
-              {PQRS_INFORMATION.map((pqrs, index) => (
-                <tr key={index} className='bg-white'>
-                  <td className='p-3 text-sm text-gray-700 whitespace-nowrap'>
-                    {pqrs.pqrsType}
-                  </td>
-                  <td className='font-bold text-blue-500 hover:underline'>
-                    {pqrs.createdAt}
-                  </td>
-                  <td className='p-3 text-sm text-gray-700 whitespace-nowrap'>
-                    <span className={`${getEstadoStyle(pqrs.pqrsState)}`}>
-                      {pqrs.pqrsState}
-                    </span>
-                  </td>
-                  <td className='p-3 text-sm text-gray-700 whitespace-nowrap'>
-                    {pqrs.message}
-                  </td>
-                  <td className='text-center'>
-                    <button className='mr-2'>
-                      <FontAwesomeIcon icon={faTrashCan} />{' '}
-                      {/* Usando el icono de eliminar */}
-                    </button>
-                    <button className='mr-2'>
-                      <FontAwesomeIcon icon={faPenToSquare} />{' '}
-                      {/* Usando el icono de editar */}
-                    </button>
-                    <button>
-                      <FontAwesomeIcon icon={faEye} />{' '}
-                      {/* Usando el icono de ver */}
-                    </button>
-                  </td>
-                </tr>
+              {pqrsInfo.map((pqrs, index) => (
+                <PqrsTable key={index} index={index} pqrs={pqrs} />
               ))}
             </tbody>
           </table>
@@ -138,7 +65,7 @@ const PqrsCreateComponent = () => {
           </button>
         </div>
       </div>
-      <Popup isOpen={popupOpen} closePopup={closePopup} />
+      <PopUp isOpen={popupOpen} closePopup={closePopup} />
     </div>
   );
 };

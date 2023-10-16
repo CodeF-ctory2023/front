@@ -1,18 +1,22 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable import/no-default-export */
-import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import { useState, FC } from 'react';
+import { PqrsMenu } from './PqrsMenu';
 
-const tipoSubPQRS = () => {
+interface Props {
+  isOpen: boolean;
+  closePopup: () => void;
+}
+
+const PopUp: FC<Props> = ({ isOpen, closePopup }) => {
   const router = useRouter();
-  const { tipoSubPQRS } = router.query;
-  const { tipoPQRS } = router.query;
-};
+  const [selectedOption, setSelectedOption] = useState<string | null>(null);
+  const [showQuejaMenu, setShowQuejaMenu] = useState<boolean>(false); // Estado para controlar la visibilidad del menú de quejas
+  const [showReclamoMenu, setShowReclamoMenu] = useState<boolean>(false); // Estado para controlar la visibilidad del menú de quejas
 
-const Popup = ({ isOpen, closePopup }) => {
-  const PQRS_OPTIONS = [
+  const PQRS_OPTIONS: string[] = [
     'Queja',
     'Petición',
     'Reclamo',
@@ -20,7 +24,7 @@ const Popup = ({ isOpen, closePopup }) => {
     'Felicitación',
   ];
 
-  const QUEJA_OPTIONS = [
+  const QUEJA_OPTIONS: string[] = [
     'Mal comportamiento del conductor',
     'Estado del vehículo',
     'Cobro inadecuado',
@@ -29,38 +33,41 @@ const Popup = ({ isOpen, closePopup }) => {
     'Otro',
   ];
 
-  const RECLAMO_OPTIONS = [
+  const RECLAMO_OPTIONS: string[] = [
     'Sanciones Injustas',
     'Problemas de Facturación',
     'Otro',
   ];
 
   if (!isOpen) return null;
-  const [selectedOption, setSelectedOption] = useState(null);
-  const [showQuejaMenu, setShowQuejaMenu] = useState(false); // Estado para controlar la visibilidad del menú de quejas
-  const [showReclamoMenu, setShowReclamoMenu] = useState(false); // Estado para controlar la visibilidad del menú de quejas
 
-  const handleOverlayClick = (e) => {
+  const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
       closePopup();
     }
   };
 
-  const handleOptionClick = (pqrs) => {
+  const handleOptionClick = (pqrs: string) => {
     setSelectedOption(pqrs);
 
     // Mostrar el menú de quejas solo si se selecciona 'Queja'
-    if (pqrs === 'Queja') {
-      setShowQuejaMenu(true);
-    } else {
-      setShowQuejaMenu(false);
-    }
+    if (pqrs === 'Queja' || pqrs === 'Reclamo') {
+      if (pqrs === 'Queja') {
+        setShowQuejaMenu(true);
+      } else {
+        setShowQuejaMenu(false);
+      }
 
-    if (pqrs === 'Reclamo') {
-      setShowReclamoMenu(true);
-    } else {
-      setShowReclamoMenu(false);
+      if (pqrs === 'Reclamo') {
+        setShowReclamoMenu(true);
+      } else {
+        setShowReclamoMenu(false);
+      }
+      return;
     }
+    
+    router.push(`/CrearPqrs?tipoPQRS=${pqrs}`);
+
   };
 
   return (
@@ -97,55 +104,14 @@ const Popup = ({ isOpen, closePopup }) => {
       </div>
 
       {showQuejaMenu &&
-        selectedOption === 'Queja' && ( // Mostrar el menú de quejas si showQuejaMenu es verdadero
-          <div className='bg-white p-4 ml-1 rounded-lg shadow-lg z-10 w-60'>
-            <div className='space-y-0'>
-              {QUEJA_OPTIONS.map((quejaPqrs, index) => (
-                // eslint-disable-next-line react/jsx-key
-                <Link
-                  href={`/CrearPqrs?tipoSubPQRS=${quejaPqrs}&tipoPQRS=Queja`}
-                >
-                  <button
-                    className='w-full block text-left py-2 px-4 border border-gray-300 rounded text-gray-700 hover:bg-gray-100 focus:outline-none'
-                    key={index}
-                  >
-                    {quejaPqrs}
-                  </button>
-                </Link>
-              ))}
-            </div>
-          </div>
-        )}
+        selectedOption === 'Queja' && <PqrsMenu options={QUEJA_OPTIONS} type={'Queja'}/> // Mostrar el menú de quejas si showQuejaMenu es verdadero
+}
 
       {showReclamoMenu &&
-        selectedOption === 'Reclamo' && ( // Mostrar el menú de quejas si showQuejaMenu es verdadero
-          <div className='bg-white p-4 ml-1 rounded-lg shadow-lg z-10 w-60'>
-            <div className='space-y-0'>
-              {RECLAMO_OPTIONS.map((reclamoPqrs, index) => (
-                // eslint-disable-next-line react/jsx-key
-                <Link
-                  href={`/CrearPqrs?tipoSubPQRS=${reclamoPqrs}&tipoPQRS=Reclamo`}
-                >
-                  <button
-                    className='w-full block text-left py-2 px-4 border border-gray-300 rounded text-gray-700 hover:bg-gray-100 focus:outline-none'
-                    key={index}
-                  >
-                    {reclamoPqrs}
-                  </button>
-                </Link>
-
-                // <button
-                //   className='w-full block text-left py-2 px-4 border border-gray-300 rounded text-gray-700 hover:bg-gray-100 focus:outline-none'
-                //   key={index}
-                // >
-                //   {reclamoPqrs}
-                // </button>
-              ))}
-            </div>
-          </div>
-        )}
+        selectedOption === 'Reclamo' && <PqrsMenu options={RECLAMO_OPTIONS} type={'Reclamo'}/> // Mostrar el menú de reclamos si showQuejaMenu es verdadero
+        }
     </div>
   );
 };
 
-export default Popup;
+export  {PopUp};

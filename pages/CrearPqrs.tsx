@@ -1,12 +1,31 @@
 // pages/nueva-vista.js
+import { pqrsType } from '@/components/PqrsCreateComponent';
+import { useForm } from '@/hooks/pqrsHooks/useForm';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { pqrsInfo } from '@/components/pqrsBd/pqrsInfo';
 
 const CrearPqrs = () => {
   const router = useRouter();
-  const { tipoSubPQRS } = router.query;
-  const { tipoPQRS } = router.query;
+  const { tipoSubPQRS } = router.query as { tipoSubPQRS: string };
+  const { tipoPQRS } = router.query as { tipoPQRS: string };
 
+  const pqrs: pqrsType = {
+    createdBy: 'Jaime Ortiz',
+    state: 'Pendiente',
+    createdAt: new Date(),
+    type: tipoPQRS,
+    subType: tipoSubPQRS,
+    description: '',
+    file: '',
+  };
+
+  const sendPqrs = () => {
+    pqrsInfo.push(values);
+    router.push('/');
+  };
+
+  const { values, handleInputChange } = useForm(pqrs);
   return (
     <div>
       {/* Haz lo que necesites con el valor de la variable aquí */}
@@ -20,17 +39,22 @@ const CrearPqrs = () => {
             <span className='font-bold'> Usuario:</span> Jaime Ortiz
           </p>
           <p>
-            <span className='font-bold'> Fecha:</span> 11/10/2023
+            <span className='font-bold'> Fecha:</span>{' '}
+            {new Date().toDateString()}
           </p>
           <p>
             <span className='font-bold'> Tipo de PQRS:</span> {tipoPQRS}
           </p>
-          <p>
-            <span className='font-bold'>Tipo de {tipoPQRS} </span>:{' '}
-            {tipoSubPQRS}
-          </p>
+          {tipoSubPQRS && (
+            <p>
+              <span className='font-bold'>Tipo de {tipoPQRS} </span>:{' '}
+              {tipoSubPQRS}
+            </p>
+          )}
           {/* Campo de texto */}
           <textarea
+            name='description'
+            onChange={(e) => handleInputChange(e)}
             className='mt-5 w-full h-32 p-2 border border-gray-300 rounded-md mb-4'
             placeholder='Describe tu Solicitud'
           ></textarea>
@@ -38,7 +62,10 @@ const CrearPqrs = () => {
           {/* Botón para subir una imagen */}
           <label className='block text-gray-700 mb-4'>
             <span className='mr-2'>Subir una imagen:</span>
-            <input type='file' accept='image/*' className='mt-1' />
+            <input type='file' accept='image/*'
+            name='file'
+            onChange={(e) => handleInputChange(e)}
+            className='mt-1' />
           </label>
 
           {/* Botón para subir un archivo */}
@@ -58,6 +85,7 @@ const CrearPqrs = () => {
             <button
               className='ml-5 bg-green-500 hover:bg-green-700 
            hover:scale-105 px-5 py-2 text-sm leading-5 rounded-full font-semibold text-white focus:outline-none active:scale-95'
+           onClick={() => sendPqrs()}
             >
               Enviar
             </button>
