@@ -1,6 +1,6 @@
 import React from 'react'
-import { OptionsButton
- } from './OptionsButton';
+import { OptionsButton} from './OptionsButton';
+
 interface PqrsMenuProps {
   options: {
     id: number,

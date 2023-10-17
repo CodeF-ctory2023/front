@@ -54,25 +54,7 @@
     "no-restricted-imports": [
       "error",
       {
-        "patterns": [
-          "!../componets/PqrsMainView",
-          "!../types/pqrs.types",
-          "!../componets/PqrsMenu",
-          "!../componets/PopUp",
-          "!../componets/IconButton",
-          "!../componets/OperationsButton",
-          "!../componets/CreatePqrs",
-          "!../componets/OptionsButton",
-          "!../componets/PqrsTable",
-          "!../services/getClaimOptions",
-          "!../services/getComplaintOptions",
-          "!../services/getPqrsOptions",
-          "!../services/getStateStyle",
-          "!../constants/colors",
-          "!../utilities/index",
-          "!../utilities/utils"
-    ]
-        
+        "patterns": ["..*"]
       }
     ]
   },

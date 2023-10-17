@@ -4,8 +4,7 @@ import { useForm } from '@/hooks/pqrsHooks/useForm';
 import { useRouter } from 'next/router';
 import { pqrsInfo } from '@/components/pqrsBd/pqrsInfo';
 import { OperationsButton } from '@/components/PqrsModule/componets/OperationsButton';
-
-import { primaryColor, primaryColorHover, secondaryColor, secondaryColorHover } from '@/components/PqrsModule/constants/colors';
+import { primaryColor, primaryColorHover, secondaryColor, secondaryColorHover } from '@/components/PqrsModule/constans/colors';
 
 const CreatePqrs = () => {
 

@@ -4,11 +4,11 @@
 
 import { useState } from 'react';
 import { PopUp } from './PopUp';
-import { pqrsInfo } from '../../pqrsBd/pqrsInfo';
+import { pqrsInfo } from '@/components/pqrsBd/pqrsInfo';
 import { useRouter } from 'next/router';
 import { PqrsTable } from './PqrsTable';
 import { OperationsButton } from './OperationsButton';
-import { primaryColor, primaryColorHover, secondaryColor, secondaryColorHover } from '../constants/colors';
+import { primaryColor, primaryColorHover, secondaryColor, secondaryColorHover } from '@/components/PqrsModule/constans/colors';
 
 const PqrsMainView = () => {
   const router = useRouter();

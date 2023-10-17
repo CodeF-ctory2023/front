@@ -5,9 +5,10 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { PqrsMenu } from './PqrsMenu';
 import { OperationsButton } from './OperationsButton';
-import { secondaryColor, secondaryColorHover } from '../constants/colors';  
-import { usePqrsOptions } from '../utilities/utils';
+import { secondaryColor, secondaryColorHover } from '@/components/PqrsModule/constans/colors';
+import { usePqrsOptions } from '@/components/PqrsModule/utilities/utils';
 import { OptionsButton } from './OptionsButton';
+
 interface PopUpProps {
   isOpen: boolean;
   closePopup: () => void;

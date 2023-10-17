@@ -1,6 +1,6 @@
-import { getClaimOptions } from '../services/getClaimOptions';
-import { getComplaintOptions } from '../services/getComplaintOptions';
-import { getPqrsOptions } from '../services/getPqrsOptions';
+import { getClaimOptions } from '@/components/PqrsModule/services/getClaimOptions';
+import { getComplaintOptions } from '@/components/PqrsModule/services/getComplaintOptions';
+import { getPqrsOptions } from '@/components/PqrsModule/services/getPqrsOptions';
 
 export const usePqrsOptions = () => {
     return {
