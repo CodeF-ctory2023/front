@@ -1,3 +1,4 @@
+//reclamos
 export const getComplaintOptions = () => (
     [
         {
@@ -11,7 +12,7 @@ export const getComplaintOptions = () => (
         {
             id: 3,
             name: 'Otro',
-        },
+        }
        
     ]
 )

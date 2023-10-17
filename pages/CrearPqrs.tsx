@@ -2,7 +2,7 @@
 import { pqrsType } from '@/components/PqrsModule/utilities';
 import { useForm } from '@/hooks/pqrsHooks/useForm';
 import { useRouter } from 'next/router';
-import { pqrsInfo } from '@/components/pqrsBd/pqrsInfo';
+import { pqrsInfo } from '@/components/PqrsModule/services/pqrsInfo';
 import { OperationsButton } from '@/components/PqrsModule/componentsPqrs/OperationsButton';
 import { primaryColor, primaryColorHover, secondaryColor, secondaryColorHover } from '@/components/PqrsModule/constants/colors';
 

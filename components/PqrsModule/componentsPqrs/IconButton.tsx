@@ -2,9 +2,9 @@ import React from 'react';
 import { IconType } from 'react-icons';
 
 
-// eslint-disable-next-line import/namespace
+/* eslint-disable import/namespace */
 import * as MdIcons from 'react-icons/md'; // /md is the icon pack to use, you can change to another
-
+/* eslint-enable import/namespace */
 
 interface IconButtonProps {
     iconName: string;

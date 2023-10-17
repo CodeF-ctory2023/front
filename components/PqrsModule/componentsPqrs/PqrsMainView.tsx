@@ -4,7 +4,7 @@
 
 import { useState } from 'react';
 import { PopUp } from './PopUp';
-import { pqrsInfo } from '@/components/pqrsBd/pqrsInfo';
+import { pqrsInfo } from '@/components/PqrsModule/services/pqrsInfo';
 import { useRouter } from 'next/router';
 import { PqrsTable } from './PqrsTable';
 import { OperationsButton } from './OperationsButton';
@@ -31,12 +31,12 @@ const PqrsMainView = () => {
 
         <div className='overflow-auto rounded-lg shadow hidden md:block'>
           <table className='w-full'>
-            <thead className='bg-gray-50 border-b-2 border-gray-200'>
-              <tr>
+            <thead className='bg-gray-50 border-b-2 border-gray-200 '>
+              <tr >
                 {HEADINGS.map((key, index) => (
                   <th
                     key={index}
-                    className='w-24 p-3 text-sm font-semibold tracking-wide text-left'
+                    className='w-24 p-3 text-sm font-semibold tracking-wide text-center'
                   >
                     {key}
                   </th>
