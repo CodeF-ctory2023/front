@@ -3,10 +3,10 @@ import { pqrsType } from '@/components/PqrsModule/utilities';
 import { useForm } from '@/hooks/pqrsHooks/useForm';
 import { useRouter } from 'next/router';
 import { pqrsInfo } from '@/components/pqrsBd/pqrsInfo';
-import { OperationsButton } from '@/components/PqrsModule/componets/OperationsButton';
-import { primaryColor, primaryColorHover, secondaryColor, secondaryColorHover } from '@/components/PqrsModule/constans/colors';
+import { OperationsButton } from '@/components/PqrsModule/componentsPqrs/OperationsButton';
+import { primaryColor, primaryColorHover, secondaryColor, secondaryColorHover } from '@/components/PqrsModule/constants/colors';
 
-const CreatePqrs = () => {
+const CrearPqrs = () => {
 
   const router = useRouter();
 
@@ -101,4 +101,4 @@ const CreatePqrs = () => {
 };
 
 // eslint-disable-next-line import/no-default-export
-export {CreatePqrs};
+export default CrearPqrs;

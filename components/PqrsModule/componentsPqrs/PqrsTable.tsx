@@ -3,7 +3,7 @@ import { pqrsType } from '@/components/PqrsModule/utilities';
 import { pqrsInfo } from '@/components/pqrsBd/pqrsInfo';
 import { useRouter } from 'next/router';
 import { IconButton } from './IconButton';
-import { primaryColor, secondaryColor, bloodColor } from '@/components/PqrsModule/constans/colors';
+import { primaryColor, secondaryColor, bloodColor } from '@/components/PqrsModule/constants/colors';
 import { getStateStyle } from '@/components/PqrsModule/services/getStateStyle';
 interface PqrsTableProps {
   index: number;

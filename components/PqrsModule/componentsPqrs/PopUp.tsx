@@ -1,11 +1,12 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable import/no-default-export */
+
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { PqrsMenu } from './PqrsMenu';
 import { OperationsButton } from './OperationsButton';
-import { secondaryColor, secondaryColorHover } from '@/components/PqrsModule/constans/colors';
+import { secondaryColor, secondaryColorHover } from '@/components/PqrsModule/constants/colors';
 import { usePqrsOptions } from '@/components/PqrsModule/utilities/utils';
 import { OptionsButton } from './OptionsButton';
 
@@ -18,6 +19,7 @@ const PopUp = ({ isOpen, closePopup }: PopUpProps) => {
   const router = useRouter();
   const { pqrsOptions, claimOptions, complaintOptions } = usePqrsOptions();
 
+ //eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [selectedOption, setSelectedOption] = useState<string | null>(null); //Status to control the visibility of options
   const [menuType, setMenuType] = useState<string | null>(null);//Status to control the visibility of menus
 

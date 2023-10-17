@@ -1,5 +1,7 @@
 import React from 'react';
 import { IconType } from 'react-icons';
+
+// eslint-disable-next-line import/namespace
 import * as icons from 'react-icons/md'; // /md is the icon pack to use, you can change to another
 
 interface IconButtonProps {
