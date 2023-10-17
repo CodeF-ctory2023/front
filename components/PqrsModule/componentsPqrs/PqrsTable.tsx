@@ -13,6 +13,7 @@ interface PqrsTableProps {
 const PqrsTable = ({ index, pqrs }: PqrsTableProps) => {
   const router = useRouter();
 
+  
   const deletePqrs = (pqrs: pqrsType) => {
     //search and delete pqrs
     const index = pqrsInfo.indexOf(pqrs);

@@ -47,8 +47,10 @@ const PopUp = ({ isOpen, closePopup }: PopUpProps) => {
       setMenuType(pqrs);
     } else {
       router.push(`/CrearPqrs?tipoPQRS=${pqrs}`);
+      console.log("aja mi apa")
     }
   };
+  console.log(router)
 
   return (
     <div
