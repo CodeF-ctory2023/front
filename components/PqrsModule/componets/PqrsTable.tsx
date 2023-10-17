@@ -1,10 +1,9 @@
 /* eslint-disable no-restricted-imports */
-import { FC } from 'react';
 import { pqrsType } from '../utilities';
 import { pqrsInfo } from '../../pqrsBd/pqrsInfo';
 import { useRouter } from 'next/router';
 import { IconButton } from './IconButton';
-import { primaryColor, secondaryColor, bloodColor } from '../constans/colors';
+import { primaryColor, secondaryColor, bloodColor } from '../constants/colors';
 import { getStateStyle } from '../services/getStateStyle';
 interface PqrsTableProps {
   index: number;
@@ -38,9 +37,9 @@ const PqrsTable = ({ index, pqrs }: PqrsTableProps) => {
       </td>
       <td>
         <div className='flex flex-center justify-center'>
-          <IconButton iconName='Delete' overColor={bloodColor} onClick={() => deletePqrs(pqrs)} />
-          <IconButton iconName='EditSquare' overColor={primaryColor} />
-          <IconButton iconName='RemoveRedEye' overColor={secondaryColor} />
+          <IconButton iconName='Delete' colorHover={bloodColor} onClick={() => deletePqrs(pqrs)} />
+          <IconButton iconName='EditSquare' colorHover={primaryColor} />
+          <IconButton iconName='RemoveRedEye' colorHover={secondaryColor} />
         </div>
       </td>
     </tr>

@@ -2,13 +2,12 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable import/no-default-export */
 import { useRouter } from 'next/router';
-import { useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { PqrsMenu } from './PqrsMenu';
 import { OperationsButton } from './OperationsButton';
-import { secondaryColor, secondaryColorHover } from '../constans/colors';
+import { secondaryColor, secondaryColorHover } from '../constants/colors';  
 import { usePqrsOptions } from '../utilities/utils';
 import { OptionsButton } from './OptionsButton';
-import React, { useEffect } from 'react';
 interface PopUpProps {
   isOpen: boolean;
   closePopup: () => void;

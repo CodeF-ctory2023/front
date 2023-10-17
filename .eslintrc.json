@@ -54,7 +54,13 @@
     "no-restricted-imports": [
       "error",
       {
-        "patterns": ["..*"]
+        "patterns": [
+          "..*",
+          "!../componets/PqrsMainView", // Esto permite importar PqrsMainView
+          "!../types/pqrs.types", // Esto permite importar pqrs.types
+          "!../componets/PqrsMenu", // Esto permite importar PqrsMenu
+          "!../componets/PopUp" // Esto permite importar PopUp
+        ]
       }
     ]
   },

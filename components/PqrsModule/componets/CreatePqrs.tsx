@@ -1,14 +1,13 @@
 // pages/nueva-vista.js
 import { pqrsType } from '@/components/PqrsModule/utilities';
 import { useForm } from '@/hooks/pqrsHooks/useForm';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { pqrsInfo } from '@/components/pqrsBd/pqrsInfo';
 import { OperationsButton } from '@/components/PqrsModule/componets/OperationsButton';
 
-import { primaryColor, primaryColorHover, secondaryColor, secondaryColorHover } from '@/components/PqrsModule/constans/colors';
+import { primaryColor, primaryColorHover, secondaryColor, secondaryColorHover } from '@/components/PqrsModule/constants/colors';
 
-const CrearPqrs = () => {
+const CreatePqrs = () => {
 
   const router = useRouter();
 
@@ -103,4 +102,4 @@ const CrearPqrs = () => {
 };
 
 // eslint-disable-next-line import/no-default-export
-export default CrearPqrs;
+export {CreatePqrs};

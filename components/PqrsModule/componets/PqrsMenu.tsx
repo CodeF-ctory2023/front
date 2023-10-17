@@ -1,5 +1,4 @@
-import Link from 'next/link';
-import React, { FC } from 'react'
+import React from 'react'
 import { OptionsButton
  } from './OptionsButton';
 interface PqrsMenuProps {
@@ -11,6 +10,8 @@ interface PqrsMenuProps {
   type: string;
 
 }
+
+
 
 const PqrsMenu = ({ options, type }: PqrsMenuProps) => {
   return (
