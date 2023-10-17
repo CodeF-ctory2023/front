@@ -6,12 +6,12 @@ import { useRouter } from 'next/router';
 import { IconButton } from './IconButton';
 import { primaryColor, secondaryColor, bloodColor } from '../constans/colors';
 import { getStateStyle } from '../services/getStateStyle';
-interface Props {
+interface PqrsTableProps {
   index: number;
   pqrs: pqrsType;
 }
 
-const PqrsTable: FC<Props> = ({ index, pqrs }) => {
+const PqrsTable = ({ index, pqrs }: PqrsTableProps) => {
   const router = useRouter();
 
   const deletePqrs = (pqrs: pqrsType) => {

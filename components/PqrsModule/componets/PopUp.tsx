@@ -6,40 +6,24 @@ import { useState, FC } from 'react';
 import { PqrsMenu } from './PqrsMenu';
 import { OperationsButton } from './OperationsButton';
 import { secondaryColor, secondaryColorHover } from '../constans/colors';
-interface Props {
+import { getClaimOptions } from '../services/getClaimOptions';
+import { getComplaintOptions } from '../services/getComplaintOptions';
+import { getPqrsOptions } from '../services/getPqrsOptions';
+interface PopUpProps {
   isOpen: boolean;
   closePopup: () => void;
 }
 
-const PopUp: FC<Props> = ({ isOpen, closePopup }) => {
+const PopUp = ({ isOpen, closePopup }: PopUpProps) => {
   const router = useRouter();
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [showQuejaMenu, setShowQuejaMenu] = useState<boolean>(false); // Estado para controlar la visibilidad del menú de quejas
   const [showReclamoMenu, setShowReclamoMenu] = useState<boolean>(false); // Estado para controlar la visibilidad del menú de quejas
 
-  const PQRS_OPTIONS: string[] = [
-    'Queja',
-    'Petición',
-    'Reclamo',
-    'Sugerencia',
-    'Felicitación',
-  ];
-
-  const QUEJA_OPTIONS: string[] = [
-    'Mal comportamiento del conductor',
-    'Estado del vehículo',
-    'Cobro inadecuado',
-    'Conducción peligrosa',
-    'Situaciones anómalas con pasajeros',
-    'Otro',
-  ];
-
-  const RECLAMO_OPTIONS: string[] = [
-    'Sanciones Injustas',
-    'Problemas de Facturación',
-    'Otro',
-  ];
-
+  const pqrsOptions = getPqrsOptions();
+  const claimOptions = getClaimOptions();
+  const complaintOptions = getComplaintOptions();
+  
   if (!isOpen) return null;
 
   const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -83,14 +67,14 @@ const PopUp: FC<Props> = ({ isOpen, closePopup }) => {
       <div className='bg-white p-4 rounded-lg shadow-lg z-10 w-60'>
         <h2 className='text-2xl font-bold mb-2'>TIPO DE PQRS</h2>
         <div className='space-y-0'>
-          {PQRS_OPTIONS.map((pqrs, index) => (
+          {pqrsOptions.map((pqrs, index) => (
             <button
-              className={`w-full block text-left py-2 px-4 border border-gray-300 rounded text-gray-700 hover:bg-gray-100 focus:outline-none ${selectedOption === pqrs ? 'bg-blue-500 text-white' : ''
+              className={`w-full block text-left py-2 px-4 border border-gray-300 rounded text-gray-700 hover:bg-gray-100 focus:outline-none ${selectedOption === pqrs.pqrsName ? 'bg-blue-500 text-white' : ''
                 }`}
               key={index}
-              onClick={() => handleOptionClick(pqrs)}
+              onClick={() => handleOptionClick(pqrs.pqrsName)}
             >
-              {pqrs}
+              {pqrs.pqrsName}
             </button>
           ))}
         </div>
@@ -100,11 +84,11 @@ const PopUp: FC<Props> = ({ isOpen, closePopup }) => {
       </div>
 
       {showQuejaMenu &&
-        selectedOption === 'Queja' && <PqrsMenu options={QUEJA_OPTIONS} type={'Queja'} /> // Mostrar el menú de quejas si showQuejaMenu es verdadero
+        selectedOption === 'Queja' && <PqrsMenu options={claimOptions} type={'Queja'} /> // Mostrar el menú de quejas si showQuejaMenu es verdadero
       }
 
       {showReclamoMenu &&
-        selectedOption === 'Reclamo' && <PqrsMenu options={RECLAMO_OPTIONS} type={'Reclamo'} /> // Mostrar el menú de reclamos si showQuejaMenu es verdadero
+        selectedOption === 'Reclamo' && <PqrsMenu options={complaintOptions} type={'Reclamo'} /> // Mostrar el menú de reclamos si showQuejaMenu es verdadero
       }
     </div>
   );

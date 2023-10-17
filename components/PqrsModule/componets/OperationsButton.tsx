@@ -1,6 +1,6 @@
 import React from 'react';
 
-interface operationsButtonProps {
+interface OperationsButtonProps {
     label: string;
     onClick?: () => void;
     color: string;
@@ -9,7 +9,7 @@ interface operationsButtonProps {
 }
 
 
-function OperationsButton({ label, onClick, color, colorHover }: operationsButtonProps) {
+function OperationsButton({ label, onClick, color, colorHover }: OperationsButtonProps) {
     return (
         <button
             className=' hover:scale-105 px-5 py-2 text-sm leading-5 

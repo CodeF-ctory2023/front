@@ -5,7 +5,6 @@
 import { useState } from 'react';
 import { PopUp } from './PopUp';
 import { pqrsInfo } from '../../pqrsBd/pqrsInfo';
-import { pqrsType } from '..';
 import { useRouter } from 'next/router';
 import { PqrsTable } from './PqrsTable';
 import { OperationsButton } from './OperationsButton';
