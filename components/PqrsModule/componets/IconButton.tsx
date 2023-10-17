@@ -1,6 +1,6 @@
 import React from 'react';
 import { IconType } from 'react-icons';
-import * as icons from 'react-icons/md'; // /md is the icon pack to use, you can change to another
+import * as MdIcons from 'react-icons/md'; // /md is the icon pack to use, you can change to another
 
 interface IconButtonProps {
     iconName: string;
@@ -11,7 +11,7 @@ interface IconButtonProps {
 
 const IconButton = ({ iconName, onClick, colorHover }: IconButtonProps) => {
     const iconKey = `Md${iconName}`; // Build the icon key using the package prefix
-    const IconComponent = icons[iconKey as keyof typeof icons] as IconType;
+    const IconComponent = MdIcons[iconKey as keyof typeof MdIcons] as IconType;
 
     return (
         <button

@@ -8,7 +8,7 @@ import { pqrsInfo } from '@/components/pqrsBd/pqrsInfo';
 import { useRouter } from 'next/router';
 import { PqrsTable } from './PqrsTable';
 import { OperationsButton } from './OperationsButton';
-import { primaryColor, primaryColorHover, secondaryColor, secondaryColorHover } from '@/components/PqrsModule/constans/colors';
+import { primaryColor, primaryColorHover, secondaryColor, secondaryColorHover } from '@/components/PqrsModule/constants/colors';
 
 const PqrsMainView = () => {
   const router = useRouter();

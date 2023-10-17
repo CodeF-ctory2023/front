@@ -3,7 +3,7 @@ import { pqrsType } from '@/components/PqrsModule/utilities';
 import { pqrsInfo } from '@/components/pqrsBd/pqrsInfo';
 import { useRouter } from 'next/router';
 import { IconButton } from './IconButton';
-import { primaryColor, secondaryColor, bloodColor } from '@/components/PqrsModule/constans/colors';
+import { primaryColor, secondaryColor, bloodColor } from '@/components/PqrsModule/constants/colors';
 import { getStateStyle } from '@/components/PqrsModule/services/getStateStyle';
 interface PqrsTableProps {
   index: number;
@@ -13,6 +13,7 @@ interface PqrsTableProps {
 const PqrsTable = ({ index, pqrs }: PqrsTableProps) => {
   const router = useRouter();
 
+  
   const deletePqrs = (pqrs: pqrsType) => {
     //search and delete pqrs
     const index = pqrsInfo.indexOf(pqrs);

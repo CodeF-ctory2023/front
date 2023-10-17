@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { PqrsMenu } from './PqrsMenu';
 import { OperationsButton } from './OperationsButton';
-import { secondaryColor, secondaryColorHover } from '@/components/PqrsModule/constans/colors';
+import { secondaryColor, secondaryColorHover } from '@/components/PqrsModule/constants/colors';
 import { usePqrsOptions } from '@/components/PqrsModule/utilities/utils';
 import { OptionsButton } from './OptionsButton';
 
@@ -45,8 +45,10 @@ const PopUp = ({ isOpen, closePopup }: PopUpProps) => {
       setMenuType(pqrs);
     } else {
       router.push(`/CrearPqrs?tipoPQRS=${pqrs}`);
+      console.log("aja mi apa")
     }
   };
+  console.log(router)
 
   return (
     <div
