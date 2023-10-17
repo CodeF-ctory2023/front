@@ -1,6 +1,6 @@
-export * from '../componets/PqrsMainView';
-export * from '../types/pqrs.types';
-export * from '../componets/PqrsMenu';
-export * from '../componets/PopUp';
+export * from '@/components/PqrsModule/componets/PqrsMainView';
+export * from '@/components/PqrsModule/types/pqrs.types';
+export * from '@/components/PqrsModule/componets/PqrsMenu';
+export * from '@/components/PqrsModule/componets/PopUp';
 
 
