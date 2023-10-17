@@ -55,12 +55,25 @@
       "error",
       {
         "patterns": [
-          "..*",
-          "!../componets/PqrsMainView", // Esto permite importar PqrsMainView
-          "!../types/pqrs.types", // Esto permite importar pqrs.types
-          "!../componets/PqrsMenu", // Esto permite importar PqrsMenu
-          "!../componets/PopUp" // Esto permite importar PopUp
+          "!../componets/PqrsMainView",
+          "!../types/pqrs.types",
+          "!../componets/PqrsMenu",
+          "!../componets/PopUp",
+          "!../componets/IconButton",
+          "!../componets/OperationsButton",
+          "!../componets/CreatePqrs",
+          "!../componets/OptionsButton",
+          "!../componets/PqrsTable",
+          "!../services/getClaimOptions",
+          "!../services/getComplaintOptions",
+          "!../services/getPqrsOptions",
+          "!../services/getStateStyle",
+          "!../constants/colors",
+          "!../utilities/index",
+          "!../utilities/utils"
+    ]
         ]
+        
       }
     ]
   },
