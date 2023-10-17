@@ -4,8 +4,8 @@ import { pqrsType } from '..';
 import { pqrsInfo } from '../../pqrsBd/pqrsInfo';
 import { useRouter } from 'next/router';
 import { IconButton } from './IconButton';
-import { primaryColor, secondaryColor, bloodColor } from '../constans/folors';
-import { getStateStyle } from '../services/gfetStateStyle';
+import { primaryColor, secondaryColor, bloodColor } from '../constans/colors';
+import { getStateStyle } from '../services/getStateStyle';
 interface Props {
   index: number;
   pqrs: pqrsType;

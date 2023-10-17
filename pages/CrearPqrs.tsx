@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import { pqrsInfo } from '@/components/pqrsBd/pqrsInfo';
 import { OperationsButton } from '@/components/PqrsModule/componets/OperationsButton';
 
-import { primaryColor, primaryColorHover, secondaryColor, secondaryColorHover } from '@/components/PqrsModule/constans/folors';
+import { primaryColor, primaryColorHover, secondaryColor, secondaryColorHover } from '@/components/PqrsModule/constans/colors';
 
 const CrearPqrs = () => {
 

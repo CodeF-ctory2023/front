@@ -9,7 +9,7 @@ import { pqrsType } from '..';
 import { useRouter } from 'next/router';
 import { PqrsTable } from './PqrsTable';
 import { OperationsButton } from './OperationsButton';
-import { primaryColor, primaryColorHover, secondaryColor, secondaryColorHover } from '../constans/folors';
+import { primaryColor, primaryColorHover, secondaryColor, secondaryColorHover } from '../constans/colors';
 
 const PqrsCreateComponent = () => {
   const router = useRouter();
