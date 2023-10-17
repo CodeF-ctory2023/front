@@ -1,5 +1,5 @@
 // pages/nueva-vista.js
-import { pqrsType } from '@/components/PqrsModule';
+import { pqrsType } from '@/components/PqrsModule/utilities';
 import { useForm } from '@/hooks/pqrsHooks/useForm';
 import Link from 'next/link';
 import { useRouter } from 'next/router';

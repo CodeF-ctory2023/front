@@ -10,7 +10,7 @@ import { PqrsTable } from './PqrsTable';
 import { OperationsButton } from './OperationsButton';
 import { primaryColor, primaryColorHover, secondaryColor, secondaryColorHover } from '../constans/colors';
 
-const PqrsCreateComponent = () => {
+const PqrsMainView = () => {
   const router = useRouter();
   const [popupOpen, setPopupOpen] = useState<boolean>(false);
 
@@ -25,7 +25,7 @@ const PqrsCreateComponent = () => {
   const HEADINGS = ['Tipo de PQRS', 'Fecha', 'Estado', 'Contenido', 'Opciones'];
 
   return (
-    <div className='  min-h-screen flex items-center justify-center'>
+    <section  className='  min-h-screen flex items-center justify-center'>
       <div className='p-5 h-full bg-gray-100'>
         <h1 className='text-xl mb-2'>Tus PQRS</h1>
 
@@ -51,12 +51,15 @@ const PqrsCreateComponent = () => {
           </table>
         </div>
         <div className='flex justify-end mt-4 space-x-4'>
-          <OperationsButton label='Crear' onClick={openPopup} color={primaryColor} colorHover={primaryColorHover}/>
-          <OperationsButton label='Volver' color={secondaryColor} colorHover={secondaryColorHover}/>
+          <OperationsButton label='Crear' onClick={openPopup} color={primaryColor} colorHover={primaryColorHover} />
+          <OperationsButton label='Volver' color={secondaryColor} colorHover={secondaryColorHover} />
         </div>
       </div>
       <PopUp isOpen={popupOpen} closePopup={closePopup} />
-    </div>
+    </section>
+
+
   );
 };
-export { PqrsCreateComponent };
+
+export { PqrsMainView };

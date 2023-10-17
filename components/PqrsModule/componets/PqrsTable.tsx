@@ -1,6 +1,6 @@
 /* eslint-disable no-restricted-imports */
 import { FC } from 'react';
-import { pqrsType } from '..';
+import { pqrsType } from '../utilities';
 import { pqrsInfo } from '../../pqrsBd/pqrsInfo';
 import { useRouter } from 'next/router';
 import { IconButton } from './IconButton';

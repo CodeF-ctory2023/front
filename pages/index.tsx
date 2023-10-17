@@ -1,15 +1,21 @@
-import { IconButton } from '@/components/PqrsModule/componets/IconButton';
-import { PqrsCreateComponent } from '@/components/PqrsModule/componets/PqrsCreateComponent';
+
+import { PqrsMainView } from "@/components/PqrsModule/utilities";
 import { Footer } from '@/components/common/footer';
-import { AiFillDelete} from 'react-icons/ai';
+
+
 const Home = () => {
   return (
-    <div>
-      <main className='flex h-screen w-full items-center justify-center'>
-        <PqrsCreateComponent />
-      </main>
-      <Footer />
-    </div>
+    <section>
+      <div>
+        <main className='flex h-screen w-full items-center justify-center'>
+          <PqrsMainView />
+        </main>
+      </div>
+      <div className='w-full fixed bottom-0'>
+        <Footer />
+      </div>
+    </section>
+
   );
 };
 

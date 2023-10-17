@@ -1,4 +1,4 @@
-import { pqrsType } from '@/components/PqrsModule';
+import { pqrsType } from '@/components/PqrsModule/utilities';
 import { useState } from 'react';
 
 const useForm = (initialValues: pqrsType) => {
