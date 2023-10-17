@@ -4,12 +4,12 @@
 
 import { useState } from 'react';
 import { PopUp } from './PopUp';
-import { pqrsInfo } from '../pqrsBd/pqrsInfo';
-import { pqrsType } from '.';
+import { pqrsInfo } from '../../pqrsBd/pqrsInfo';
+import { pqrsType } from '..';
 import { useRouter } from 'next/router';
 import { PqrsTable } from './PqrsTable';
 import { OperationsButton } from './OperationsButton';
-import { primaryColor, primaryColorHover, secondaryColor, secondaryColorHover } from './Colors';
+import { primaryColor, primaryColorHover, secondaryColor, secondaryColorHover } from '../constans/folors';
 
 const PqrsCreateComponent = () => {
   const router = useRouter();

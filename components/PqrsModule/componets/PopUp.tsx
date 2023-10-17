@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import { useState, FC } from 'react';
 import { PqrsMenu } from './PqrsMenu';
 import { OperationsButton } from './OperationsButton';
-import { secondaryColor, secondaryColorHover } from './Colors';
+import { secondaryColor, secondaryColorHover } from '../constans/folors';
 interface Props {
   isOpen: boolean;
   closePopup: () => void;

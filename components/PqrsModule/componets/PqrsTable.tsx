@@ -1,11 +1,11 @@
 /* eslint-disable no-restricted-imports */
 import { FC } from 'react';
-import { pqrsType } from '.';
-import { pqrsInfo } from '../pqrsBd/pqrsInfo';
+import { pqrsType } from '..';
+import { pqrsInfo } from '../../pqrsBd/pqrsInfo';
 import { useRouter } from 'next/router';
 import { IconButton } from './IconButton';
-import { primaryColor, secondaryColor, bloodColor } from './Colors';
-import { GetStateStyle } from './getStateStyle';
+import { primaryColor, secondaryColor, bloodColor } from '../constans/folors';
+import { getStateStyle } from '../services/gfetStateStyle';
 interface Props {
   index: number;
   pqrs: pqrsType;
@@ -31,7 +31,7 @@ const PqrsTable: FC<Props> = ({ index, pqrs }) => {
         {pqrs.createdAt.toDateString()}
       </td>
       <td className='p-3 text-sm text-gray-700 whitespace-nowrap text-center'>
-        <span className={`${GetStateStyle(pqrs.state)}`}>{pqrs.state}</span>
+        <span className={`${getStateStyle(pqrs.state)}`}>{pqrs.state}</span>
       </td>
       <td className='p-3 text-sm text-gray-700 whitespace-nowrap'>
         {pqrs.description}

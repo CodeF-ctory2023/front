@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-restricted-imports
-import { pqrsType } from "../PqrsCreateComponent";
+import { pqrsType } from "../PqrsModule";
 
 export const pqrsInfo: pqrsType[] = [
     {

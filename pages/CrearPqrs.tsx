@@ -1,12 +1,12 @@
 // pages/nueva-vista.js
-import { pqrsType } from '@/components/PqrsCreateComponent';
+import { pqrsType } from '@/components/PqrsModule';
 import { useForm } from '@/hooks/pqrsHooks/useForm';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { pqrsInfo } from '@/components/pqrsBd/pqrsInfo';
-import { OperationsButton } from '@/components/PqrsCreateComponent/OperationsButton';
+import { OperationsButton } from '@/components/PqrsModule/componets/OperationsButton';
 
-import { primaryColor, primaryColorHover, secondaryColor, secondaryColorHover } from '@/components/PqrsCreateComponent/Colors';
+import { primaryColor, primaryColorHover, secondaryColor, secondaryColorHover } from '@/components/PqrsModule/constans/folors';
 
 const CrearPqrs = () => {
 

@@ -1,5 +1,5 @@
 
-const GetStateStyle = (pqrsState: string) => {
+export const getStateStyle = (pqrsState: string) => {
     let color = '';
     let backgroundColor = '';
   
@@ -22,5 +22,3 @@ const GetStateStyle = (pqrsState: string) => {
     }
     return `${color} ${backgroundColor} p-1.5 text-xs font-medium uppercase tracking-wider rounded-lg bg-opacity-50`;
   };
-  
-export {GetStateStyle}
