@@ -18,7 +18,7 @@ import { OperationsButton } from './OperationsButton';
 interface PopUpViewProps {
   isOpen: boolean;
   closePopup: () => void;
-  pqrsSend: pqrsType; // Agrega esta propiedad
+  pqrsSend: pqrsType;
 }
 
 export const PopUpView = ({ isOpen, closePopup, pqrsSend }: PopUpViewProps) => {

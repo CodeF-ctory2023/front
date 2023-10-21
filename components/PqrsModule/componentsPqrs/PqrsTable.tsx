@@ -9,6 +9,7 @@ import {
 import { getStateStyle } from '@/components/PqrsModule/services/getStateStyle';
 import { PopUpView } from './PopUpView';
 import { useState } from 'react';
+import PopUpInformation from './PopUpInformation';
 interface PqrsTableProps {
   index: number;
   pqrs: pqrsType;
@@ -16,13 +17,22 @@ interface PqrsTableProps {
 
 const PqrsTable = ({ index, pqrs }: PqrsTableProps) => {
   const [popUpView, setpopUpView] = useState<boolean>(false);
+  const [popUpViewInformation, setpopUpViewInformation] =
+    useState<boolean>(false);
 
-  const openPopup = () => {
+  const openPopupDelete = () => {
     setpopUpView(true);
   };
 
-  const closePopup = () => {
+  const closePopupDelete = () => {
     setpopUpView(false);
+  };
+  const openPopupDeleteInformation = () => {
+    setpopUpViewInformation(true);
+  };
+
+  const closePopupDeleteInformation = () => {
+    setpopUpViewInformation(false);
   };
 
   return (
@@ -44,13 +54,26 @@ const PqrsTable = ({ index, pqrs }: PqrsTableProps) => {
           <IconButton
             iconName='fa-solid fa-trash'
             colorHover={bloodColor}
-            onClick={() => openPopup()}
+            onClick={() => openPopupDelete()}
           />
           <IconButton iconName='fa-solid fa-pen' colorHover={primaryColor} />
-          <IconButton iconName='fa-solid fa-eye' colorHover={secondaryColor} />
+          <IconButton
+            iconName='fa-solid fa-eye'
+            colorHover={secondaryColor}
+            onClick={() => openPopupDeleteInformation()}
+          />
         </div>
       </td>
-      <PopUpView isOpen={popUpView} closePopup={closePopup} pqrsSend={pqrs} />
+      <PopUpView
+        isOpen={popUpView}
+        closePopup={closePopupDelete}
+        pqrsSend={pqrs}
+      />
+      <PopUpInformation
+        isOpen={popUpViewInformation}
+        closePopup={closePopupDeleteInformation}
+        pqrsSend={pqrs}
+      />
     </tr>
   );
 };
