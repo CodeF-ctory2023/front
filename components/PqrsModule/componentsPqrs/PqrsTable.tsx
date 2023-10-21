@@ -1,7 +1,5 @@
 /* eslint-disable no-restricted-imports */
 import { pqrsType } from '@/components/PqrsModule/utilities';
-import { pqrsInfo } from '@/components/PqrsModule/services/pqrsInfo';
-import { useRouter } from 'next/router';
 import { IconButton } from './IconButton';
 import {
   primaryColor,
