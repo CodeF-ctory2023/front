@@ -2,7 +2,7 @@ name: Continuous Deployment
 on:
   push:
     branches:
-      - trunk
+      - feature/ci-cd
 
 jobs:
   deploy:
