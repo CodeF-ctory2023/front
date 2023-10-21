@@ -38,9 +38,9 @@ const PqrsTable = ({ index, pqrs }: PqrsTableProps) => {
       </td>
       <td>
         <div className='flex flex-center justify-center'>
-          <IconButton iconName='Delete' colorHover={bloodColor} onClick={() => deletePqrs(pqrs)} />
-          <IconButton iconName='EditSquare' colorHover={primaryColor} />
-          <IconButton iconName='RemoveRedEye' colorHover={secondaryColor} />
+          <IconButton iconName='fa-solid fa-trash' colorHover={bloodColor} onClick={() => deletePqrs(pqrs)} />
+          <IconButton iconName='fa-solid fa-pen' colorHover={primaryColor} />
+          <IconButton iconName='fa-solid fa-eye' colorHover={secondaryColor} />
         </div>
       </td>
     </tr>
