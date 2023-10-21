@@ -44,14 +44,12 @@ const PqrsTable = ({ index, pqrs }: PqrsTableProps) => {
       <td>
         <div className='flex flex-center justify-center'>
           <IconButton
-            iconName='Delete'
+            iconName='fa-solid fa-trash'
             colorHover={bloodColor}
-            onClick={() => {
-              openPopup();
-            }}
+            onClick={() => openPopup()}
           />
-          <IconButton iconName='EditSquare' colorHover={primaryColor} />
-          <IconButton iconName='RemoveRedEye' colorHover={secondaryColor} />
+          <IconButton iconName='fa-solid fa-pen' colorHover={primaryColor} />
+          <IconButton iconName='fa-solid fa-eye' colorHover={secondaryColor} />
         </div>
       </td>
       <PopUpView isOpen={popUpView} closePopup={closePopup} pqrsSend={pqrs} />

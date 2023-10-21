@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-imports */
 /* eslint-disable react/jsx-no-comment-textnodes */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
@@ -6,12 +7,9 @@
 import router from 'next/router';
 import { pqrsInfo } from '../services/pqrsInfo';
 import { pqrsType } from '../utilities';
-import { IconButton } from './IconButton';
 import {
   bloodColor,
   bloodColorHover,
-  primaryColor,
-  primaryColorHover,
   secondaryColor,
   secondaryColorHover,
 } from '../constants/colors';
