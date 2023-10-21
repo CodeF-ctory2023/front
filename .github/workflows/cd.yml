@@ -1,9 +1,12 @@
-name: CI-CD
-
-on: [pull_request, push]
+name: Continuous Deployment
+on:
+  push:
+    branches:
+      - trunk
 
 jobs:
-  build:
+  deploy:
+    needs: integrate
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
