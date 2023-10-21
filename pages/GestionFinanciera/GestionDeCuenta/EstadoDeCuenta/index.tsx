@@ -6,24 +6,14 @@ import { Button } from '@/components/GestionFinanciera/Button';
 import { useRouter } from 'next/router';
 
 
-import ReactDatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
+
+
 
 
 
 
 const EstadoDeCuentaPage = () => {
-  const containerStyle = {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
-  };
-  const columnStyle = {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
-  };
-  
+ 
 
     const router = useRouter();
   
