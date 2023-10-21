@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dialog, DialogTitle, DialogContentText, DialogActions, BackdropProps } from '@mui/material';
+import { Dialog, DialogTitle, DialogContentText, DialogActions} from '@mui/material';
 import { GoAlertFill } from 'react-icons/go';
 import { OperationsButton } from './OperationsButton';
 import { primaryColor, primaryColorHover, secondaryColor, secondaryColorHover } from '@/components/PqrsModule/constants/colors';

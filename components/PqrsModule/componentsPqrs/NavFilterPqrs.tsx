@@ -5,21 +5,31 @@ import { useState } from "react";
 const NavFilterPqrs = () => {
     const [selectedIdx, setSelectedIdx] = useState<null | number>(null);
 
+    const handleItemClick = (index: number) => {
+        setSelectedIdx(index);
+    };
+
+    const handleItemKeyPress = (event: React.KeyboardEvent, index: number) => {
+        if (event.key === "Enter" || event.key === " ") {
+            handleItemClick(index);
+        }
+    };
 
     return (
         <section>
             <div className='flex space-x-6'>
                 {NAVFILTER.map((key, index) => (
-                    <div
+                    <button
                         key={index}
-                        className={` text-base text-zinc-500 hover:text-zinc-950 hover:font-semibold focus:outline-none focus:ring-1 focus:ring-blue-400 ${selectedIdx === index ? 'selected' : ''}`}
-                        onClick={() => setSelectedIdx(index)}
+                        className={` text-base text-zinc-500  hover:text-zinc-950 hover:font-semibold  ${selectedIdx === index ? 'selected' : ''}`}
+                        onClick={() =>handleItemClick(index)}
+                        
                     >
                         <span>{key}</span>
                         {selectedIdx === index && (
                             <div className='w-full h-[0.1rem] bg-zinc-950 border-y-[0.1rem] border-zinc-950 rounded-full'></div>
                         )}
-                    </div>
+                    </button>
                 ))}
 
             </div>
