@@ -9,11 +9,6 @@ const NavFilterPqrs = () => {
         setSelectedIdx(index);
     };
 
-    const handleItemKeyPress = (event: React.KeyboardEvent, index: number) => {
-        if (event.key === "Enter" || event.key === " ") {
-            handleItemClick(index);
-        }
-    };
 
     return (
         <section>
