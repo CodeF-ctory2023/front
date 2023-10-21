@@ -10,3 +10,6 @@ export const usePqrsOptions = () => {
     };
   }
 
+export const HEADINGS = ['Tipo de PQRS', 'Fecha', 'Estado', 'Contenido', 'Opciones'];
+
+export const NAVFILTER = ['Todas', 'Pendientes', 'Resueltas', 'Rechazadas'];

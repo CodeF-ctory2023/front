@@ -5,8 +5,8 @@
 // import React, { useEffect } from 'react';
 
 import router from 'next/router';
-import { pqrsInfo } from '../services/pqrsInfo';
-import { pqrsType } from '../utilities';
+import { pqrsInfo } from '@/components/PqrsModule/services/pqrsInfo';
+import { pqrsType } from '@/components/PqrsModule/utilities';
 import {
   bloodColor,
   bloodColorHover,

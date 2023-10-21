@@ -26,7 +26,6 @@ const CrearPqrs = () => {
 
 
   const returnMenu = () => {
-    //add output confirmation message without saving
     router.push('/');
   }
 
@@ -38,7 +37,7 @@ const CrearPqrs = () => {
   const { values, handleInputChange } = useForm(pqrs);
   return (
     <div>
-      {/* Haz lo que necesites con el valor de la variable aquí */}
+
 
       <div className='flex flex-col items-center justify-center min-h-screen bg-gray-100'>
         <div className='bg-white p-8 rounded-lg shadow-lg'>
@@ -78,22 +77,10 @@ const CrearPqrs = () => {
               className='mt-1' />
           </label>
 
-          {/* Botón para subir un archivo */}
-          {/* <label className='block text-gray-700 mb-4 '>
-            <span className='mr-2'>Subir un archivo:</span>
-            <input type='file' className='mt-1' />
-          </label> */}
           <div className='mt-5 space-x-4'>
             <OperationsButton label='Volver' onClick={returnMenu} color={secondaryColor} colorHover={secondaryColorHover} />
             <OperationsButton label='Enviar' onClick={() => sendPqrs()} color={primaryColor} colorHover={primaryColorHover} />
           </div>
-
-          {/* Botón para volver a la página anterior */}
-          {/* <Link href='/'>
-            <a className='bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-semibold'>
-              Volver
-            </a>
-          </Link> */}
         </div>
       </div>
     </div>

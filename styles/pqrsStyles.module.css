@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.subtitle{
+    @apply text-xl font-bold text-gray-700;
+}
+.subtitle{
+    @apply text-lg font-bold text-gray-700;
+}

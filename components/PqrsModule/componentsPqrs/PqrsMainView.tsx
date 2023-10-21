@@ -1,65 +1,28 @@
-/* eslint-disable no-restricted-imports */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { PqrsTableView } from "./PqrsTableView"
+import { NavFilterPqrs } from "./NavFilterPqrs"
 
-import { useState } from 'react';
-import { PopUp } from './PopUp';
-import { pqrsInfo } from '@/components/PqrsModule/services/pqrsInfo';
-import { useRouter } from 'next/router';
-import { PqrsTable } from './PqrsTable';
-import { OperationsButton } from './OperationsButton';
-import { primaryColor, primaryColorHover, secondaryColor, secondaryColorHover } from '@/components/PqrsModule/constants/colors';
 
 const PqrsMainView = () => {
-  const router = useRouter();
-  const [popupOpen, setPopupOpen] = useState<boolean>(false);
+    return (
+        <section className="flex justify-center items-center w-full h-full bg-slate-100">
+            <section className="w-[80%] h-[60%] ">
+                <section className="w-full">
+                    <div className="  mb-5 font-semibold text-medium "><span>MIS PQRS</span></div>
+                    <NavFilterPqrs />
 
-  const openPopup = () => {
-    setPopupOpen(true);
-  };
+                </section>
+                <section className="w-full rounded-xl h-[50%]">
+                    <div className=" h-full ">
+                        <PqrsTableView />
+                    </div>
+                </section>
+            </section>
 
-  const closePopup = () => {
-    setPopupOpen(false);
-  };
-
-  const HEADINGS = ['Tipo de PQRS', 'Fecha', 'Estado', 'Contenido', 'Opciones'];
-
-  return (
-    <section  className='  min-h-screen flex items-center justify-center'>
-      <div className='p-5 h-full bg-gray-100'>
-        <h1 className='text-xl mb-2'>Tus PQRS</h1>
-
-        <div className='overflow-auto rounded-lg shadow hidden md:block'>
-          <table className='w-full'>
-            <thead className='bg-gray-50 border-b-2 border-gray-200 '>
-              <tr >
-                {HEADINGS.map((key, index) => (
-                  <th
-                    key={index}
-                    className='w-24 p-3 text-sm font-semibold tracking-wide text-center'
-                  >
-                    {key}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody className='divide-y divide-gray-100 '>
-              {pqrsInfo.map((pqrs, index) => (
-                <PqrsTable key={index} index={index} pqrs={pqrs} />
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <div className='flex justify-end mt-4 space-x-4'>
-          <OperationsButton label='Crear' onClick={openPopup} color={primaryColor} colorHover={primaryColorHover} />
-          <OperationsButton label='Volver' color={secondaryColor} colorHover={secondaryColorHover} />
-        </div>
-      </div>
-      <PopUp isOpen={popupOpen} closePopup={closePopup} />
-    </section>
+        </section>
 
 
-  );
-};
+    )
 
-export { PqrsMainView };
+}
+
+export { PqrsMainView }

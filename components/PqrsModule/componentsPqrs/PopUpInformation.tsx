@@ -3,7 +3,7 @@
 /* eslint-disable no-restricted-imports */
 
 import React from 'react';
-import { pqrsType } from '../utilities';
+import { pqrsType } from '@/components/PqrsModule/utilities';
 interface PopUpInformationProps {
   isOpen: boolean;
   closePopup: () => void;
