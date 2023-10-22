@@ -16,6 +16,7 @@ interface PqrsTableProps {
 }
 
 const PqrsTable = ({ index, pqrs }: PqrsTableProps) => {
+
   const router = useRouter();
   const { text, backgroundColor, backgroundPoint } = getStateStyle(pqrs.state);
   const [editionMode, setEditionMode] = useState<boolean>(false);
@@ -94,7 +95,7 @@ const PqrsTable = ({ index, pqrs }: PqrsTableProps) => {
         {pqrs.description}
       </td>
       <td className={`${editionMode ? 'hidden': ''}`}>
-        <div className='flex flex-center justify-center space-x-4'>
+        <div className='flex flex-center justify-center space-x-2 pr-2'>
           <IconButton iconName='fa-solid fa-trash' colorHover={bloodColor} onClick={handleDeletePqrs} />
           <DialogDelete isOpen={isDialogOpen} back={returnMenu} onClose={handleConfirmDialog} textContent='Desea eliminar permanentemente este registro.' title='Alerta' />
           <IconButton iconName='fa-regular fa-pen-to-square' colorHover={primaryColor} onClick={handleEditionMode} />

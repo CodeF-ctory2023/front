@@ -3,7 +3,7 @@ import { OptionsButton } from './OptionsButton';
 import { OperationsButton } from './OperationsButton';
 import { DialogMessage } from './DialogAlert';
 import { secondaryColor, secondaryColorHover } from '@/components/PqrsModule/constants/colors';
-
+import { useRouter } from 'next/router';
 
 interface PqrsMenuProps {
   options: {
@@ -18,7 +18,7 @@ interface PqrsMenuProps {
 
 
 const PqrsMenu = ({ options, type }: PqrsMenuProps) => {
-
+  const router = useRouter();
   const [selectedOption, setSelectedOption] = useState<null | string>(null);
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
 
@@ -27,7 +27,7 @@ const PqrsMenu = ({ options, type }: PqrsMenuProps) => {
     if (selectedOption === null) {
       setIsDialogOpen(true);
     } else {
-      window.location.href = `/CrearPqrs?tipoSubPQRS=${selectedOption}&tipoPQRS=${type}`;
+      router.push(`/CrearPqrs?tipoSubPQRS=${selectedOption}&tipoPQRS=${type}`);
     }
   };
 

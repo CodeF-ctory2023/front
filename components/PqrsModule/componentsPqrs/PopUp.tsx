@@ -16,7 +16,7 @@ interface PopUpProps {
   closePopup: () => void;
 }
 
-const PopUp = ({ isOpen, closePopup }: PopUpProps) => {
+const   PopUp = ({ isOpen, closePopup }: PopUpProps) => {
   const router = useRouter();
   const { pqrsOptions, claimOptions, complaintOptions } = usePqrsOptions();
 
@@ -42,8 +42,6 @@ const PopUp = ({ isOpen, closePopup }: PopUpProps) => {
 
   const handleOptionClick = (pqrs: string) => {
     setSelectedOption(pqrs);
-
-    // Mostrar el menú de quejas solo si se selecciona 'Queja'
     if (pqrs === 'Queja' || pqrs === 'Reclamo') {
       setMenuType(pqrs);
     } else {

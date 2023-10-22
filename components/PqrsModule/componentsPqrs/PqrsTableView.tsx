@@ -30,7 +30,7 @@ const PqrsTableView = () => {
 
   return (
     <section className='flex flex-col w-full '>
-      <div className='flex justify-between items-start my-3'>
+      <div className='flex justify-between items-start mb-3'>
         <OperationsButton
           label='Volver'
           color={secondaryColor}
@@ -57,7 +57,7 @@ const PqrsTableView = () => {
               ))}
             </tr>
           </thead>
-          <tbody className='divide-y divide-gray-100 '>
+          <tbody className='divide-y divide-gray-100'>
             {pqrsInfo.map((pqrs, index) => (
               <PqrsTable key={pqrs.id} index={index} pqrs={pqrs} />
             ))}

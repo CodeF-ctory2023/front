@@ -13,16 +13,18 @@ const CrearPqrs = () => {
   const { tipoSubPQRS } = router.query as { tipoSubPQRS: string };
   const { tipoPQRS } = router.query as { tipoPQRS: string };
 
+
   const pqrs: pqrsType = {
     id: Math.random(),
     createdBy: 'Jaime Ortiz',
-    state: 'Pendiente',
+    state: 'Pendiente',   
     createdAt: new Date(),
     type: tipoPQRS,
     subType: tipoSubPQRS,
     description: '',
     file: '',
   };
+
 
 
 
