@@ -46,7 +46,7 @@ const PqrsTableView = () => {
           </thead>
           <tbody className='divide-y divide-gray-100 '>
             {pqrsInfo.map((pqrs, index) => (
-              <PqrsTable key={index} index={index} pqrs={pqrs} />
+              <PqrsTable key={pqrs.id} index={index} pqrs={pqrs} />
             ))}
           </tbody>
 

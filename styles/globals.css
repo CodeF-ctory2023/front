@@ -19,6 +19,6 @@
 }
 
 .state{
-    @apply py-1 px-3 w-auto flex justify-center items-center items-center text-xs font-medium uppercase tracking-wider rounded-full bg-opacity-50 ;
+    @apply py-1 px-3 w-auto flex justify-center items-center text-xs font-medium uppercase tracking-wider rounded-full bg-opacity-50 ;
 }
 

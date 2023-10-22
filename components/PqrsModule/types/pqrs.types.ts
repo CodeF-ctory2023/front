@@ -1,4 +1,5 @@
 export interface pqrsType{
+    id: number;
     createdBy: string,
     createdAt: Date,
     state: string,
