@@ -1,7 +1,7 @@
 const API = process.env.NEXT_PUBLIC_API_URL;
 
 export interface LoginParams {
-  username: string;
+  email: string;
   password: string;
 }
 
@@ -15,19 +15,19 @@ interface LoginResponse {
 }
 
 interface RegisterParams {
-  username: string;
+  email: string;
   password: string;
   role: 'user' | 'driver';
 }
 
 export const login = async ({
-  username,
+  email,
   password,
 }: LoginParams): Promise<LoginResponse> => {
   const res = await fetch(`${API}/auth/login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ username, password }),
+    body: JSON.stringify({ email, password }),
     credentials: 'include',
   });
 
@@ -43,14 +43,14 @@ export const login = async ({
 };
 
 export const register = async ({
-  username,
+  email,
   password,
   role,
 }: RegisterParams): Promise<null> => {
   const res = await fetch(`${API}/auth/register`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ username, password, role }),
+    body: JSON.stringify({ email, password, role }),
     credentials: 'include',
   });
 
