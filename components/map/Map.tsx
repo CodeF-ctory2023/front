@@ -1,4 +1,4 @@
-import L from 'leaflet'
+import L, { LatLngExpression } from 'leaflet'
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import 'leaflet/dist/leaflet.css'
 import MarkerClusterGroup from "react-leaflet-cluster";
@@ -34,10 +34,11 @@ const markers = [
 
 
 export default function Map() {
-  const position = [6.271356482023135, -75.55728972772394]
+  const position:LatLngExpression = [6.271356482023135, -75.55728972772394]
   const position2 = [6.2721, -75.5608]
-  return (  <MapContainer center={position} zoom={15} scrollWheelZoom={false}>
-    <TileLayer
+  return ( <MapContainer className='w-full h-1/2 absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/3' 
+   center={position} zoom={15} scrollWheelZoom={false}>
+    <TileLayer 
       attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
     />

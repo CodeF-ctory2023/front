@@ -5,7 +5,7 @@ const Footer = () => {
     return new Date().getFullYear();
   }
   return (
-    <footer className="w-full flex flex-col text-white text-xs px-3 py-2  bg-black">
+    <footer className="w-full  flex flex-col text-white text-xs px-3 py-2  bg-black">
       <div className="flex-1 flex items-center justify-between flex-wrap">
         <span>© {getYear()} CodeF@ctory UdeA Inc.</span>
         <ul className="flex gap-4">
