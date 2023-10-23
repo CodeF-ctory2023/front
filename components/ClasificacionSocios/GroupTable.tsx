@@ -18,19 +18,18 @@ const GroupTable = () => {
         return axios
             .get('http://localhost:8080/api/socio/findAll')
             .then((response) => {
-                console.log("Response data1: ", response.data);
                 setSocios(response.data);
             }).catch(error => {
-                console.error("Error al cargar socios: ", error);
+
             })
     }
 
     useEffect(() => {
         cargarSocios()
             .then((response) => {
-                console.log(response);
+
             })
-            .catch((error) => console.log(error));
+            .catch((error) =>{});
     }, []);
 
     return (
