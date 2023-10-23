@@ -9,7 +9,11 @@ type Props = {
 };
 
 type AuthContextType = {
-  user: object;
+  user: {
+    name?: string;
+    email?: string;
+    role?: 'user' | 'driver' | 'admin';
+  };
   token: string;
   setUserData: (data: object) => void;
   login: (data: LoginParams) => void;
