@@ -1,9 +1,19 @@
+import { Dispatch } from 'react';
+
 type coupon = {
   id: string;
   name: string;
+  description: string;
+  startDate: Date;
+  endDate: Date;
+  discountPercentage: number;
+  maxDiscount: number;
+  discountValue: number;
+  minValue: number;
   amount: number;
+  city: string;
   amountAvailable: number;
-  endDate: string;
+  status: string;
 };
 
 type discounts = {
@@ -16,6 +26,8 @@ type discounts = {
 
 interface CouponsTableProps {
   couponsList: coupon[];
+  setOpenEdit: Dispatch<React.SetStateAction<boolean>>;
+  setIdCouponToEdit: Dispatch<React.SetStateAction<string>>;
 }
 
 interface DiscountsTableProps {
@@ -60,7 +72,11 @@ const DiscountsTable = ({ discountsList }: DiscountsTableProps) => {
   );
 };
 
-const CouponsTable = ({ couponsList }: CouponsTableProps) => {
+const CouponsTable = ({
+  couponsList,
+  setOpenEdit,
+  setIdCouponToEdit,
+}: CouponsTableProps) => {
   return (
     <table className='w-full border-collapse table-auto text-center'>
       <thead className='border-b-2 h-12'>
@@ -76,14 +92,25 @@ const CouponsTable = ({ couponsList }: CouponsTableProps) => {
         {couponsList.map(({ id, name, amount, amountAvailable, endDate }) => {
           return (
             <tr key={`coupon-row-${id}`} className='border-b-2 h-12'>
-              <td>{id + 1}</td>
+              <td>{id}</td>
               <td>{name}</td>
               <td>
                 {amountAvailable}/{amount}
               </td>
-              <td>{endDate}</td>
               <td>
-                <button title='Editar' className='p-1'>
+                {new Intl.DateTimeFormat('es-ES', {
+                  dateStyle: 'medium',
+                }).format(endDate)}
+              </td>
+              <td>
+                <button
+                  onClick={() => {
+                    setOpenEdit(true);
+                    setIdCouponToEdit(id);
+                  }}
+                  title='Editar'
+                  className='p-1'
+                >
                   ✏️
                 </button>
                 <button title='Eliminar' className='p-1'>
