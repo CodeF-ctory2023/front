@@ -19,17 +19,11 @@ const GroupTable = () => {
             .get('http://localhost:8080/api/socio/findAll')
             .then((response) => {
                 setSocios(response.data);
-            }).catch(error => {
-
             })
     }
 
     useEffect(() => {
-        cargarSocios()
-            .then((response) => {
-
-            })
-            .catch((error) =>{});
+        cargarSocios();
     }, []);
 
     return (
