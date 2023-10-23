@@ -3,15 +3,20 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { useGlobalContext } from '@/context/Global';
 import { MarkerType } from '@/types';
+import { MapRouting } from './MapRouting';
+import { useRouter } from 'next/router';
 
 const Map = () => {
   const { state } = useGlobalContext();
+
+  const router = useRouter();
+  const { id } = router.query;
 
   return (
     <MapContainer
       style={{ height: '100vh', zIndex: '20' }}
       center={[6.26762, -75.567811]}
-      zoom={17}
+      zoom={15}
       scrollWheelZoom={false}
     >
       <TileLayer
@@ -44,6 +49,7 @@ const Map = () => {
           radius={state?.nearbyDrivers?.radius}
         />
       ) : null}
+      {id && <MapRouting />}
     </MapContainer>
   );
 };

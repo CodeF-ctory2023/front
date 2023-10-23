@@ -8,7 +8,7 @@ const Driver: NextPage = () => {
   return (
     <>
       <Map />
-      <MenuUsers />
+      {/* <MenuUsers /> */}
       <ServiceList />
     </>
   );

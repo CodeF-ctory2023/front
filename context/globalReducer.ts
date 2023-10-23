@@ -11,7 +11,7 @@ export const globalReducer = (state: State, action: Action): State => {
       return {
         ...state,
         markers: state.markers.filter((marker: MarkerType) => {
-          if (!(marker.type === action.payload)) return marker;
+          if (!(marker.id === action.payload)) return marker;
         }),
       };
     case ReducerActions.SEARCH:

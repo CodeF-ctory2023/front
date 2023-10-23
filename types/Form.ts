@@ -12,6 +12,7 @@ export interface InputProps {
 export interface UserLocation {
   locationCoords: number[];
   locationName: string;
+  destinationName: string;
   showMarker: boolean;
   activeLocation: boolean;
   circleRadius: number;

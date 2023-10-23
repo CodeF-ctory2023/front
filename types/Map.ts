@@ -2,6 +2,7 @@ export interface MarkerType {
   id: string;
   lat: number;
   long: number;
+  name?: string;
   icon: string;
   type: string;
 }
