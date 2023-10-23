@@ -14,7 +14,7 @@ interface CreateModalChildProps {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   handleCreate: (formContext: HTMLFormElement | null) => boolean;
   regionOptions: { id: string; name: string }[];
-  userTypeOptions: { id: string; name: string }[];
+  userTypeOptions?: { id: string; name: string }[];
 }
 
 const CreateModal = ({
@@ -43,7 +43,10 @@ const CreateModal = ({
         <footer className='self-end flex gap-4'>
           <button
             className='text-lg font-semibold rounded-lg py-2 px-4 border-4 border-red-500 text-red-500'
-            onClick={() => setOpen(false)}
+            onClick={() => {
+              setOpen(false);
+              formRef.current?.reset();
+            }}
           >
             Cancelar
           </button>
@@ -196,7 +199,7 @@ const CreateDiscountModal = ({
               id='tipo-usuario'
               className='bg-gray-200 p-2 rounded-lg'
             >
-              {userTypeOptions.map(({ id, name }) => (
+              {userTypeOptions?.map(({ id, name }) => (
                 <option key={`user-type-${id}`} value={id}>
                   {name}
                 </option>
@@ -214,7 +217,6 @@ const CreateCouponModal = ({
   setOpen,
   handleCreate,
   regionOptions,
-  userTypeOptions,
 }: CreateModalChildProps) => {
   const formRef = useRef<HTMLFormElement>(null);
   return (
@@ -231,18 +233,18 @@ const CreateCouponModal = ({
         className='w-[520px] flex  flex-col gap-4 my-4'
       >
         <fieldset className='flex  flex-col gap-2'>
-          <label htmlFor='nombre'>Nombre</label>
+          <label htmlFor='name'>Nombre</label>
           <input
             type='text'
-            name='nombre'
-            id='nombre'
+            name='name'
+            id='name'
             placeholder={`Nombre del cupón`}
             className='bg-gray-200 p-2 rounded-lg'
           />
-          <label htmlFor='descripcion'>Descripción</label>
+          <label htmlFor='description'>Descripción</label>
           <textarea
-            name='descripcion'
-            id='descripcion'
+            name='description'
+            id='description'
             cols={30}
             rows={3}
             placeholder={`Descripción del cupón`}
@@ -252,42 +254,42 @@ const CreateCouponModal = ({
 
         <fieldset className='flex gap-4'>
           <div className='flex-grow'>
-            <label htmlFor='descuento-fijo' className='flex flex-col'>
+            <label htmlFor='discountValue' className='flex flex-col'>
               <div>
                 <input
                   type='radio'
                   name='tipo-descuento'
-                  id='descuento-fijo'
+                  id='discountValue'
                   value='fijo'
                 />
-                <label htmlFor='descuento-fijo'>&nbsp;Descuento fijo</label>
+                <label htmlFor='discountValue'>&nbsp;Descuento fijo</label>
               </div>
               <input
                 type='number'
-                name='descuento-fijo'
-                id='descuento-fijo'
+                name='discountValue'
+                id='discountValue'
                 placeholder='Valor'
                 className='bg-gray-200 p-2 rounded-lg'
               />
             </label>
           </div>
           <div className='flex-grow'>
-            <label htmlFor='descuento-porcentaje' className='flex flex-col'>
+            <label htmlFor='discountPercentage' className='flex flex-col'>
               <div>
                 <input
                   type='radio'
                   name='tipo-descuento'
-                  id='descuento-porcentaje'
+                  id='discountPercentage'
                   value='porcentaje'
                 />
-                <label htmlFor='descuento-porcentaje'>
+                <label htmlFor='discountPercentage'>
                   &nbsp;Descuento porcentual
                 </label>
               </div>
               <input
                 type='number'
-                name='descuento-porcentaje'
-                id='descuento-porcentaje'
+                name='discountPercentage'
+                id='discountPercentage'
                 placeholder='Valor'
                 className='bg-gray-200 p-2 rounded-lg'
               />
@@ -296,33 +298,56 @@ const CreateCouponModal = ({
         </fieldset>
 
         <fieldset className='flex gap-4'>
+          <label htmlFor='maxDiscount' className='flex-grow flex flex-col'>
+            Descuento máximo
+            <input
+              type='number'
+              name='maxDiscount'
+              id='maxDiscount'
+              placeholder='Valor'
+              className='bg-gray-200 p-2 rounded-lg'
+            />
+          </label>
+          <label htmlFor='minValue' className='flex-grow flex flex-col'>
+            Valor mínimo
+            <input
+              type='number'
+              name='minValue'
+              id='minValue'
+              placeholder='Valor'
+              className='bg-gray-200 p-2 rounded-lg'
+            />
+          </label>
+        </fieldset>
+
+        <fieldset className='flex gap-4'>
           <div className='flex-grow flex flex-col'>
-            <label htmlFor='fecha-inicio'>Válida desde</label>
+            <label htmlFor='startDate'>Válido desde</label>
             <input
               type='date'
-              name='fecha-inicio'
-              id='fecha-inicio'
+              name='startDate'
+              id='startDate'
               className='bg-gray-200 p-2 rounded-lg'
             />
           </div>
 
           <div className='flex-grow flex flex-col'>
-            <label htmlFor='fecha-fin'>Válida hasta</label>
+            <label htmlFor='endDate'>Válido hasta</label>
             <input
               type='date'
-              name='fecha-fin'
-              id='fecha-fin'
+              name='endDate'
+              id='endDate'
               className='bg-gray-200 p-2 rounded-lg'
             />
           </div>
         </fieldset>
 
         <fieldset className='flex gap-4'>
-          <label htmlFor='region' className='flex-grow flex flex-col'>
+          <label htmlFor='city' className='flex-grow flex flex-col'>
             Región
             <select
-              name='region'
-              id='region'
+              name='city'
+              id='city'
               className='bg-gray-200 p-2 rounded-lg'
             >
               {regionOptions.map(({ id, name }) => (
@@ -332,29 +357,15 @@ const CreateCouponModal = ({
               ))}
             </select>
           </label>
-          <label htmlFor='tipo-usuario' className='flex-grow flex flex-col'>
-            Tipo de usuario
-            <select
-              name='tipo-usuario'
-              id='tipo-usuario'
-              className='bg-gray-200 p-2 rounded-lg'
-            >
-              {userTypeOptions.map(({ id, name }) => (
-                <option key={`user-type-${id}`} value={id}>
-                  {name}
-                </option>
-              ))}
-            </select>
-          </label>
         </fieldset>
 
         <fieldset className='flex gap-4'>
-          <label htmlFor='cantidad' className='flex-grow flex flex-col'>
+          <label htmlFor='amount' className='flex-grow flex flex-col'>
             Cantidad de cupones
             <input
               type='number'
-              name='cantidad'
-              id='cantidad'
+              name='amount'
+              id='amount'
               placeholder='Cantidad'
               className='bg-gray-200 p-2 rounded-lg'
             />
