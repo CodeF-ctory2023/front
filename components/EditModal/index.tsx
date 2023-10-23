@@ -62,7 +62,10 @@ const EditModal = ({
         <footer className='self-end flex gap-4'>
           <button
             className='text-lg font-semibold rounded-lg py-2 px-4 border-4 border-red-500 text-red-500'
-            onClick={() => setOpen(false)}
+            onClick={() => {
+              setOpen(false);
+              formRef.current?.reset();
+            }}
           >
             Cancelar
           </button>
@@ -154,7 +157,7 @@ const EditCouponModal = ({
                 defaultValue={data.discountValue}
                 placeholder='Valor'
                 disabled={!isFixedDiscount}
-                className='bg-gray-200 p-2 rounded-lg'
+                className='bg-gray-200 p-2 rounded-lg disabled:opacity-50'
               />
             </label>
           </div>
@@ -180,7 +183,7 @@ const EditCouponModal = ({
                 defaultValue={data.discountPercentage}
                 placeholder='Valor'
                 disabled={isFixedDiscount}
-                className='bg-gray-200 p-2 rounded-lg'
+                className='bg-gray-200 p-2 rounded-lg disabled:opacity-50'
               />
             </label>
           </div>
