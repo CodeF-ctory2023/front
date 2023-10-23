@@ -57,7 +57,6 @@ const PqrsTable = ({ index, pqrs }: PqrsTableProps) => {
     pqrsInfo.splice(index, 1);
     //refresh pqrs list
     router.push('/');
-
     toast.success('PQRS eliminada correctamente');
   };
 
@@ -67,18 +66,20 @@ const PqrsTable = ({ index, pqrs }: PqrsTableProps) => {
   }
 
   return (
-    <tr key={index} className='hover:bg-slate-50' >
-      <td className='p-3 text-sm flex justify-center  whitespace-nowrap '>
+    <tr key={index} className='hover:bg-slate-50 text-center' >
+      <td className='py-2 w-[25%] text-sm text-gray-700 text-rigth '>
+        {pqrs.description.slice(0,25)+ "..."}
+      </td>
+      <td className='  py-2 text-sm flex justify-center whitespace-nowrap '>
         <span className='state  text-gray-700  bg-gray-200'>
           <div className='mr-2 w-2 h-2  bg-gray-800 rounded-full'></div>
           {pqrs.type}
         </span>
       </td>
-
-      <td className='text-sm font-medium text-blue-500 hover:underline ] text-center'>
+      <td className='text-sm  font-medium text-blue-500 hover:underline ] '>
         {pqrs.createdAt.toDateString()}
       </td>
-      <td className={`p-3  flex justify-center  whitespace-nowrap text-center ${editionMode ? 'hidden':''}`}>
+      <td className={`  flex justify-center  whitespace-nowrap text-center ${editionMode ? 'hidden':''}`}>
         <span className={`state ${text} ${backgroundColor}`}>
           <div className={`mr-2 w-2 h-2 ${backgroundPoint} rounded-full`}></div>
           {pqrs.state}
@@ -91,11 +92,10 @@ const PqrsTable = ({ index, pqrs }: PqrsTableProps) => {
           <option value={'Finalizado'}>Finalizado</option>
         </select>
       </td>
-      <td className='p-3 text-sm text-gray-700 whitespace-nowrap'>
-        {pqrs.description}
-      </td>
+      
+      
       <td className={`${editionMode ? 'hidden': ''}`}>
-        <div className='flex flex-center justify-center space-x-2 pr-2'>
+        <div className='flex justify-center  space-x-2 pr-2'>
           <IconButton iconName='fa-solid fa-trash' colorHover={bloodColor} onClick={handleDeletePqrs} />
           <DialogDelete isOpen={isDialogOpen} back={returnMenu} onClose={handleConfirmDialog} textContent='Desea eliminar permanentemente este registro.' title='Alerta' />
           <IconButton iconName='fa-regular fa-pen-to-square' colorHover={primaryColor} onClick={handleEditionMode} />

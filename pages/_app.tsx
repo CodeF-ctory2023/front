@@ -6,7 +6,7 @@ const App = ({ Component, pageProps }: AppProps) => {
   return(
   <>
   <Script src="https://kit.fontawesome.com/114f207fba.js" crossOrigin="anonymous"/>
-  <Component {...pageProps} />;
+  <Component {...pageProps} />
   </>
   );
 };

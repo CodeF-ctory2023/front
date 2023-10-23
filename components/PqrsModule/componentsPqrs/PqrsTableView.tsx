@@ -45,12 +45,12 @@ const PqrsTableView = () => {
       </div>
       <div className='overflow-auto bg-zinc-50 rounded-lg shadow-lg hidden md:block'>
         <table className='w-full '>
-          <thead className='bg-blue-50'>
-            <tr>
+          <thead className='bg-blue-100 '>
+            <tr >
               {HEADINGS.map((key, index) => (
                 <th
                   key={index}
-                  className=' p-2 text-sm font-semibold tracking-wide text-center'
+                  className=' py-2  text-sm font-semibold tracking-wide text-center'
                 >
                   {key}
                 </th>

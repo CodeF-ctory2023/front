@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .title{
-    @apply text-lg font-bold text-gray-700;
+    @apply font-bold text-sm uppercase  text-gray-700;
 }
 
 .subtitle{
@@ -19,6 +19,10 @@
 }
 
 .state{
-    @apply py-1 px-3 w-auto flex justify-center items-center text-xs font-medium uppercase tracking-wider rounded-full bg-opacity-50 ;
+    @apply py-1 px-2 w-auto flex justify-center items-center text-xs font-medium  tracking-wider rounded-full bg-opacity-50 ;
+}
+
+.state_secundary{
+    @apply py-1 px-2 w-auto flex justify-start items-center text-xs font-medium  tracking-wider rounded-full bg-opacity-50 ;
 }
 

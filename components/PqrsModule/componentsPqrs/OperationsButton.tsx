@@ -5,11 +5,12 @@ interface OperationsButtonProps {
     onClick?: () => void;
     color: string;
     colorHover: string;
+    type?: "button"| "submit" | "reset";
 
 }
 
 
-const OperationsButton = ({ label, onClick, color, colorHover }: OperationsButtonProps) => {
+const OperationsButton = ({ label, onClick, color, colorHover,type }: OperationsButtonProps) => {
     return (
         <button
             className=' hover:scale-105 px-5 py-1 text-sm leading-5 
@@ -20,6 +21,7 @@ const OperationsButton = ({ label, onClick, color, colorHover }: OperationsButto
             onFocus={(e) => (e.currentTarget.style.color = colorHover)}
             onBlur={(e) => (e.currentTarget.style.color = 'white')}
             onClick={onClick}
+            type={type}
         >
             {label}
         </button>

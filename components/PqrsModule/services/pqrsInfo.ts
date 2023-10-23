@@ -10,7 +10,8 @@ export const pqrsInfo: pqrsType[] = [
         createdBy: 'Usuario 007',
         description: 'some text here',
         subType: 'Subtipo 1',
-        file: 'file.png',
+        file: 'https://ejemplo.com/ruta/del/archivo.png'
+
     },
     {
         id: 2,
