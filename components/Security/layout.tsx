@@ -3,11 +3,6 @@ import { Sidebar } from '@/components/Security/sidebar';
 import { Box, CssBaseline } from '@mui/material';
 import React from 'react';
 
-export const metadata = {
-  title: 'SMU Security',
-  description: 'Sistema de Movilidad Urbana: Seguridad',
-};
-
 interface Props {
   children: React.ReactNode;
 }
