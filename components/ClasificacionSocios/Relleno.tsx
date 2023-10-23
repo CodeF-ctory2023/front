@@ -2,7 +2,7 @@ interface RellenoProps {
     texto?: string;
     ancho?: string;
     alto?: string;
-};
+}
 
 
 const Relleno = ({ texto="componente", ancho="w-[200px]", alto="h-[500px]" }: RellenoProps) => {

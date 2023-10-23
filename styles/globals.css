@@ -4,7 +4,7 @@
 
 
 .socios-table-m2 td, .socios-table-m2 th{
-    @apply  py-3 w-1/5 px-6;
+    @apply  py-3 w-1/4 px-6 h-16;
 }
 
 .socios-table-m2 th{
@@ -13,6 +13,10 @@
 
 .socios-table-m2 td{
     @apply text-gray-900 font-normal;
+}
+
+.socios-table-m2 > tbody > tr{
+    @apply hover:bg-neutral-200 hover:duration-100 odd:bg-neutral-100;
 }
 
 .titles-m2{

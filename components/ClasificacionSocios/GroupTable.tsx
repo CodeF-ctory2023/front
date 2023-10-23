@@ -5,7 +5,14 @@ import { BsFillPersonFill } from "react-icons/bs";
 
 const GroupTable = () => {
 
-    const [socios, setSocios] = useState([]);
+    const [socios, setSocios] = useState<Socio[]>([]);
+
+    type Socio = {
+        cedula: string;
+        nombre: string;
+        ciudad: string;
+        numeroDeServicios: number;
+      };
 
     const cargarSocios = async () => {
         return axios
@@ -39,11 +46,10 @@ const GroupTable = () => {
                 </tr>
             </thead>
 
-            {/* Esto no es un error */}
             <tbody>
                 {socios.length > 0 &&
                     socios.map((socio) => (
-                        <tr className="hover:bg-neutral-200 hover:duration-100 odd:bg-neutral-100" key={socio.cedula}>
+                        <tr className="" key={socio.cedula}>
                             <td className="flex gap-5 items-center">
                                 <span>
                                     <BsFillPersonFill className="w-10 h-10 bg-red-300 px-1 py-1 border-black border-solid border-2 rounded-full" />
@@ -54,9 +60,31 @@ const GroupTable = () => {
                             <td>{socio.numeroDeServicios}</td>
                         </tr>
                     ))}
+
+                <tr>
+
+                    <td className="flex gap-5 items-center">
+                        <span>
+                            <BsFillPersonFill className="w-10 h-10 bg-red-300 px-1 py-1 border-black border-solid border-2 rounded-full" />
+                        </span>Grupo 1
+                    </td>
+                    <td>0 viajes</td>
+                    <td>Medellín</td>
+                    <td>16 socios</td>
+                </tr>
+                <tr>
+                <td className="flex gap-5 items-center">
+                        <span>
+                            <BsFillPersonFill className="w-10 h-10 bg-red-300 px-1 py-1 border-black border-solid border-2 rounded-full" />
+                        </span>Grupo 2
+                    </td>
+                    <td>10 viajes</td>
+                    <td>Medellín</td>
+                    <td>12 socios</td>
+                </tr>
             </tbody>
         </table>
-        
+
     );
 };
 
