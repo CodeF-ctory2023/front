@@ -36,9 +36,12 @@ export const login = async ({
   }
 
   const data = await res.json();
+  const token = data.token;
+  delete data.token;
+
   return {
     userData: data,
-    token: res.headers.get('Authorization') || '',
+    token: token,
   };
 };
 
