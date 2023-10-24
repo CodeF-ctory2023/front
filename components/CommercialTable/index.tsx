@@ -31,17 +31,13 @@ type discounts = {
   userType: string;
   familyProfile: string;
 };
-interface CouponsTableProps {
-  couponsList: coupon[];
+interface TableProps<T> {
+  elements: T[];
   setOpenEdit: Dispatch<React.SetStateAction<boolean>>;
   setIdCouponToEdit: Dispatch<React.SetStateAction<string>>;
 }
 
-interface DiscountsTableProps {
-  discountsList: discounts[];
-}
-
-const DiscountsTable = ({ discountsList }: DiscountsTableProps) => {
+const DiscountsTable = ({ elements: discountsList }: TableProps<discounts>) => {
   return (
     <table className='w-full border-collapse table-auto text-center'>
       <thead className='border-b-2 h-12'>
@@ -98,10 +94,10 @@ const DiscountsTable = ({ discountsList }: DiscountsTableProps) => {
 };
 
 const CouponsTable = ({
-  couponsList,
+  elements: couponsList,
   setOpenEdit,
   setIdCouponToEdit,
-}: CouponsTableProps) => {
+}: TableProps<coupon>) => {
   return (
     <table className='w-full border-collapse table-auto text-center'>
       <thead className='border-b-2 h-12'>
