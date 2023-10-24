@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 
 interface CreateModalProps {
   children: React.ReactNode;
@@ -77,6 +77,10 @@ const CreateDiscountModal = ({
 }: CreateModalChildProps) => {
   const formRef = useRef<HTMLFormElement>(null);
 
+  const [isDiscountValue, setIsDiscountValue] = useState(true);
+  const [discountValue, setDiscountValue] = useState('');
+  const [discountPercentage, setDiscountPercentage] = useState('');
+
   return (
     <CreateModal
       open={open}
@@ -91,18 +95,18 @@ const CreateDiscountModal = ({
         className='w-[520px] flex  flex-col gap-4 my-4'
       >
         <fieldset className='flex  flex-col gap-2'>
-          <label htmlFor='nombre'>Nombre</label>
+          <label htmlFor='name'>Nombre</label>
           <input
             type='text'
-            name='nombre'
-            id='nombre'
+            name='name'
+            id='name'
             placeholder={`Nombre de la promoción`}
             className='bg-gray-200 p-2 rounded-lg'
           />
-          <label htmlFor='descripcion'>Descripción</label>
+          <label htmlFor='description'>Descripción</label>
           <textarea
-            name='descripcion'
-            id='descripcion'
+            name='description'
+            id='description'
             cols={30}
             rows={3}
             placeholder={`Descripción de la promoción`}
@@ -112,77 +116,120 @@ const CreateDiscountModal = ({
 
         <fieldset className='flex gap-4'>
           <div className='flex-grow'>
-            <label htmlFor='descuento-fijo' className='flex flex-col'>
+            <label htmlFor='discountValue' className='flex flex-col'>
               <div>
                 <input
                   type='radio'
                   name='tipo-descuento'
-                  id='descuento-fijo'
+                  id='discountValue'
                   value='fijo'
+                  required
+                  defaultChecked
+                  onChange={() => {
+                    setIsDiscountValue(true);
+                    setDiscountPercentage('');
+                  }}
                 />
-                <label htmlFor='descuento-fijo'>&nbsp;Descuento fijo</label>
+                <label htmlFor='discountValue'>&nbsp;Descuento fijo</label>
               </div>
               <input
                 type='number'
-                name='descuento-fijo'
-                id='descuento-fijo'
+                name='discountValue'
+                id='discountValue'
                 placeholder='Valor'
-                className='bg-gray-200 p-2 rounded-lg'
+                className='bg-gray-200 p-2 rounded-lg disabled:opacity-50'
+                disabled={!isDiscountValue}
+                value={discountValue}
+                onChange={(e) => setDiscountValue(e.target.value)}
               />
             </label>
           </div>
           <div className='flex-grow'>
-            <label htmlFor='descuento-porcentaje' className='flex flex-col'>
+            <label htmlFor='discountPercentage' className='flex flex-col'>
               <div>
                 <input
                   type='radio'
                   name='tipo-descuento'
-                  id='descuento-porcentaje'
+                  id='discountPercentage'
                   value='porcentaje'
+                  onChange={() => {
+                    setIsDiscountValue(false);
+                    setDiscountValue('');
+                  }}
                 />
-                <label htmlFor='descuento-porcentaje'>
+                <label htmlFor='discountPercentage'>
                   &nbsp;Descuento porcentual
                 </label>
               </div>
               <input
                 type='number'
-                name='descuento-porcentaje'
-                id='descuento-porcentaje'
+                name='discountPercentage'
+                id='discountPercentage'
                 placeholder='Valor'
-                className='bg-gray-200 p-2 rounded-lg'
+                className='bg-gray-200 p-2 rounded-lg disabled:opacity-50'
+                disabled={isDiscountValue}
+                value={discountPercentage}
+                onChange={(e) => {
+                  setDiscountPercentage(e.target.value);
+                }}
               />
             </label>
           </div>
         </fieldset>
 
         <fieldset className='flex gap-4'>
+          <label htmlFor='minValue' className='flex-grow flex flex-col'>
+            Valor mínimo
+            <input
+              type='number'
+              name='minValue'
+              id='minValue'
+              placeholder='Valor'
+              className='bg-gray-200 p-2 rounded-lg disabled:opacity-50'
+              disabled={!isDiscountValue}
+            />
+          </label>
+          <label htmlFor='maxDiscount' className='flex-grow flex flex-col'>
+            Descuento máximo
+            <input
+              type='number'
+              name='maxDiscount'
+              id='maxDiscount'
+              placeholder='Valor'
+              className='bg-gray-200 p-2 rounded-lg disabled:opacity-50'
+              disabled={isDiscountValue}
+            />
+          </label>
+        </fieldset>
+
+        <fieldset className='flex gap-4'>
           <div className='flex-grow flex flex-col'>
-            <label htmlFor='fecha-inicio'>Válida desde</label>
+            <label htmlFor='startDate'>Válida desde</label>
             <input
               type='date'
-              name='fecha-inicio'
-              id='fecha-inicio'
+              name='startDate'
+              id='startDate'
               className='bg-gray-200 p-2 rounded-lg'
             />
           </div>
 
           <div className='flex-grow flex flex-col'>
-            <label htmlFor='fecha-fin'>Válida hasta</label>
+            <label htmlFor='endDate'>Válida hasta</label>
             <input
               type='date'
-              name='fecha-fin'
-              id='fecha-fin'
+              name='endDate'
+              id='endDate'
               className='bg-gray-200 p-2 rounded-lg'
             />
           </div>
         </fieldset>
 
         <fieldset className='flex gap-4'>
-          <label htmlFor='region' className='flex-grow flex flex-col'>
+          <label htmlFor='city' className='flex-grow flex flex-col'>
             Región
             <select
-              name='region'
-              id='region'
+              name='city'
+              id='city'
               className='bg-gray-200 p-2 rounded-lg'
             >
               {regionOptions.map(({ id, name }) => (
@@ -192,11 +239,11 @@ const CreateDiscountModal = ({
               ))}
             </select>
           </label>
-          <label htmlFor='tipo-usuario' className='flex-grow flex flex-col'>
+          <label htmlFor='userType' className='flex-grow flex flex-col'>
             Tipo de usuario
             <select
-              name='tipo-usuario'
-              id='tipo-usuario'
+              name='userType'
+              id='userType'
               className='bg-gray-200 p-2 rounded-lg'
             >
               {userTypeOptions?.map(({ id, name }) => (
