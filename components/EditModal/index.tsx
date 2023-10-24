@@ -16,7 +16,7 @@ type coupon = {
   status: string;
 };
 
-type discounts = {
+type discount = {
   id: string;
   name: string;
   description: string;
@@ -311,7 +311,7 @@ const EditDiscountModal = ({
   handleEdit,
   regionOptions,
   userTypeOptions,
-}: EditModalChildProps<discounts>) => {
+}: EditModalChildProps<discount>) => {
   const formRef = useRef<HTMLFormElement>(null);
 
   const [isFixedDiscount, setIsFixedDiscount] = useState<boolean>(
