@@ -19,22 +19,29 @@ type coupon = {
 type discounts = {
   id: string;
   name: string;
-  startDate: string;
-  endDate: string;
+  description: string;
+  startDate: Date;
+  endDate: Date;
+  discountPercentage: number;
+  maxDiscount: number;
+  discountValue: number;
+  minValue: number;
+  city: string;
   status: string;
+  userType: string;
+  familyProfile: string;
 };
-
-interface CouponsTableProps {
-  couponsList: coupon[];
+interface TableProps<T> {
+  elements: T[];
   setOpenEdit: Dispatch<React.SetStateAction<boolean>>;
   setIdCouponToEdit: Dispatch<React.SetStateAction<string>>;
 }
 
-interface DiscountsTableProps {
-  discountsList: discounts[];
-}
-
-const DiscountsTable = ({ discountsList }: DiscountsTableProps) => {
+const DiscountsTable = ({
+  elements: discountsList,
+  setOpenEdit,
+  setIdCouponToEdit,
+}: TableProps<discounts>) => {
   return (
     <table className='w-full border-collapse table-auto text-center'>
       <thead className='border-b-2 h-12'>
@@ -53,11 +60,36 @@ const DiscountsTable = ({ discountsList }: DiscountsTableProps) => {
             <tr key={`discount-row-${id}`} className='border-b-2 h-12'>
               <td>{id}</td>
               <td>{name}</td>
-              <td>{startDate}</td>
-              <td>{endDate}</td>
-              <td>{status}</td>
               <td>
-                <button title='Editar' className='p-1'>
+                {new Intl.DateTimeFormat('es-ES', {
+                  dateStyle: 'medium',
+                }).format(startDate)}
+              </td>
+              <td>
+                {new Intl.DateTimeFormat('es-ES', {
+                  dateStyle: 'medium',
+                }).format(endDate)}
+              </td>
+              <td>
+                <span
+                  className={`${
+                    status === 'activo'
+                      ? 'text-green-500 border-green-300 bg-green-100'
+                      : 'text-red-500 border-red-300 bg-red-100'
+                  } py-1 px-2 border-2 rounded-md capitalize`}
+                >
+                  {status}
+                </span>
+              </td>
+              <td>
+                <button
+                  onClick={() => {
+                    setOpenEdit(true);
+                    setIdCouponToEdit(id);
+                  }}
+                  title='Editar'
+                  className='p-1'
+                >
                   ✏️
                 </button>
                 <button title='Eliminar' className='p-1'>
@@ -73,10 +105,10 @@ const DiscountsTable = ({ discountsList }: DiscountsTableProps) => {
 };
 
 const CouponsTable = ({
-  couponsList,
+  elements: couponsList,
   setOpenEdit,
   setIdCouponToEdit,
-}: CouponsTableProps) => {
+}: TableProps<coupon>) => {
   return (
     <table className='w-full border-collapse table-auto text-center'>
       <thead className='border-b-2 h-12'>
