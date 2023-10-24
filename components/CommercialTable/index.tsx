@@ -70,7 +70,17 @@ const DiscountsTable = ({ discountsList }: DiscountsTableProps) => {
                   dateStyle: 'medium',
                 }).format(endDate)}
               </td>
-              <td>{status}</td>
+              <td>
+                <span
+                  className={`${
+                    status === 'activo'
+                      ? 'text-green-500 border-green-300 bg-green-100'
+                      : 'text-red-500 border-red-300 bg-red-100'
+                  } py-1 px-2 border-2 rounded-md capitalize`}
+                >
+                  {status}
+                </span>
+              </td>
               <td>
                 <button title='Editar' className='p-1'>
                   ✏️
