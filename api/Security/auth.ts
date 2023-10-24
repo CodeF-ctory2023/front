@@ -9,7 +9,7 @@ interface LoginResponse {
   userData: {
     name: string | null;
     email: string;
-    role: 'user' | 'driver';
+    role: ('USER' | 'DRIVER')[];
   };
   token: string;
 }
@@ -17,7 +17,7 @@ interface LoginResponse {
 interface RegisterParams {
   email: string;
   password: string;
-  role: 'user' | 'driver';
+  role: ('USER' | 'DRIVER')[];
 }
 
 export const login = async ({

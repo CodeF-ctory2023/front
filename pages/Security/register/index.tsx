@@ -20,8 +20,8 @@ const Register: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passC, setPassC] = useState('');
-  const [role, setRole] = useState('user') as [
-    'user' | 'driver',
+  const [role, setRole] = useState('USER') as [
+    'USER' | 'DRIVER',
     Dispatch<SetStateAction<string>>,
   ];
 
@@ -93,8 +93,8 @@ const Register: React.FC = () => {
             }}
             onChange={(e, value) => setRole(value)}
           >
-            <ToggleButton value='user'>Pasajero</ToggleButton>
-            <ToggleButton value='driver'>Conductor</ToggleButton>
+            <ToggleButton value='USER'>Pasajero</ToggleButton>
+            <ToggleButton value='DRIVER'>Conductor</ToggleButton>
           </ToggleButtonGroup>
           <TextField
             label='Correo electrónico'
@@ -134,7 +134,7 @@ const Register: React.FC = () => {
                 mutate({
                   email,
                   password,
-                  role,
+                  role: [role],
                 })
               }
             >
