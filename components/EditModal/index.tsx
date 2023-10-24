@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 type coupon = {
   id: string;
@@ -112,9 +112,11 @@ const EditCouponModal = ({
 }: EditModalChildProps<coupon>) => {
   const formRef = useRef<HTMLFormElement>(null);
 
-  const [isFixedDiscount, setIsFixedDiscount] = useState<boolean>(
-    !data.discountPercentage
-  );
+  const [isFixedDiscount, setIsFixedDiscount] = useState<boolean | undefined>();
+
+  useEffect(() => {
+    setIsFixedDiscount(data.discountValue !== 0);
+  }, [data.discountValue]);
 
   return (
     <EditModal
@@ -314,9 +316,13 @@ const EditDiscountModal = ({
 }: EditModalChildProps<discount>) => {
   const formRef = useRef<HTMLFormElement>(null);
 
-  const [isFixedDiscount, setIsFixedDiscount] = useState<boolean>(
-    !data.discountPercentage
+  const [isFixedDiscount, setIsFixedDiscount] = useState<boolean | undefined>(
+    undefined
   );
+
+  useEffect(() => {
+    setIsFixedDiscount(data.discountValue !== 0);
+  }, [data.discountValue]);
 
   return (
     <EditModal
@@ -364,7 +370,7 @@ const EditDiscountModal = ({
                   id='discountValue'
                   value='fijo'
                   required
-                  defaultChecked
+                  defaultChecked={data.discountValue !== 0}
                   onChange={() => {
                     setIsFixedDiscount(true);
                   }}
@@ -390,6 +396,7 @@ const EditDiscountModal = ({
                   name='tipo-descuento'
                   id='discountPercentage'
                   value='porcentaje'
+                  defaultChecked={data.discountValue === 0}
                   onChange={() => {
                     setIsFixedDiscount(false);
                   }}
@@ -405,6 +412,7 @@ const EditDiscountModal = ({
                 placeholder='Valor'
                 className='bg-gray-200 p-2 rounded-lg disabled:opacity-50'
                 disabled={isFixedDiscount}
+                defaultValue={data.discountPercentage}
               />
             </label>
           </div>
@@ -420,6 +428,7 @@ const EditDiscountModal = ({
               placeholder='Valor'
               className='bg-gray-200 p-2 rounded-lg disabled:opacity-50'
               disabled={!isFixedDiscount}
+              defaultValue={data.minValue}
             />
           </label>
           <label htmlFor='maxDiscount' className='flex-grow flex flex-col'>
@@ -431,6 +440,7 @@ const EditDiscountModal = ({
               placeholder='Valor'
               className='bg-gray-200 p-2 rounded-lg disabled:opacity-50'
               disabled={isFixedDiscount}
+              defaultValue={data.maxDiscount}
             />
           </label>
         </fieldset>
@@ -443,6 +453,7 @@ const EditDiscountModal = ({
               name='startDate'
               id='startDate'
               className='bg-gray-200 p-2 rounded-lg'
+              defaultValue={data.startDate.toISOString().split('T')[0]}
             />
           </div>
 
@@ -453,6 +464,7 @@ const EditDiscountModal = ({
               name='endDate'
               id='endDate'
               className='bg-gray-200 p-2 rounded-lg'
+              defaultValue={data.endDate.toISOString().split('T')[0]}
             />
           </div>
         </fieldset>
@@ -478,6 +490,7 @@ const EditDiscountModal = ({
               name='userType'
               id='userType'
               className='bg-gray-200 p-2 rounded-lg'
+              defaultValue={data.userType}
             >
               {userTypeOptions?.map(({ id, name }) => (
                 <option key={`user-type-${id}`} value={id}>
