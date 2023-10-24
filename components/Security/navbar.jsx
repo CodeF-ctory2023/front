@@ -10,7 +10,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import { useState } from 'react';
 import { FlagIconCO } from './icons';
-import { useAuth } from '@/hooks/useAuth';
+import { useAuth } from '@/hooks/Security/useAuth';
 
 export const Navbar = () => {
   const [anchorEl, setAnchorEl] = useState(null);

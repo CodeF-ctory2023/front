@@ -1,5 +1,5 @@
 import { SecurityLayout } from '@/components/Security/layout';
-import { useAuth } from '@/hooks/useAuth';
+import { useAuth } from '@/hooks/Security/useAuth';
 import {
   Alert,
   Box,
