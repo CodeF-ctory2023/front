@@ -19,11 +19,18 @@ type coupon = {
 type discounts = {
   id: string;
   name: string;
-  startDate: string;
-  endDate: string;
+  description: string;
+  startDate: Date;
+  endDate: Date;
+  discountPercentage: number;
+  maxDiscount: number;
+  discountValue: number;
+  minValue: number;
+  city: string;
   status: string;
+  userType: string;
+  familyProfile: string;
 };
-
 interface CouponsTableProps {
   couponsList: coupon[];
   setOpenEdit: Dispatch<React.SetStateAction<boolean>>;
@@ -53,8 +60,16 @@ const DiscountsTable = ({ discountsList }: DiscountsTableProps) => {
             <tr key={`discount-row-${id}`} className='border-b-2 h-12'>
               <td>{id}</td>
               <td>{name}</td>
-              <td>{startDate}</td>
-              <td>{endDate}</td>
+              <td>
+                {new Intl.DateTimeFormat('es-ES', {
+                  dateStyle: 'medium',
+                }).format(startDate)}
+              </td>
+              <td>
+                {new Intl.DateTimeFormat('es-ES', {
+                  dateStyle: 'medium',
+                }).format(endDate)}
+              </td>
               <td>{status}</td>
               <td>
                 <button title='Editar' className='p-1'>
