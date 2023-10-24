@@ -206,17 +206,6 @@ const EditCouponModal = ({
         </fieldset>
 
         <fieldset className='flex gap-4'>
-          <label htmlFor='maxDiscount' className='flex-grow flex flex-col'>
-            Descuento máximo
-            <input
-              type='number'
-              name='maxDiscount'
-              id='maxDiscount'
-              defaultValue={data.maxDiscount}
-              placeholder='Valor'
-              className='bg-gray-200 p-2 rounded-lg'
-            />
-          </label>
           <label htmlFor='minValue' className='flex-grow flex flex-col'>
             Valor mínimo
             <input
@@ -225,7 +214,20 @@ const EditCouponModal = ({
               id='minValue'
               defaultValue={data.minValue}
               placeholder='Valor'
-              className='bg-gray-200 p-2 rounded-lg'
+              className='bg-gray-200 p-2 rounded-lg disabled:opacity-50'
+              disabled={!isFixedDiscount}
+            />
+          </label>
+          <label htmlFor='maxDiscount' className='flex-grow flex flex-col'>
+            Descuento máximo
+            <input
+              type='number'
+              name='maxDiscount'
+              id='maxDiscount'
+              defaultValue={data.maxDiscount}
+              placeholder='Valor'
+              className='bg-gray-200 p-2 rounded-lg disabled:opacity-50'
+              disabled={isFixedDiscount}
             />
           </label>
         </fieldset>
