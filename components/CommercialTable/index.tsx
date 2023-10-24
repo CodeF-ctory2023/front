@@ -37,7 +37,11 @@ interface TableProps<T> {
   setIdCouponToEdit: Dispatch<React.SetStateAction<string>>;
 }
 
-const DiscountsTable = ({ elements: discountsList }: TableProps<discounts>) => {
+const DiscountsTable = ({
+  elements: discountsList,
+  setOpenEdit,
+  setIdCouponToEdit,
+}: TableProps<discounts>) => {
   return (
     <table className='w-full border-collapse table-auto text-center'>
       <thead className='border-b-2 h-12'>
@@ -78,7 +82,14 @@ const DiscountsTable = ({ elements: discountsList }: TableProps<discounts>) => {
                 </span>
               </td>
               <td>
-                <button title='Editar' className='p-1'>
+                <button
+                  onClick={() => {
+                    setOpenEdit(true);
+                    setIdCouponToEdit(id);
+                  }}
+                  title='Editar'
+                  className='p-1'
+                >
                   ✏️
                 </button>
                 <button title='Eliminar' className='p-1'>
