@@ -32,10 +32,10 @@ const Coupons = () => {
       amountAvailable: 10,
       startDate: new Date('20 Oct 2021'),
       endDate: new Date('20 Oct 2023'),
-      discountPercentage: 10,
+      discountPercentage: 50,
       maxDiscount: 1000,
-      discountValue: 100,
-      minValue: 1000,
+      discountValue: 0,
+      minValue: 0,
       city: 'Bogotá',
       status: 'activo',
     },
@@ -48,10 +48,10 @@ const Coupons = () => {
       amountAvailable: 10,
       startDate: new Date('20 Oct 2021'),
       endDate: new Date('20 Oct 2023'),
-      discountPercentage: 10,
-      maxDiscount: 1000,
-      discountValue: 100,
-      minValue: 1000,
+      discountPercentage: 0,
+      maxDiscount: 0,
+      discountValue: 1000,
+      minValue: 500,
       city: 'Bogotá',
       status: 'activo',
     },
@@ -212,7 +212,7 @@ const Coupons = () => {
 
           <main className='my-8 min-h-[80%]'>
             <CouponsTable
-              couponsList={coupons}
+              elements={coupons}
               setOpenEdit={setOpenEditModal}
               setIdCouponToEdit={setIdCouponToEdit}
             />
