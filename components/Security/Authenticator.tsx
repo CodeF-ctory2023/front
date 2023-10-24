@@ -1,8 +1,8 @@
 'use client';
 
-import { login, LoginParams } from '@/api/Security/auth';
+import { login, LoginParams, LoginResponse } from '@/api/Security/auth';
 import { createContext, useState } from 'react';
-import { useMutation } from 'react-query';
+import { useMutation, UseMutationResult } from 'react-query';
 
 type Props = {
   children: React.ReactNode;
@@ -16,7 +16,7 @@ type AuthContextType = {
   };
   token: string;
   setUserData: (data: object) => void;
-  login: (data: LoginParams) => void;
+  login: UseMutationResult<LoginResponse, unknown, LoginParams, unknown>;
   isAuthenticated: boolean;
   isLoading: boolean;
 };
@@ -25,7 +25,7 @@ export const AuthContext = createContext<AuthContextType>({
   user: {},
   token: '',
   setUserData: () => {},
-  login: () => {},
+  login: {} as UseMutationResult<LoginResponse, unknown, LoginParams, unknown>,
   isAuthenticated: false,
   isLoading: false,
 });
@@ -48,7 +48,7 @@ export const Authenticator: React.FC<Props> = ({ children }) => {
         user: userData,
         setUserData,
         token,
-        login: loginMutation.mutate,
+        login: loginMutation,
         isAuthenticated: Object.keys(userData).length > 0,
         isLoading: loginMutation.isLoading,
       }}

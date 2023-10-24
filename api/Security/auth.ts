@@ -5,7 +5,7 @@ export interface LoginParams {
   password: string;
 }
 
-interface LoginResponse {
+export interface LoginResponse {
   userData: {
     name: string | null;
     email: string;
