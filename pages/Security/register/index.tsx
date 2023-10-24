@@ -25,10 +25,13 @@ const Register: React.FC = () => {
     Dispatch<SetStateAction<string>>,
   ];
 
-  const { isLoading, mutate } = useMutation({
+  const { isLoading, mutate, isSuccess } = useMutation({
     mutationFn: register,
-    onSuccess: () => {
+    onSettled: () => {
       setOpen(true);
+      setEmail('');
+      setPassword('');
+      setPassC('');
     },
   });
 
@@ -54,10 +57,14 @@ const Register: React.FC = () => {
       >
         <Alert
           variant='filled'
-          severity='success'
+          severity={isSuccess ? 'success' : 'error'}
           sx={{ width: '100%', fontSize: '16px' }}
         >
-          ¡Te has registrado correctamente! Ya puedes iniciar sesión.
+          {isSuccess ? (
+            <>¡Te has registrado correctamente! Ya puedes iniciar sesión.</>
+          ) : (
+            <>Ya existe una cuenta con este correo electrónico.</>
+          )}
         </Alert>
       </Snackbar>
       <Grid
@@ -91,7 +98,11 @@ const Register: React.FC = () => {
             style={{
               justifyContent: 'center',
             }}
-            onChange={(e, value) => setRole(value)}
+            onChange={(e, value) => {
+              if (value !== null) {
+                setRole(value);
+              }
+            }}
           >
             <ToggleButton value='USER'>Pasajero</ToggleButton>
             <ToggleButton value='DRIVER'>Conductor</ToggleButton>

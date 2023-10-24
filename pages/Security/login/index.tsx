@@ -11,7 +11,7 @@ import {
   TextField,
 } from '@mui/material';
 import Typography from '@mui/material/Typography';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -20,10 +20,6 @@ const Login: React.FC = () => {
   const auth = useAuth();
 
   const [open, setOpen] = useState(false);
-
-  useEffect(() => {
-    setOpen(auth.isAuthenticated);
-  }, [auth.isAuthenticated]);
 
   const handleClose = (
     event?: React.SyntheticEvent | Event,
@@ -43,10 +39,16 @@ const Login: React.FC = () => {
       >
         <Alert
           variant='filled'
-          severity='success'
+          severity={auth.login.isSuccess ? 'success' : 'error'}
           sx={{ width: '100%', fontSize: '16px' }}
         >
-          Has iniciado sesión como <b>{auth.user.email}</b>
+          {auth.login.isSuccess ? (
+            <>
+              Has iniciado sesión como <b>{auth.user.email}</b>
+            </>
+          ) : (
+            <>Correo electrónico o contraseña incorrectos</>
+          )}
         </Alert>
       </Snackbar>
       <Grid
@@ -99,7 +101,12 @@ const Login: React.FC = () => {
                 width: '100%',
               }}
               disabled={auth.isLoading}
-              onClick={() => auth.login({ email, password })}
+              onClick={() =>
+                auth.login.mutate(
+                  { email, password },
+                  { onSettled: () => setOpen(true) }
+                )
+              }
             >
               Entrar
             </Button>
