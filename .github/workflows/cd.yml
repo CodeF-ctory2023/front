@@ -1,0 +1,35 @@
+name: Continuous Deployment
+on:
+  push:
+    branches:
+      - trunk
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Node Setup
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'npm'
+      - name: Depencencies Install
+        run: npm i
+      - name: Lint
+        run: npm run lint
+      - name: Test
+        run: npm run test:ci
+      - name: Build
+        run: npm run build
+      - name: AWS CLI Config
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+      - name: S3 Synchronization
+        run: aws s3 sync ./out/ s3://${{ secrets.S3_BUCKET }}/ --delete
+      - name: CloudFront cache invalidation
+        run: aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"
