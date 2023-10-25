@@ -4,7 +4,7 @@ export const Footer = () => {
   return (
     <footer
   className='md:fixed w-full bg-sky-600 bottom-0 flex justify-between max-sm:flex-col items-start 
-  max-sm:items-center text-center self-stretch pt-4 pb-4 md:pr-36 md:pl-12 sm:pr-24 sm:pl-8 px-8 gap-9'
+  max-sm:items-center text-center self-stretch pt-1  md:pr-36 md:pl-12 sm:pr-24 sm:pl-8 px-8 gap-9'
 >
       <div className='flex flex-col gap-2'>
         <div className='text-white font-semibold text-4xl'>SSMU</div>

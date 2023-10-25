@@ -43,6 +43,7 @@ const PoliticasDePagoPage = () => {
   
       
     };
+    const resultado = 100 - (parseFloat(inputValue1) + parseFloat(inputValue2) || 0);    
     return (
 <Layout>
                   
@@ -72,7 +73,7 @@ const PoliticasDePagoPage = () => {
       <label htmlFor="Porcentaje Intermediacion" className="text-left">Porcentaje Intermediación (%)</label>
     </div>
     <div className="flex-2">
-      <input type="number" id="Porcentaje Intermediacion" name="Porcentaje Intermediacion" className="w-full p-1 bg-gray-200 border border-transparent rounded-lg text-base" />
+      <input type="number" value={resultado} readOnly className="w-full p-1 bg-gray-200 border border-transparent rounded-lg text-base" />
     </div>
   </div>
 
