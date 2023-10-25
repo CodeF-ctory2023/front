@@ -3,7 +3,7 @@ import Link from 'next/link';
 export const Footer = () => {
   return (
     <footer
-      className='md:fixed w-full bg-sky-600 flex justify-between max-sm:flex-col items-start 
+      className='md:fixed w-full bg-sky-600 bottom-0 flex justify-between max-sm:flex-col items-start 
     max-sm:items-center text-center self-stretch pt-9 pb-14 md:pr-36 md:pl-12 sm:pr-24 sm:pl-8 px-8 gap-9'
     >
       <div className='flex flex-col gap-2'>
