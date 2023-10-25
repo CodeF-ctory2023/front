@@ -16,7 +16,10 @@ const AdminPage = () => {
             router.push(`${base_page}/Tarifas`);
           }}
         />
-        <Button text='GESTIÓN DE CUENTA'></Button>
+        <Button text='GESTIÓN DE CUENTA'onClick={() => {
+            router.push(`${base_page}/GestionDeCuenta`);
+          }}
+        />
       </div>
     </Layout>
   );
