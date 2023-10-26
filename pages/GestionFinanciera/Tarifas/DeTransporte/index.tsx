@@ -9,6 +9,7 @@ import {
 } from '@mui/material';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import { NumericFormat } from 'react-number-format';
 
 const DeTransportePage = () => {
   const router = useRouter();
@@ -23,30 +24,24 @@ const DeTransportePage = () => {
     fechas: '',
   });
 
-  const testPatternAndUpdate = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    inputType: 'default' | 'int' | 'float'
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    const regexDict = {
-      default: /./,
-      int: /^[0-9\b]+$/,
-      float: /^[0-9\b]*(\.)?[0-9\b]*$/,
-    };
-    const [name, value] = [e.target.name, e.target.value];
-    if (value === '' || regexDict[inputType].test(value)) {
-      setFormData((prevData) => {
-        return {
-          ...prevData,
-          [name]: value,
-        };
-      });
-    }
+    setFormData((prevData) => {
+      return {
+        ...prevData,
+        [e.target.name]: e.target.value,
+      };
+    });
   };
+
   const handleSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
 
     const recargoValido =
-      formData.recargo.length > 0 && parseFloat(formData.recargo) <= 30;
+      formData.recargo.length > 0 &&
+      parseFloat(formData.recargo) >= 0 &&
+      parseFloat(formData.recargo) <= 30;
     const fechasValidas =
       formData.startDate.length > 0 &&
       formData.endDate.length > 0 &&
@@ -54,7 +49,7 @@ const DeTransportePage = () => {
 
     if (!recargoValido || !fechasValidas) {
       setErrors({
-        recargo: !recargoValido ? 'Ingrese un valor no mayor al 30%' : '',
+        recargo: !recargoValido ? 'Ingrese un valor entre el 0% y 30%' : '',
         fechas: !fechasValidas ? 'Ingrese un rango de fechas válido' : '',
       });
 
@@ -67,6 +62,7 @@ const DeTransportePage = () => {
       fechas: '',
     });
 
+    //TODO: move to api folder
     fetch('https://jsonplaceholder.typicode.com/posts', {
       method: 'POST',
       body: JSON.stringify({
@@ -107,32 +103,35 @@ const DeTransportePage = () => {
             <Typography variant='body1'>
               Valor por kilómetro cubierto:
             </Typography>
-            <TextField
+            <NumericFormat
+              customInput={TextField}
               required
+              label='$/Km'
               id='valorPorKm'
               name='valorPorKm'
               value={formData.valorPorKm}
               variant='filled'
               size='small'
-              label='$/Km'
-              onChange={(e) => testPatternAndUpdate(e, 'int')}
-            ></TextField>
+              decimalScale={0}
+              thousandSeparator
+              onChange={handleChange}
+            />
           </Grid>
           <Grid item className='flex justify-between items-baseline gap-4'>
             <Typography variant='body1'>Recargo:</Typography>
-            <TextField
+            <NumericFormat
+              customInput={TextField}
               required
               error={errors.recargo.length > 0}
               helperText={errors.recargo}
+              label='%'
               id='recargo'
               name='recargo'
               value={formData.recargo}
               variant='filled'
               size='small'
-              label='%'
-              className=''
-              onChange={(e) => testPatternAndUpdate(e, 'float')}
-            ></TextField>
+              onChange={handleChange}
+            ></NumericFormat>
           </Grid>
           <Grid item className='flex w-fit flex-nowrap items-baseline gap-4'>
             <Typography variant='body1'>Fechas de vigencia:</Typography>
@@ -142,7 +141,7 @@ const DeTransportePage = () => {
               name='startDate'
               type='date'
               size='small'
-              onChange={(e) => testPatternAndUpdate(e, 'default')}
+              onChange={handleChange}
             ></TextField>
             -
             <TextField
@@ -151,7 +150,7 @@ const DeTransportePage = () => {
               name='endDate'
               type='date'
               size='small'
-              onChange={(e) => testPatternAndUpdate(e, 'default')}
+              onChange={handleChange}
             ></TextField>
           </Grid>
           {errors.fechas.length > 0 && (
