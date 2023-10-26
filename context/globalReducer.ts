@@ -23,6 +23,18 @@ export const globalReducer = (state: State, action: Action): State => {
           radius: action.payload.radius,
         },
       };
+    case ReducerActions.ADD_SERVICE:
+      return {
+        ...state,
+        services: [...state.services, action.payload],
+      };
+    case ReducerActions.REMOVE_SERVICE:
+      return {
+        ...state,
+        services: state.services.filter((service) => {
+          if (!(service.serviceId === action.payload)) return service;
+        }),
+      };
     default:
       return state;
   }

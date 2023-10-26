@@ -1,5 +1,5 @@
 import { useGlobalContext } from '@/context/Global';
-import { MarkerType, MarkerTypes, ReducerActions } from '@/types';
+import { Service, MarkerType, MarkerTypes, ReducerActions } from '@/types';
 import { UserLocation } from '@/types/Form';
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
@@ -7,6 +7,13 @@ import { useState, useEffect } from 'react';
 export const useServiceForm = () => {
   const { state, dispatch } = useGlobalContext();
   const router = useRouter();
+
+  const [service, setService] = useState<Service>({
+    serviceId: '',
+    locationName: '',
+    destinationName: '',
+    activeService: false,
+  });
 
   const [userLocation, setUserLocation] = useState<UserLocation>({
     locationCoords: [],
@@ -44,6 +51,13 @@ export const useServiceForm = () => {
     }));
   };
 
+  const updateService = (currentService: object) => {
+    setService((prevService) => ({
+      ...prevService,
+      ...currentService,
+    }));
+  };
+
   // const updateDestinationLocation = (newLocation: object) => {
   //   setDestinationLocation((prevLocation) => ({
   //     ...prevLocation,
@@ -53,6 +67,10 @@ export const useServiceForm = () => {
 
   const addMarker = (marker: MarkerType) => {
     dispatch({ type: ReducerActions.ADD, payload: marker });
+  };
+
+  const addService = (service: Service) => {
+    dispatch({ type: ReducerActions.ADD_SERVICE, payload: service });
   };
 
   // const removeMarker = (type: string) => {
@@ -85,8 +103,10 @@ export const useServiceForm = () => {
 
           if (showMarker) return;
 
+          const id = crypto.randomUUID();
+
           addMarker({
-            id: crypto.randomUUID(),
+            id,
             lat: pos.coords.latitude,
             long: pos.coords.longitude,
             icon: '/assets/img/icon/user.svg',
@@ -95,7 +115,7 @@ export const useServiceForm = () => {
           });
 
           addMarker({
-            id: crypto.randomUUID(),
+            id,
             lat: 6.267385,
             long: -75.567318,
             icon: '/assets/img/icon/location-dest.svg',
@@ -104,6 +124,12 @@ export const useServiceForm = () => {
           });
 
           updateLocation({ showMarker: true });
+
+          updateService({
+            serviceId: id,
+            locationName: data?.display_name,
+            destinationName: 'Universidad de Antioquia',
+          });
         } catch (error) {
           updateLocation({
             activeLocation: false,
@@ -184,16 +210,31 @@ export const useServiceForm = () => {
       return;
     }
 
+    // updateService({ activeService: true });
+    const activeService = state.services.find(
+      (serv) => serv.serviceId === service.serviceId
+    );
+
+    if (!activeService) {
+      addService(service);
+    }
+
     router.replace('drivers/01');
     // console.log('¡Envío exitoso!');
   };
 
-  useEffect(() => {
-    const { markers } = state;
-    const userMarker = markers.find((marker) => marker.type == 'user');
+  // useEffect(() => {
+  //   addService(service);
+  // }, [service]);
 
-    if (!markers.length) return;
-    if (!userMarker) return;
+  useEffect(() => {
+    const { markers, services } = state;
+    const userMarker = markers.find((marker) => marker.type == 'user');
+    const currentService = services[0];
+
+    if (!markers.length || !userMarker) return;
+
+    // if (!userMarker) return;
 
     updateLocation({
       locationName: userMarker.name,
@@ -203,6 +244,15 @@ export const useServiceForm = () => {
       circleRadius: 100,
       showCircle: false,
       locationError: false,
+    });
+
+    if (!services.length || !currentService) return;
+
+    updateService({
+      locationName: currentService.locationName,
+      destinationName: currentService.destinationName,
+      serviceId: currentService.serviceId,
+      activeService: currentService.activeService,
     });
   }, []);
 

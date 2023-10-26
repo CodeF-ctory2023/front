@@ -17,12 +17,15 @@ export const MapRouting = () => {
   const [activeRoute, setActiveRoute] = useState(false);
   const [finishedRoute, setFinishedRoute] = useState(false);
   const [location, setLocation] = useState<number[]>([]);
+  // const [driverLocation, setDriverLocation] = useState<number[]>([
+  //   6.279685, -75.55757,
+  // ]);
   const [driverLocation, setDriverLocation] = useState<number[]>([
-    6.279685, -75.55757,
+    6.309716, -75.571136,
   ]);
   const { state, dispatch } = useGlobalContext();
-  const { markers } = state;
-  const markerRef = useRef(null);
+  const { markers, services } = state;
+  const markerRef = useRef<L.Marker>();
   const routingControlRef = useRef(null);
 
   const map = useMap();
@@ -34,9 +37,16 @@ export const MapRouting = () => {
 
     if (!userMarker) return;
 
+    const currentService = services.find(
+      (service) => service.serviceId === userMarker.id
+    );
+    // console.log(currentService);
+
+    if (!currentService.activeService) return;
+
     setLocation([userMarker.lat, userMarker.long]);
     setActiveRoute(true);
-  }, []);
+  }, [markers, services]);
 
   useEffect(() => {
     if (!activeRoute) return;
@@ -77,7 +87,7 @@ export const MapRouting = () => {
 
         setTimeout(() => {
           animateMarker(coordinates, instructions, index + 1);
-        }, 150);
+        }, 40);
       } else {
         setActiveRoute(false); // La ruta actual ha terminado
         setFinishedRoute(true); // Iniciar la siguiente ruta
@@ -124,6 +134,8 @@ export const MapRouting = () => {
         animateMarker(coordinates, instructions, 0);
       }
     );
+
+    // setActiveRoute(false);
   }, [activeRoute]);
 
   useEffect(() => {

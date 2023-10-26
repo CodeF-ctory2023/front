@@ -1,14 +1,14 @@
-import { InputProps } from '@/types/Form';
+import { InputProps } from '@/types';
 import React from 'react';
 
-export const FormInput: React.FC<InputProps> = ({
+export const FormInput = ({
   inputType,
   inputValue,
   inputPlaceholder,
   inputDisabled,
   inputOnChange,
   inputIcon,
-}) => {
+}: InputProps) => {
   return (
     <div className='flex items-center gap-1 bg-white max-w-min pl-1 rounded-md'>
       {inputIcon}

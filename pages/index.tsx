@@ -6,7 +6,7 @@ const Home = () => {
   return (
     <div>
       <Map />
-      {/* <MenuUsers /> */}
+      <MenuUsers />
       <ServiceForm />
     </div>
   );

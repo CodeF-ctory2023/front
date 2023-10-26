@@ -25,7 +25,7 @@ const Map = () => {
       />
       {state?.markers.map((marker: MarkerType) => (
         <Marker
-          key={marker?.id}
+          key={`${marker.type}-${marker?.id}`}
           position={[marker?.lat, marker?.long]}
           icon={L.icon({
             iconUrl: marker?.icon,
