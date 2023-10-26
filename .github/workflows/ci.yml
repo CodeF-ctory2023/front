@@ -1,9 +1,9 @@
-name: CI-CD
+name: Continuous Integration
 
 on: [pull_request, push]
 
 jobs:
-  build:
+  integrate:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -19,3 +19,5 @@ jobs:
         run: npm run lint
       - name: Test
         run: npm run test:ci
+      - name: Build
+        run: npm run build
