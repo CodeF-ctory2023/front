@@ -1,32 +1,78 @@
-import Link from 'next/link';
+import { Grid, Link, Paper, Typography } from '@mui/material';
 
 export const Footer = () => {
   return (
-    <footer className='bg-sky-600 flex items-start self-stretch pt-9 pb-14 px-36 gap-9'>
-      <div className='flex flex-col items-start gap-2'>
-        <div className='text-white font-semibold text-4xl'>SSMU</div>
-        <div className='text-slate-300'>
-          Experimenta de viajes seguros y rápidos.
-        </div>
-      </div>
-      <div className='flex flex-col items-center gap-2'>
-        <div className='text-white text-xl flex items-center gap-2 font-semibold'>
-          CONTACTO
-        </div>
-        <div className='text-slate-300 flex flex-col items-center pt-4 gap-3'>
-          <div>+55555555</div>
-          <div>mail@mail.com</div>
-        </div>
-      </div>
-      <div className='flex flex-col items-center gap-2'>
-        <div className='text-white text-xl flex items-center gap-2 font-semibold'>
-          AYUDA
-        </div>
-        <div className='text-slate-300 flex flex-col items-center pt-4 gap-3'>
-          <Link href='/blank'>Políticas de privacidad</Link>
-          <Link href='/blank'>Políticas de uso</Link>
-        </div>
-      </div>
-    </footer>
+    <Paper
+      component='footer'
+      className='bottom-6 p-6'
+      sx={{ bgcolor: 'primary.light', color: 'primary.contrastText' }}
+    >
+      <Grid
+        container
+        direction={{ sm: 'row', xs: 'column' }}
+        spacing={4}
+        justifyContent={'space-around'}
+        // color={'primary.contrastText'}
+        // sx={{ bgcolor: 'primary.main' }}
+      >
+        <Grid
+          container
+          item
+          xs
+          direction={'column'}
+          spacing={0.4}
+          alignItems={'center'}
+        >
+          <Grid item>
+            <Typography variant='h4'>SSMU</Typography>
+          </Grid>
+          <Grid item>
+            <Typography variant='body2'>
+              Experimenta viajes seguros y rápidos
+            </Typography>
+          </Grid>
+        </Grid>
+        <Grid
+          container
+          item
+          xs
+          direction={'column'}
+          spacing={0.4}
+          alignItems={'center'}
+        >
+          <Grid item>
+            <Typography variant='h5'>CONTACTO</Typography>
+          </Grid>
+          <Grid item>
+            <Typography variant='body2'>+55555555</Typography>
+          </Grid>
+          <Grid item>
+            <Typography variant='body2'>mail@mail.com</Typography>
+          </Grid>
+        </Grid>
+        <Grid
+          container
+          item
+          xs
+          direction={'column'}
+          spacing={0.4}
+          alignItems={'center'}
+        >
+          <Grid item>
+            <Typography variant='h5'>AYUDA</Typography>
+          </Grid>
+          <Grid item>
+            <Link variant='body2' color={'primary.contrastText'} href='/blank'>
+              Políticas de privacidad
+            </Link>
+          </Grid>
+          <Grid item>
+            <Link variant='body2' color={'primary.contrastText'} href='/blank'>
+              Políticas de uso
+            </Link>
+          </Grid>
+        </Grid>
+      </Grid>
+    </Paper>
   );
 };

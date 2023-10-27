@@ -1,5 +1,5 @@
-import { Button } from '@/components/GestionFinanciera/Button';
 import { Layout } from '@/components/GestionFinanciera/Layout';
+import { Button } from '@mui/material';
 import { useRouter } from 'next/router';
 
 const TarifasPage = () => {
@@ -9,17 +9,29 @@ const TarifasPage = () => {
     <Layout>
       <div className='flex flex-col items-center justify-center py-6 px-4 gap-10'>
         <Button
-          text='TARIFAS DE TRANSPORTE SIN PARADA'
+          variant='contained'
+          size='large'
+          className='w-full'
           onClick={() => router.push('/GestionFinanciera/Tarifas/DeTransporte')}
-        />
+        >
+          TARIFAS DE TRANSPORTE SIN PARADA
+        </Button>
         <Button
-          text='TARIFAS POR CIUDAD'
+          variant='contained'
+          size='large'
+          className='w-full'
           onClick={() => router.push('/GestionFinanciera/Tarifas/PorCiudad')}
-        />
+        >
+          TARIFAS POR CIUDAD
+        </Button>
         <Button
-          text='REGRESAR'
+          variant='contained'
+          size='large'
+          className='w-full'
           onClick={() => router.push('/GestionFinanciera')}
-        />
+        >
+          REGRESAR
+        </Button>
       </div>
     </Layout>
   );

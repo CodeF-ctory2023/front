@@ -1,5 +1,7 @@
-import { NavBar } from '@/components/GestionFinanciera/NavBar';
 import { Footer } from '@/components/GestionFinanciera/Footer';
+import { NavBar } from '@/components/GestionFinanciera/NavBar';
+import { CircularProgress, Grid } from '@mui/material';
+import { Suspense } from 'react';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -7,12 +9,30 @@ interface LayoutProps {
 
 export const Layout = ({ children }: LayoutProps) => {
   return (
-    <div className='flex-col flex-grow items-start max-h-max text-xm'>
-      <NavBar />
-      <main className='flex flex-col flex-grow justify-center items-center self-stretch py-40 px-0 gap-20'>
-        {children}
-      </main>
-      <Footer />
-    </div>
+    // <ThemeRegistry options={{ key: 'mui' }}>
+    //   </ThemeRegistry>
+    <Grid
+      container
+      direction={'column'}
+      justifyContent='space-between'
+      gap={{ xs: 12 }}
+      alignContent='center'
+      alignItems='center'
+      minHeight='100vh'
+      height={{sm: '100vh'}}
+      wrap='nowrap'
+    >
+      <Grid item>
+        <NavBar />
+      </Grid>
+      {/* <main className='flex flex-col flex-grow justify-center items-center self-stretch'>
+      </main> */}
+      <Grid item className='flex justify-center w-full px-6'>
+        <Suspense fallback={<CircularProgress />}>{children}</Suspense>
+      </Grid>
+      <Grid item width='100vw'>
+        <Footer />
+      </Grid>
+    </Grid>
   );
 };
