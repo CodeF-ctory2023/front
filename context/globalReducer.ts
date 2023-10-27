@@ -11,7 +11,7 @@ export const globalReducer = (state: State, action: Action): State => {
       return {
         ...state,
         markers: state.markers.filter((marker: MarkerType) => {
-          if (!(marker.id === action.payload)) return marker;
+          if (marker.id !== action.payload) return marker;
         }),
       };
     case ReducerActions.SEARCH:
@@ -32,7 +32,7 @@ export const globalReducer = (state: State, action: Action): State => {
       return {
         ...state,
         services: state.services.filter((service) => {
-          if (!(service.serviceId === action.payload)) return service;
+          if (service.serviceId !== action.payload) return service;
         }),
       };
     default:

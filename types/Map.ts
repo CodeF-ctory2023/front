@@ -13,6 +13,12 @@ export enum MarkerTypes {
   DESTINATION = 'destination',
 }
 
+export type MarkerMessages = {
+  user: string;
+  driver: string;
+  destination: string;
+};
+
 export type NearbyDrivers = {
   showCircle: boolean;
   coords: number[];

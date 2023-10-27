@@ -14,14 +14,6 @@ const initialState: State = {
 };
 
 const init = () => {
-  // return {
-  //   markers: drivers.map((driver) => driver),
-  //   nearbyDrivers: {
-  //     showCircle: false,
-  //     coords: [],
-  //     radius: 0,
-  //   },
-  // };
   return {
     ...initialState,
     markers: drivers.map((driver) => driver),

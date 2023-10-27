@@ -56,22 +56,6 @@ export const ServiceForm = () => {
                 Este sitio web no tiene permiso para acceder a tu ubicación.
               </p>
             )}
-            {/* <div className='flex items-center gap-2'>
-            <FormInput
-              inputType='text'
-              inputValue={destinationName}
-              inputPlaceholder='Ubicación destino'
-              inputDisabled={false}
-              inputIcon={inputIcons.destLocation}
-              inputOnChange={handleDestinationLocation}
-            />
-            <button
-              className='bg-black text-white rounded-md py-1 px-3 max-w-min hover:bg-gray-800 transition duration-300'
-              onClick={handleSearchLocation}
-            >
-              Buscar
-            </button>
-          </div> */}
             <button
               className='bg-green-600 p-1 rounded-md text-sm text-white hover:bg-green-700 transition duration-300'
               type='submit'

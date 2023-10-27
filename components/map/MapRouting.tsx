@@ -17,9 +17,6 @@ export const MapRouting = () => {
   const [activeRoute, setActiveRoute] = useState(false);
   const [finishedRoute, setFinishedRoute] = useState(false);
   const [location, setLocation] = useState<number[]>([]);
-  // const [driverLocation, setDriverLocation] = useState<number[]>([
-  //   6.279685, -75.55757,
-  // ]);
   const [driverLocation, setDriverLocation] = useState<number[]>([
     6.309716, -75.571136,
   ]);
@@ -40,7 +37,6 @@ export const MapRouting = () => {
     const currentService = services.find(
       (service) => service.serviceId === userMarker.id
     );
-    // console.log(currentService);
 
     if (!currentService.activeService) return;
 
@@ -55,21 +51,9 @@ export const MapRouting = () => {
       dispatch({ type: ReducerActions.REMOVE, payload: id.toString() });
 
     const waypoints = [
-      // L.latLng(6.279685, -75.55757),
       L.latLng(driverLocation[0], driverLocation[1]),
       L.latLng(location[0], location[1]),
     ];
-
-    // const changeIcon = (direction: string) => {
-    //   console.log(direction);
-
-    //   const carIcon = L.icon({
-    //     iconUrl: `/assets/img/icon/car${direction}.svg`,
-    //     iconSize: [32, 32],
-    //     iconAnchor: [16, 32],
-    //   });
-    //   return carIcon;
-    // };
 
     const animateMarker = (
       coordinates: LatLngExpression[],
@@ -89,17 +73,14 @@ export const MapRouting = () => {
           animateMarker(coordinates, instructions, index + 1);
         }, 40);
       } else {
-        setActiveRoute(false); // La ruta actual ha terminado
-        setFinishedRoute(true); // Iniciar la siguiente ruta
+        setActiveRoute(false);
+        setFinishedRoute(true);
       }
     };
 
     if (routingControlRef.current) {
       map.removeControl(routingControlRef.current);
       routingControlRef.current = null;
-
-      // const user = markers.find((marker) => marker.type === 'user');
-      // if (user) dispatch({ type: ReducerActions.REMOVE, payload: user?.id });
     }
 
     const routingControl = L.Routing.control({
@@ -119,7 +100,6 @@ export const MapRouting = () => {
       },
     }).addTo(map);
 
-    // Guardar la referencia al control de enrutamiento actual
     routingControlRef.current = routingControl;
 
     routingControl.on(
@@ -127,15 +107,11 @@ export const MapRouting = () => {
       (e: {
         routes: { coordinates: LatLngExpression[]; instructions: object[] }[];
       }) => {
-        // console.log(e.routes[0].instructions);
-
         const coordinates = e.routes[0].coordinates;
         const instructions = e.routes[0].instructions;
         animateMarker(coordinates, instructions, 0);
       }
     );
-
-    // setActiveRoute(false);
   }, [activeRoute]);
 
   useEffect(() => {
@@ -147,8 +123,7 @@ export const MapRouting = () => {
       if (destinationMarker) {
         setDriverLocation([location[0], location[1]]);
         setLocation([destinationMarker.lat, destinationMarker.long]);
-        setActiveRoute(true); // Iniciar la siguiente ruta
-        // setUserRoute(false);
+        setActiveRoute(true);
       }
     }
   }, [finishedRoute, markers]);

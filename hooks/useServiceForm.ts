@@ -35,15 +35,6 @@ export const useServiceForm = () => {
     locationError,
   } = userLocation;
 
-  // const [destinationLocation, setDestinationLocation] =
-  //   useState<DestinationLocation>({
-  //     destinationCoords: [],
-  //     destinationName: '',
-  //     destinationError: false,
-  //   });
-  // const { destinationCoords, destinationName, destinationError } =
-  //   destinationLocation;
-
   const updateLocation = (newLocation: object) => {
     setUserLocation((prevLocation) => ({
       ...prevLocation,
@@ -58,13 +49,6 @@ export const useServiceForm = () => {
     }));
   };
 
-  // const updateDestinationLocation = (newLocation: object) => {
-  //   setDestinationLocation((prevLocation) => ({
-  //     ...prevLocation,
-  //     ...newLocation,
-  //   }));
-  // };
-
   const addMarker = (marker: MarkerType) => {
     dispatch({ type: ReducerActions.ADD, payload: marker });
   };
@@ -72,10 +56,6 @@ export const useServiceForm = () => {
   const addService = (service: Service) => {
     dispatch({ type: ReducerActions.ADD_SERVICE, payload: service });
   };
-
-  // const removeMarker = (type: string) => {
-  //   dispatch({ type: ReducerActions.REMOVE, payload: type });
-  // };
 
   const handleLocation = () => {
     if (userLocation.showMarker) return;
@@ -141,41 +121,6 @@ export const useServiceForm = () => {
     );
   };
 
-  // const getCoords = async (locationName: string) => {
-  //   try {
-  //     const resp = await fetch(
-  //       `https://nominatim.openstreetmap.org/search?format=json&limit=1&q=${locationName}`
-  //     );
-
-  //     if (!resp.ok) throw new Error('No se pudo obtener la ubicación destino.');
-
-  //     const [data] = await resp.json();
-
-  //     if (!data) return;
-
-  //     const [lat, long] = [data?.lat, data?.lon];
-  //     updateDestinationLocation({ destinationCoords: [lat, long] });
-
-  //     removeMarker(MarkerTypes.DESTINATION);
-
-  //     addMarker({
-  //       id: crypto.randomUUID(),
-  //       lat,
-  //       long,
-  //       icon: '/assets/img/icon/location-dest.svg',
-  //       type: MarkerTypes.DESTINATION,
-  //     });
-  //   } catch (error) {
-  //     updateDestinationLocation({
-  //       destinationError: true,
-  //     });
-  //   }
-  // };
-
-  // const handleSearchLocation = () => {
-  //   getCoords(destinationName.replace(' ', '+'));
-  // };
-
   const handleNearbyDrivers = () => {
     if (!locationCoords.length) return;
 
@@ -191,12 +136,6 @@ export const useServiceForm = () => {
     });
   };
 
-  // const handleDestinationLocation = (
-  //   e: React.ChangeEvent<HTMLInputElement>
-  // ) => {
-  //   updateDestinationLocation({ destinationName: e.target.value });
-  // };
-
   const handleCircleRadius = (e: React.ChangeEvent<HTMLInputElement>) => {
     updateLocation({ circleRadius: Number(e.target.value) });
   };
@@ -204,13 +143,11 @@ export const useServiceForm = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // if (!locationCoords.length || !destinationCoords.length) return;
     if (!locationCoords.length) {
       updateLocation({ locationError: true });
       return;
     }
 
-    // updateService({ activeService: true });
     const activeService = state.services.find(
       (serv) => serv.serviceId === service.serviceId
     );
@@ -220,12 +157,7 @@ export const useServiceForm = () => {
     }
 
     router.replace('drivers/01');
-    // console.log('¡Envío exitoso!');
   };
-
-  // useEffect(() => {
-  //   addService(service);
-  // }, [service]);
 
   useEffect(() => {
     const { markers, services } = state;
@@ -233,8 +165,6 @@ export const useServiceForm = () => {
     const currentService = services[0];
 
     if (!markers.length || !userMarker) return;
-
-    // if (!userMarker) return;
 
     updateLocation({
       locationName: userMarker.name,
@@ -261,12 +191,8 @@ export const useServiceForm = () => {
     activeLocation,
     circleRadius,
     locationError,
-    // destinationName,
-    // destinationError,
     handleLocation,
-    // handleSearchLocation,
     handleNearbyDrivers,
-    // handleDestinationLocation,
     handleCircleRadius,
     handleSubmit,
   };

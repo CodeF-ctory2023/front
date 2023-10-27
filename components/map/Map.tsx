@@ -6,6 +6,12 @@ import { MarkerType } from '@/types';
 import { MapRouting } from './MapRouting';
 import { useRouter } from 'next/router';
 
+const markerDescriptions: { [key: string]: string } = {
+  user: 'el usuario 👤',
+  driver: 'un conductor 🚗',
+  destination: 'el punto de destino 📍',
+};
+
 const Map = () => {
   const { state } = useGlobalContext();
 
@@ -33,14 +39,7 @@ const Map = () => {
             iconAnchor: [16, 32],
           })}
         >
-          <Popup>
-            Aquí está{' '}
-            {marker.type === 'user'
-              ? 'el usuario 👤'
-              : marker.type === 'driver'
-              ? 'un conductor 🚗'
-              : 'el punto de destino 📍'}
-          </Popup>
+          <Popup>Aquí está {markerDescriptions[marker.type]}</Popup>
         </Marker>
       ))}
       {state?.nearbyDrivers?.showCircle ? (
