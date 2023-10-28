@@ -1,19 +1,33 @@
+import {
+  actualizarTarifaPorCiudad,
+  obtenerTarifasPorCiudad,
+} from '@/api/GestionFinanciera/Tarifas';
 import { Layout } from '@/components/GestionFinanciera/Layout';
 import {
+  CityFeeRequest,
+  CityFeeResponse,
+} from '@/interfaces/CityFee.interface';
+import {
+  Alert,
   Autocomplete,
   Button,
   Grid,
+  LinearProgress,
   Paper,
   TextField,
   Typography,
 } from '@mui/material';
 import { useRouter } from 'next/router';
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { NumericFormat } from 'react-number-format';
 
-const cities = ['Medellín', 'Bogotá', 'Cali'];
-
 const PorCiudadPage = () => {
+  const [submitStatus, setSubmitStatus] = useState<
+    'pending' | 'success' | 'error' | undefined
+  >(undefined);
+  const [citiesMap, setCitiesMap] = useState<
+    Map<string, { cityId: number; percentage: number }>
+  >(new Map());
   const [formData, setFormData] = useState({
     city: '',
     percentage: '',
@@ -24,6 +38,33 @@ const PorCiudadPage = () => {
   });
 
   const router = useRouter();
+
+  useEffect(() => {
+    obtenerTarifasPorCiudad().then((res) => {
+      if (res.status == 200) {
+        const data: CityFeeResponse = res.data;
+        const map = new Map(
+          data.map((cityFee) => {
+            return [
+              cityFee.name,
+              { cityId: cityFee.id, percentage: cityFee.percentage },
+            ];
+          })
+        );
+        setCitiesMap(map);
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    const cityPercentage = citiesMap?.get(formData.city)?.percentage;
+    setFormData((prevData) => {
+      return {
+        ...prevData,
+        percentage: cityPercentage?.toString() || '',
+      };
+    });
+  }, [formData.city, citiesMap]);
 
   const handleChange = (e: { target: { name: string; value: unknown } }) => {
     setFormData((prevData) => {
@@ -36,10 +77,9 @@ const PorCiudadPage = () => {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const validCity =
-      formData.city.length > 0 && new Set(cities).has(formData.city);
+    const validCity = formData.city.length > 0 && citiesMap?.has(formData.city);
     const validPercentage =
-      formData.percentage.length > 0 &&
+      !isNaN(parseFloat(formData.percentage)) &&
       Math.abs(parseFloat(formData.percentage)) <= 30;
 
     if (!validCity || !validPercentage) {
@@ -54,17 +94,22 @@ const PorCiudadPage = () => {
       percentage: '',
     });
 
-    fetch('https://jsonplaceholder.typicode.com/posts', {
-      method: 'POST',
-      body: JSON.stringify(formData),
-      headers: {
-        'Content-type': 'application/json; charset=UTF-8',
-      },
-    }).then((response) => {
-      if (response.ok) {
-        return response.json();
-      }
-    });
+    setSubmitStatus('pending');
+
+    const requestData: CityFeeRequest = {
+      cityId: citiesMap.get(formData.city)?.cityId || NaN,
+      percentage: parseFloat(formData.percentage),
+    };
+
+    actualizarTarifaPorCiudad(requestData)
+      .then((res) => {
+        if (res.status == 200) {
+          setSubmitStatus('success');
+        }
+      })
+      .catch(() => {
+        setSubmitStatus('error');
+      });
   };
 
   return (
@@ -86,7 +131,7 @@ const PorCiudadPage = () => {
             <Autocomplete
               id='city'
               value={formData.city}
-              options={cities}
+              options={Array.from(citiesMap.keys())}
               noOptionsText=''
               size='small'
               className='w-1/2'
@@ -100,9 +145,9 @@ const PorCiudadPage = () => {
                   {...params}
                 />
               )}
-              onChange={(_evt, newValue: string | null) => {
+              onChange={(_evt, newCity: string | null) => {
                 handleChange({
-                  target: { name: 'city', value: newValue ? newValue : '' },
+                  target: { name: 'city', value: newCity },
                 });
               }}
             />
@@ -125,6 +170,15 @@ const PorCiudadPage = () => {
               customInput={TextField}
               onChange={handleChange}
             />
+          </Grid>
+          <Grid item>
+            {submitStatus == 'success' && (
+              <Alert severity={'success'}>Guardado éxitoso</Alert>
+            )}
+            {submitStatus == 'error' && (
+              <Alert severity='error'>No se pudo actualizar la tarifa</Alert>
+            )}
+            {submitStatus == 'pending' && <LinearProgress></LinearProgress>}
           </Grid>
           <Grid item className='flex justify-evenly gap-2'>
             <Button variant='contained' size='large' type='submit'>
