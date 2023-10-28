@@ -31,7 +31,7 @@ const AdminPage = () => {
             className='w-full'
             onClick={() => router.push('/GestionFinanciera/GestionDeCuenta')}
           >
-            GESTIÓN DE CUENTA
+            GESTION DE CUENTA
           </Button>
         </Grid>
       </Grid>
