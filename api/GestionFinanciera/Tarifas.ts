@@ -2,7 +2,7 @@
 import { CityFeeRequest } from '@/interfaces/CityFee.interface';
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8080/ssmu-api/api';
+const API_URL = 'http://localhost:8080/ssmu-api/';
 
 const api = axios.create({ baseURL: API_URL, timeout: 3000 });
 
