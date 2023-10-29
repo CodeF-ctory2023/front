@@ -58,6 +58,11 @@ const PoliticasDePagoPage = () => {
       setSumError('El porcentaje de intermediación debe ser mayor que 0 y menor que 100.');
       return;
     }
+    else{
+      setInputValue1(''); // Establecer el campo 1 como vacío
+      setInputValue2(''); // Establecer el campo 2 como vacío
+      return;
+    }
 
     // Resto del código para guardar los valores si todo está correcto
   };
