@@ -7,9 +7,9 @@ import { useRouter } from 'next/router';
 
 function createData(
   Usuario: string,
-  FechayHora: String,
-  Valor: String,
-  Estado: String,
+  FechayHora: string,
+  Valor: string,
+  Estado: string,
   
 ) {
   return { Usuario, FechayHora, Valor, Estado };
