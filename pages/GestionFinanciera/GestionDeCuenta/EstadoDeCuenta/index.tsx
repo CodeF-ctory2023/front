@@ -5,22 +5,21 @@ import { Button, Grid,TableContainer,Table,TableHead,TableCell,TableRow,TableBod
 import { useRouter } from 'next/router';
 
 
-function createData(
-  Usuario: string,
-  FechayHora: string,
-  Valor: string,
-  Estado: string,
-  
-) {
-  return { Usuario, FechayHora, Valor, Estado };
-}
+type User={
+  Usuario: string;
+  FechayHora: string;
+  Valor: string;
+  Estado: string;
 
-const rows = [
-  createData('Juan', "10-10-23 11:05", "$14000", "Por liquidar" ),
-  createData('Jose'," 10-10-23 01:05", "$5555", "Por liquidar"),
-  createData('David', "10-1-23 11:05", "$5554242", "Por liquidar"),
-  createData('Andrés', "9-10-21 11:05", "$34234"," Por liquidar"),
-  createData('Daniel', "1-8-22 11:05", "$2131321", "Por liquidar"),
+};
+
+
+const rows: User[] = [
+  {Usuario:'Juan', FechayHora:"10-10-23 11:05", Valor:"$14000",Estado: "Por liquidar" },
+  {Usuario:'Jose',FechayHora:" 10-10-23 01:05",Valor: "$5555", Estado:"Por liquidar"},
+  {Usuario:'David', FechayHora:"10-1-23 11:05", Valor:"$5554242", Estado:"Por liquidar"},
+  {Usuario:'Andrés', FechayHora:"9-10-21 11:05", Valor:"$34234",Estado:" Por liquidar"},
+  {Usuario:'Daniel', FechayHora:"9-10-21 11:08", Valor:"$38558142",Estado:" Por liquidar"},
 ];
 
 
