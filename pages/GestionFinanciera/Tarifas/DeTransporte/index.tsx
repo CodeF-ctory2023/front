@@ -1,4 +1,5 @@
 import { Layout } from '@/components/GestionFinanciera/Layout';
+import { NonStopFee } from '@/interfaces/NonStopFee.interfaces';
 import {
   Alert,
   Button,
@@ -7,6 +8,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
+import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { NumericFormat } from 'react-number-format';
@@ -62,27 +64,24 @@ const DeTransportePage = () => {
       fechas: '',
     });
 
-    //TODO: move to api folder
-    fetch('https://jsonplaceholder.typicode.com/posts', {
-      method: 'POST',
-      body: JSON.stringify({
-        valorKm: formData.valorPorKm,
-        recargo: formData.recargo,
-        fechaInicio: formData.startDate,
-        fechaFin: formData.endDate,
-      }),
-      headers: {
-        'Content-type': 'application/json; charset=UTF-8',
-      },
-    })
-      .then((response) => {
-        if (response.ok) {
-          router.reload();
-          return response.json();
+    //TODO: change to parseFloat
+    const req: NonStopFee = {
+      price: parseInt(formData.valorPorKm),
+      surcharge: parseInt(formData.recargo),
+      begin_date: formData.startDate,
+      end_date: formData.endDate,
+    };
+
+    axios
+      .post('http://localhost:8080/ssmu-api/rates/transportation', req)
+      .then((res) => {
+        if (res.status == 200) {
+          // eslint-disable-next-line no-console
+          console.log(res);
         }
       })
       // eslint-disable-next-line no-console
-      .then((json) => console.log(json));
+      .catch((err) => console.error(err.toJSON()));
   };
 
   return (
