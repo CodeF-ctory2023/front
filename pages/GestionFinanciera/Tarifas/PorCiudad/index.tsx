@@ -131,7 +131,7 @@ const PorCiudadPage = () => {
 
   return (
     <Layout>
-      <Grow in>
+      <Grow in={fetchStatus != undefined}>
         <Paper
           component='form'
           elevation={4}
