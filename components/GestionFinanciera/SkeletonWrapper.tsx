@@ -24,7 +24,7 @@ export const SkeletonWrapper = ({
           height={child.props.height}
           variant='rounded'
           animation='wave'
-          className={className || 'w-1/2 h-1/4'}
+          className={className ?? 'w-1/2 h-1/4'}
         ></Skeleton>
       );
     });
