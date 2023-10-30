@@ -1,3 +1,5 @@
+'use client';
+
 import {
   actualizarTarifaPorCiudad,
   obtenerTarifasPorCiudad,
@@ -217,10 +219,10 @@ const PorCiudadPage = () => {
             </Grid>
             <Grid item className='flex justify-evenly gap-2'>
               {fetchStatus == 'pending' ? (
-                  <SkeletonWrapper
-                    className='w-full'
-                    loading={fetchStatus == 'pending'}
-                  ></SkeletonWrapper>
+                <SkeletonWrapper
+                  className='w-full'
+                  loading={fetchStatus == 'pending'}
+                ></SkeletonWrapper>
               ) : (
                 <GrowWrapper>
                   <Button
