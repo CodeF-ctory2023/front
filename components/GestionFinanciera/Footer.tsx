@@ -4,7 +4,7 @@ export const Footer = () => {
   return (
     <Paper
       component='footer'
-      className='bottom-6 p-6'
+      className='bottom-0 relative p-6'
       sx={{ bgcolor: 'primary.light', color: 'primary.contrastText' }}
     >
       <Grid
