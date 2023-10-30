@@ -6,6 +6,9 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  env: {
+    NEXT_PUBLIC_API_URL: 'http://localhost:8080/ssmu-api',
+  },
 };
 
 module.exports = nextConfig;
