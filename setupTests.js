@@ -1,5 +1,5 @@
 // Import the jest-dom matchers
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom';
 
 // Any global setup logic can go here, for example:
 // Setting up a mock localStorage
