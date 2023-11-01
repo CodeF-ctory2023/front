@@ -2,20 +2,19 @@ import { Layout } from '@/components/GestionFinanciera/Layout';
 import { NonStopFee } from '@/interfaces/NonStopFee.interfaces';
 import {
   Alert,
-  Box,
   Button,
   Grid,
   LinearProgress,
   Paper,
   TextField,
-  Typography,
+  Typography
 } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers';
 import axios from 'axios';
+import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { NumericFormat } from 'react-number-format';
-import dayjs from 'dayjs';
 
 const DeTransportePage = () => {
   const router = useRouter();
@@ -106,18 +105,20 @@ const DeTransportePage = () => {
     <Layout>
       <Paper
         component='form'
-        className='p-6'
         elevation={4}
+        className='p-6'
         onSubmit={handleSubmit}
       >
-        {/*FIXME: too much width */}
         <Grid container direction='column' spacing={{ xs: 2, sm: 4 }}>
-          <Grid item className='flex justify-center '>
+          <Grid item className='flex justify-center'>
             <Typography variant='subtitle1' fontWeight={600}>
               TARIFAS DE TRANSPORTE SIN PARADA
             </Typography>
           </Grid>
-          <Grid item className='flex justify-between items-center gap-4'>
+          <Grid
+            item
+            className='flex justify-between items-baseline gap-4'
+          >
             <Typography variant='body1'>
               Valor por kilómetro cubierto:
             </Typography>
@@ -135,7 +136,7 @@ const DeTransportePage = () => {
               onChange={handleChange}
             />
           </Grid>
-          <Grid item className='flex justify-between items-center gap-4'>
+          <Grid item className='flex justify-between items-baseline gap-4'>
             <Typography variant='body1' className=''>
               Recargo:
             </Typography>
@@ -153,16 +154,26 @@ const DeTransportePage = () => {
               onChange={handleChange}
             ></NumericFormat>
           </Grid>
+
           <Grid
+            container
             item
-            className='flex w-fit flex-nowrap justify-between items-baseline gap-4'
+            spacing={{ xs: 1, sm: 2 }}
+            sx={{ flexWrap: { sm: 'nowrap' } }}
+            justifyContent={{ sm: 'start', xs: 'center' }}
+            className='flex items-baseline justify-between gap-2'
           >
-            <Typography variant='body1'>Fechas de vigencia:</Typography>
-            <Box className='flex justify-center items-center w-1/2 gap-2'>
+            <Grid item>
+              <Typography variant='body1'>Fechas de vigencia:</Typography>
+            </Grid>
+            <Grid item className='flex items-center flex-nowrap gap-2'>
               <DatePicker
+                // slotProps={{ textField: { style: { width: '50%' } } }}
+                // sx={{ width: '150px' }}
+                slotProps={{ textField: { variant: 'filled' } }}
                 label='Inicio'
                 value={formData.startDate}
-                className='w-1/2'
+                className='w-36'
                 onChange={(newValue) =>
                   handleChange({
                     target: { name: 'startDate', value: newValue },
@@ -171,14 +182,17 @@ const DeTransportePage = () => {
               />
               <Typography variant='body1'>-</Typography>
               <DatePicker
+                slotProps={{ textField: { variant: 'filled' } }}
                 label='Fin'
                 value={formData.endDate}
-                className='w-1/2'
+                className='w-36'
                 onChange={(newValue) =>
-                  handleChange({ target: { name: 'endDate', value: newValue } })
+                  handleChange({
+                    target: { name: 'endDate', value: newValue },
+                  })
                 }
               />
-            </Box>
+            </Grid>
           </Grid>
           {/* Feedback section */}
           <Grid item className='flex justify-center self-stretch w-fit'>
