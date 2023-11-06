@@ -6,6 +6,7 @@ on:
       - trunk
       - 5-aceptar-solicitudes-servicio
   pull_request:
+    types: [opened, synchronize, reopened]
     branches:
       - trunk
       - 5-aceptar-solicitudes-servicio
