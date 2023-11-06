@@ -37,6 +37,6 @@ jobs:
       with:
           projectBaseDir: .
           args:
-            -Dsonar.projectKey=codef-ctory2023
-            -Dsonar.organization=CodeF-ctory2023_front
+            -Dsonar.projectKey=CodeF-ctory2023_front
+            -Dsonar.organization=codef-ctory2023
             
