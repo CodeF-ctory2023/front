@@ -1,5 +1,5 @@
 // newFunctionality.test.tsx
-import { sillyFunction } from './newFunctionality';
+import { sillyFunction } from './newTestFunctionality';
 
 describe('sillyFunction', () => {
     // Test for normal input
