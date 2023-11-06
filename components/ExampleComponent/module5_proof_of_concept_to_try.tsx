@@ -1,5 +1,3 @@
-// module5_proof_of_concept_to_try.tsx
-
-export function sillyFunction(input: string) {
+export const sillyFunction = (input: string): string => {
     return `Silly output: ${input}`;
-}
+};
