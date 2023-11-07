@@ -7,7 +7,7 @@ const initialState: State = {
   markers: [],
   nearbyDrivers: {
     showCircle: false,
-    coords: [],
+    coords: [0, 0],
     radius: 0,
   },
   services: [],

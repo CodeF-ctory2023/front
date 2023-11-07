@@ -1,3 +1,5 @@
+import { LatLngExpression } from 'leaflet';
+
 export interface MarkerType {
   id: string;
   lat: number;
@@ -21,6 +23,6 @@ export type MarkerMessages = {
 
 export type NearbyDrivers = {
   showCircle: boolean;
-  coords: number[];
+  coords: LatLngExpression;
   radius: number;
 };

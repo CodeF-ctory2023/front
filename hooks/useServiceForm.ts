@@ -16,7 +16,7 @@ export const useServiceForm = () => {
   });
 
   const [userLocation, setUserLocation] = useState<UserLocation>({
-    locationCoords: [],
+    locationCoords: [0, 0],
     locationName: '',
     destinationName: 'Universidad de Antioquia',
     showMarker: false,
@@ -122,7 +122,7 @@ export const useServiceForm = () => {
   };
 
   const handleNearbyDrivers = () => {
-    if (!locationCoords.length) return;
+    if (!locationCoords) return;
 
     updateLocation({ showCircle: !showCircle });
 
@@ -143,7 +143,7 @@ export const useServiceForm = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!locationCoords.length) {
+    if (!locationCoords) {
       updateLocation({ locationError: true });
       return;
     }

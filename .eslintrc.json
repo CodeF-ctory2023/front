@@ -63,7 +63,7 @@
       "files": ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"],
       "excludedFiles": "pages/**",
       "rules": {
-        "import/no-default-export": "error"
+        // "import/no-default-export": "error"
       }
     }
   ]

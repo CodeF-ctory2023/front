@@ -24,7 +24,7 @@ export const ServiceRequest = ({
 
     if (!currentService) return;
 
-    removeService(currentService.serviceId);
+    if (currentService.serviceId) removeService(currentService.serviceId);
     addService({ ...currentService, activeService: true });
   };
 

@@ -1,4 +1,5 @@
-import { Service, MarkerType, NearbyDrivers } from './Map';
+import { Service } from './Service';
+import { MarkerType, NearbyDrivers } from './Map';
 
 export type State = {
   markers: MarkerType[];

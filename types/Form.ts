@@ -1,3 +1,4 @@
+import { LatLngExpression } from 'leaflet';
 import { ReactNode } from 'react';
 
 export interface InputProps {
@@ -10,7 +11,7 @@ export interface InputProps {
 }
 
 export interface UserLocation {
-  locationCoords: number[];
+  locationCoords: LatLngExpression;
   locationName: string;
   destinationName: string;
   showMarker: boolean;

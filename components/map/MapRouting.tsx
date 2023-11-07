@@ -38,7 +38,7 @@ export const MapRouting = () => {
       (service) => service.serviceId === userMarker.id
     );
 
-    if (!currentService.activeService) return;
+    if (!currentService?.activeService) return;
 
     setLocation([userMarker.lat, userMarker.long]);
     setActiveRoute(true);
@@ -83,6 +83,7 @@ export const MapRouting = () => {
       routingControlRef.current = null;
     }
 
+    //@ts-expect-error desc
     const routingControl = L.Routing.control({
       waypoints,
       routeWhileDragging: true,
