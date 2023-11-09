@@ -3,10 +3,23 @@ import { FormPartner } from "@/components/FormPartner";
 import { FormVehicle } from "@/components/FormVehicle";
 import CustomStepper from "@/components/CustomStepper";
 import CustomButton from "@/components/CustomButton";
+import CustomModal from "@/components/CustomModal";
 import { DriverSolicitude } from "@/interfaces/driverSolicitude";
+import { VehicleModel } from "@/interfaces/vehicleModel";
+import { useRouter } from "next/router";
+import Typography from '@mui/material/Typography';
 
 const SignUp = () => {
     const [activeStep, setActiveStep] = useState(0);
+    const router = useRouter();
+
+    const [open, setOpen] = useState(false);
+    const handleOpen = () => setOpen(true); console.log("aiuda")
+    const handleClose = () => setOpen(false);
+    const handleModalClick = () => {
+        router.push('/');
+    }
+
 
     const [formData, setFormData] = useState<DriverSolicitude>({
         id: '',
@@ -26,7 +39,16 @@ const SignUp = () => {
         licenseDate: new Date(),
         licenseExpirationDate: new Date(),
         licenseCountry: '',
+    });
 
+    const [formDataVehicle, setFormDataVehicle] = useState<VehicleModel>({
+        license_plate: '',
+        color: '',
+        brand: '',
+        model: '',
+        fuel_type: '',
+        capacity: 0,
+        allow_luggage: false
     });
 
     const handleNextStep = () => {
@@ -35,10 +57,19 @@ const SignUp = () => {
             console.table(formPartnerJSON);
             setActiveStep(activeStep + 1);
         }
+        if (activeStep == 1) {
+            const formVehicleJSON = JSON.stringify(formDataVehicle);
+            console.table(formVehicleJSON);
+            handleOpen();
+        }
     };
 
     const handleFormDataChange = (fieldName: keyof DriverSolicitude, value: string) => {
         setFormData({ ...formData, [fieldName]: value });
+    };
+
+    const handleFormDataVehicleChange = (fieldName: keyof VehicleModel, value: string | boolean) => {
+        setFormDataVehicle({ ...formDataVehicle, [fieldName]: value });
     };
 
     const steps = [
@@ -51,16 +82,20 @@ const SignUp = () => {
         },
         {
             label: 'Datos del Vehículo',
-            content: <FormVehicle />
+            content: <FormVehicle
+                formData={formDataVehicle}
+                onChange={handleFormDataVehicleChange}
+            />
         }
     ]
+
     return (
         <div className="container mx-auto mt-10 border-solid border-2 border-radius rounded-lg 
                             max-w-4xl font-roboto border-sky-700 border-opacity-50">
 
             <div className="p-8">
                 <CustomStepper
-                    steps={steps} 
+                    steps={steps}
                     activeStep={activeStep}
                 />
                 {/* <button onClick={handlePreviousStep} disabled={activeStep === 0}>Anterior</button> */}
@@ -72,9 +107,25 @@ const SignUp = () => {
                     variant="contained"
                     handleClick={handleNextStep}
                     className="mb-4 p-2 px-5"
-                    disabled={activeStep === steps.length - 1} />
+                    disabled={false} />
             </div>
-        </div>
+
+            <CustomModal open={open} handleOpen={handleOpen} handleClose={handleClose}>
+                <div>
+                    <Typography id="modal-modal-title" variant="h6" component="h2">
+                        Atención:
+                    </Typography>
+                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                        Acepta que los datos ingresados son correctos y que la información suministrada es verídica.
+                        <div className="flex justify-center my-3">
+                            <CustomButton text="Ok" handleClick={handleModalClick} color="secondary" variant="contained"></CustomButton>
+                        </div>
+                    </Typography>
+                </div>
+            </CustomModal>
+
+
+        </div >
     )
 };
 

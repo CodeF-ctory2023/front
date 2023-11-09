@@ -17,8 +17,7 @@ const idTypes = [
     {
         value: 'PA',
         label: 'Pasaporte',
-    },
-
+    }
 ]
 
 const genres = [

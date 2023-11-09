@@ -1,7 +1,6 @@
 import CustomButton from '@/components/CustomButton';
 import { useRouter } from 'next/router';
 
-
 const Home = () => {
   const router = useRouter();
 

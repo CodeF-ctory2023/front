@@ -1,4 +1,3 @@
-import React from 'react';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
@@ -10,7 +9,7 @@ interface StepItem {
 
 interface CustomStepperProps {
   steps: StepItem[];
-  activeStep: number; // Prop para rastrear el paso activo
+  activeStep: number;
 }
 
 const CustomStepper: React.FC<CustomStepperProps> = ({ steps, activeStep }) => {
