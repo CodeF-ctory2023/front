@@ -91,7 +91,7 @@ const SignUp = () => {
 
     return (
         <div className="container mx-auto mt-10 border-solid border-2 border-radius rounded-lg 
-                            max-w-4xl font-roboto border-sky-700 border-opacity-50">
+                            max-w-4xl font-roboto border-sky-700 border-opacity-70">
 
             <div className="p-8">
                 <CustomStepper
@@ -123,7 +123,6 @@ const SignUp = () => {
                     </Typography>
                 </div>
             </CustomModal>
-
 
         </div >
     )

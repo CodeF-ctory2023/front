@@ -4,6 +4,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { DriverSolicitude } from '@/interfaces/driverSolicitude';
+import CustomUploadFileComponent from '../CustomUploadFileComponent';
 
 const idTypes = [
     {
@@ -63,78 +64,66 @@ interface FormPartnerProps {
     onChange: (fieldName: keyof DriverSolicitude, value: string) => void;
 }
 
-export const FormPartner: React.FC<FormPartnerProps> = ({ formData, onChange }) => 
-{
-    const handleIdChange= (event: React.ChangeEvent<HTMLInputElement>) => 
-    {
+export const FormPartner: React.FC<FormPartnerProps> = ({ formData, onChange }) => {
+    const handleIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const newValue = event.target.value;
         onChange('id', newValue);
     }
 
-    const handleIdTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => 
-    {
+    const handleIdTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const newValue = event.target.value;
         onChange('id_type', newValue);
     }
 
-    const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => 
-    {
+    const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const newValue = event.target.value;
         onChange('name', newValue);
     }
 
-    const handlesurnameChange = (event: React.ChangeEvent<HTMLInputElement>) => 
-    {
+    const handlesurnameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const newValue = event.target.value;
         onChange('surname', newValue);
     }
 
-    const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => 
-    {
+    const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const newValue = event.target.value;
         onChange('email', newValue);
     }
 
-    const handleGenreChange = (event: React.ChangeEvent<HTMLInputElement>) => 
-    {
+    const handleGenreChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const newValue = event.target.value;
         onChange('genre', newValue);
     }
 
-    const handlePhoneChange = (event: React.ChangeEvent<HTMLInputElement>) => 
-    {
+    const handlePhoneChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const newValue = event.target.value;
         onChange('phone', newValue);
     }
 
-    const handleHomeAddressChange = (event: React.ChangeEvent<HTMLInputElement>) => 
-    {
+    const handleHomeAddressChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const newValue = event.target.value;
         onChange('home_address', newValue);
     }
 
-    const handleCityChange = (event: React.ChangeEvent<HTMLInputElement>) => 
-    {
+    const handleCityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const newValue = event.target.value;
         onChange('city', newValue);
     }
 
-    const handleCountryChange = (event: React.ChangeEvent<HTMLInputElement>) => 
-    {
+    const handleCountryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const newValue = event.target.value;
         onChange('country', newValue);
     }
 
-    const handleBirthDateChange = (date: Date | null) => 
-    {
+    const handleBirthDateChange = (date: Date | null) => {
         onChange('birthDate', date?.toString() || '');
-    
+
         // Calcular la edad a partir de la fecha de nacimiento
         if (date) {
             const birthDate = new Date(date);
             const currentDate = new Date();
-            let age:number = currentDate.getFullYear() - birthDate.getFullYear();
-    
+            let age: number = currentDate.getFullYear() - birthDate.getFullYear();
+
             // Asegurarse de que la fecha de cumpleaños aún no ha ocurrido este año
             if (
                 currentDate.getMonth() < birthDate.getMonth() ||
@@ -147,34 +136,29 @@ export const FormPartner: React.FC<FormPartnerProps> = ({ formData, onChange }) 
         }
     };
 
-    const handleLicenseNumberChange = (event: React.ChangeEvent<HTMLInputElement>) => 
-    {
+    const handleLicenseNumberChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const newValue = event.target.value;
         onChange('licenseNumber', newValue);
     };
 
-    const handleLicenseTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => 
-    {
+    const handleLicenseTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const newValue = event.target.value;
         onChange('licenseType', newValue);
     };
 
-    const handleLicenseDateChange = (date: Date | null) => 
-    {
+    const handleLicenseDateChange = (date: Date | null) => {
         onChange('licenseDate', date?.toString() || '');
     }
 
-    const handleLicenseExpirationDateChange = (date: Date | null) => 
-    {
+    const handleLicenseExpirationDateChange = (date: Date | null) => {
         onChange('licenseExpirationDate', date?.toString() || '');
     }
 
-    const handleLicenseCountryChange = (event: React.ChangeEvent<HTMLInputElement>) => 
-    {
+    const handleLicenseCountryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const newValue = event.target.value;
         onChange('licenseCountry', newValue);
     }
-    
+
     //html
     return (
         <form className="container mx-auto p-2">
@@ -304,11 +288,11 @@ export const FormPartner: React.FC<FormPartnerProps> = ({ formData, onChange }) 
                 </div>
 
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DatePicker 
-                        label="Fecha de nacimiento" 
+                    <DatePicker
+                        label="Fecha de nacimiento"
                         className='w-3/5 pb-6'
                         onChange={handleBirthDateChange}
-                        />
+                    />
                 </LocalizationProvider>
 
                 <h3 className="text-xl font-medium mb-2">Datos de la licencia de conducción</h3>
@@ -359,6 +343,13 @@ export const FormPartner: React.FC<FormPartnerProps> = ({ formData, onChange }) 
                         inputProps={{ style: { fontSize: '14px' } }}
                         onChange={handleLicenseCountryChange}
                     />
+                </div>
+
+                <h4> Sube los siguientes documentos en un pdf:</h4>            
+                <div className="flex justify-center items-center p-6 border-solid bg-white border-2 border-sky-400 rounded-lg border-opacity-25">
+                    <div className="w-full">
+                        <CustomUploadFileComponent />
+                    </div>
                 </div>
             </div>
         </form>
