@@ -26,6 +26,9 @@ dependencies:
   '@mui/x-date-pickers':
     specifier: ^6.17.0
     version: 6.17.0(@emotion/react@11.11.1)(@emotion/styled@11.11.0)(@mui/material@5.14.15)(@mui/system@5.14.15)(@types/react@18.2.22)(dayjs@1.11.10)(react-dom@18.2.0)(react@18.2.0)
+  '@tanstack/react-query':
+    specifier: ^5.8.1
+    version: 5.8.1(react-dom@18.2.0)(react@18.2.0)
   '@types/node':
     specifier: 20.6.2
     version: 20.6.2
@@ -1325,6 +1328,27 @@ packages:
     resolution: {integrity: sha512-E4KcWTpoLHqwPHLxidpOqQbcrZVgi0rsmmZXUle1jXmJfuIf/UWpczUJ7MZZ5tlxytgJXyp0w4PGkkeLiuIdZw==}
     dependencies:
       tslib: 2.6.2
+    dev: false
+
+  /@tanstack/query-core@5.8.1:
+    resolution: {integrity: sha512-Y0enatz2zQXBAsd7XmajlCs+WaitdR7dIFkqz9Xd7HL4KV04JOigWVreYseTmNH7YFSBSC/BJ9uuNp1MAf+GfA==}
+    dev: false
+
+  /@tanstack/react-query@5.8.1(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-YMagxS8iNPOLg0pK6WOjdSDlAvWKOf69udLOwQrBVmkC2SRLNLko7elo5Ro3ptlJkXvTVHidxC/h5KGi5bH1XQ==}
+    peerDependencies:
+      react: ^18.0.0
+      react-dom: ^18.0.0
+      react-native: '*'
+    peerDependenciesMeta:
+      react-dom:
+        optional: true
+      react-native:
+        optional: true
+    dependencies:
+      '@tanstack/query-core': 5.8.1
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
     dev: false
 
   /@testing-library/dom@9.3.3:
