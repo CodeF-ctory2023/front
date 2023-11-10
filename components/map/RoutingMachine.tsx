@@ -2,14 +2,45 @@ import L from "leaflet";
 import { createControlComponent } from "@react-leaflet/core";
 import "leaflet-routing-machine";
 
-const createRoutineMachineLayer = (props) => {
+const RoutingMachineLayer = ({ position, start, end, color }) => {
   const instance = L.Routing.control({
+    position,
     waypoints: [
-      L.latLng(6.271356482023135, -75.55728972772394),
-      L.latLng(6.2721, -75.5608)
+      start,
+      end
     ],
     lineOptions: {
-      styles: [{ color: "#6FA1EC", weight: 4 }]
+      styles: [
+        { 
+          color,
+          weight: 4 
+        }
+      ]
+    },
+    createMarker: function (i: number, wp: { latLng: L.LatLngExpression; }, n: any) {
+      if (i === 0) {
+        // Icono personalizado para el origen y el destino
+        return L.marker(wp.latLng, {
+          icon: L.icon({
+            iconUrl: 'pin.png',
+            iconSize: [41, 41],
+            iconAnchor: [12.5, 41],
+            popupAnchor: [0, -41],
+            shadowSize: [41, 41],
+          }),
+        });
+      } else {
+        // Icono predeterminado para los puntos intermedios
+        return L.marker(wp.latLng, {
+          icon: L.icon({
+            iconUrl: 'car.jpg',
+            iconSize: [41, 41],
+            iconAnchor: [12.5, 41],
+            popupAnchor: [0, -41],
+            shadowSize: [41, 41],
+          }),
+        });
+      }
     },
     show: false,
     addWaypoints: false,
@@ -22,6 +53,6 @@ const createRoutineMachineLayer = (props) => {
   return instance;
 };
 
-const RoutingMachine = createControlComponent(createRoutineMachineLayer);
+const RoutingMachine = createControlComponent(RoutingMachineLayer);
 
 export default RoutingMachine;
