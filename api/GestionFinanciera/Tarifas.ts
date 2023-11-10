@@ -18,7 +18,7 @@ const actualizarTarifaPorCiudad = (request: CityFeeRequest) => {
   });
 };
 
-const crearTarifaDeTransporte = (req: NonStopFee) => {
+const crearTarifaDeTransporte = async (req: NonStopFee) => {
   return api
     .post('/rates/transportation', req)
     .then((res) => {
@@ -26,7 +26,7 @@ const crearTarifaDeTransporte = (req: NonStopFee) => {
         return res.data;
       }
       if (res.status === 400) {
-        throw new Error(res.data.message);
+        throw new Error(res.data);
       }
     })
     .catch((err) => {
