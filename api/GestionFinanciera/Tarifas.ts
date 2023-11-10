@@ -1,5 +1,8 @@
 /* eslint-disable no-console */
-import { CityFeeRequest } from '@/interfaces/CityFee.interface';
+import {
+  CityFeeRequest,
+  CityFeeResponse,
+} from '@/interfaces/CityFee.interface';
 import axios from 'axios';
 
 const api = axios.create({
@@ -7,8 +10,15 @@ const api = axios.create({
   timeout: 3000,
 });
 
-const obtenerTarifasPorCiudad = () => {
-  return api.get('/cities/names');
+const obtenerTarifasPorCiudad = async (): Promise<CityFeeResponse> => {
+  try {
+    const res = await api.get('/cities/names');
+    return res.data;
+  } catch (error) {
+    throw new Error('Ha ocurrido un error', {
+      cause: error,
+    });
+  }
 };
 
 const actualizarTarifaPorCiudad = (request: CityFeeRequest) => {

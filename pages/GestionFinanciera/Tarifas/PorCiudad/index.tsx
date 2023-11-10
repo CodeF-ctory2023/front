@@ -8,8 +8,7 @@ import { GrowWrapper } from '@/components/GestionFinanciera/GrowWrapper';
 import { Layout } from '@/components/GestionFinanciera/Layout';
 import { SkeletonWrapper } from '@/components/GestionFinanciera/SkeletonWrapper';
 import {
-  CityFeeRequest,
-  CityFeeResponse,
+  CityFeeRequest
 } from '@/interfaces/CityFee.interface';
 import {
   Alert,
@@ -22,70 +21,85 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
-import { FormEvent, useEffect, useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { NumericFormat } from 'react-number-format';
 
 const PorCiudadPage = () => {
-  const [submitStatus, setSubmitStatus] = useState<
-    'pending' | 'success' | 'error' | undefined
-  >(undefined);
-  const [fetchStatus, setFetchStatus] = useState<
-    'success' | 'pending' | 'error' | undefined
-  >(undefined);
-  const [citiesMap, setCitiesMap] = useState<
-    Map<string, { cityId: number; percentage: number }>
-  >(new Map());
+  const router = useRouter();
+
   const [formData, setFormData] = useState({
     city: '',
     percentage: '',
   });
-  const [errors, setErrors] = useState({
-    city: '',
+
+  const [validateErrors, setValidateErrors] = useState({
     percentage: '',
   });
 
-  const router = useRouter();
+  const cityFeesMutation = useMutation({
+    mutationFn: async (e: FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
 
-  useEffect(() => {
-    setSubmitStatus(undefined);
-    setFetchStatus('pending');
-    setTimeout(() =>
-      obtenerTarifasPorCiudad()
-        .then((res) => {
-          if (res.status == 200) {
-            const data: CityFeeResponse = res.data;
-            const map = new Map(
-              data.map((cityFee) => {
-                return [
-                  cityFee.name,
-                  { cityId: cityFee.id, percentage: cityFee.percentage },
-                ];
-              })
-            );
-            setCitiesMap(map);
-            setFetchStatus('success');
-          }
-        })
-        .catch((err) => {
-          setFetchStatus('error');
-          // eslint-disable-next-line no-console
-          console.error(err.toJSON());
-        })
-    );
-  }, []);
+      // validate data
+      const validCity =
+        formData.city.length > 0 && cityFeesMap.data?.has(formData.city);
+      const validPercentage =
+        !isNaN(parseFloat(formData.percentage)) &&
+        Math.abs(parseFloat(formData.percentage)) <= 30;
 
-  useEffect(() => {
-    const cityPercentage = citiesMap?.get(formData.city)?.percentage;
-    setFormData((prevData) => {
-      return {
-        ...prevData,
-        percentage: cityPercentage?.toString() || '',
+      if (!validCity) {
+        throw Error('Ciudad no válida');
+      }
+      if (!validPercentage) {
+        setValidateErrors({
+          percentage: 'Ingrese un valor entre -30% y 30%',
+        });
+        throw Error('Porcentaje no válido');
+      }
+
+      // reset validate errors
+      setValidateErrors({
+        percentage: '',
+      });
+
+      const requestData: CityFeeRequest = {
+        cityId: cityFeesMap.data?.get(formData.city)?.cityId || NaN,
+        percentage: parseFloat(formData.percentage),
       };
-    });
-  }, [formData.city, citiesMap]);
 
-  const handleChange = (e: { target: { name: string; value: unknown } }) => {
+      const res = await actualizarTarifaPorCiudad(requestData);
+      return res;
+    },
+  });
+
+  const cityFeesMap = useQuery({
+    queryKey: ['cityFees'],
+    queryFn: async () => {
+      const cityFees = await obtenerTarifasPorCiudad();
+      const cityFeesMap = new Map(
+        cityFees.map((cityFee) => {
+          return [
+            cityFee.name,
+            { cityId: cityFee.id, percentage: cityFee.percentage },
+          ];
+        })
+      );
+      return cityFeesMap;
+    },
+  });
+
+  const updateFieldValue = (e: {
+    target: { name: string; value: unknown };
+  }) => {
+    if (e.target.name == 'city') {
+      const cityPercentage = cityFeesMap.data?.get(e.target.value as string)
+        ?.percentage;
+      updateFieldValue({
+        target: { name: 'percentage', value: cityPercentage },
+      });
+    }
     setFormData((prevData) => {
       return {
         ...prevData,
@@ -94,70 +108,32 @@ const PorCiudadPage = () => {
     });
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const validCity = formData.city.length > 0 && citiesMap?.has(formData.city);
-    const validPercentage =
-      !isNaN(parseFloat(formData.percentage)) &&
-      Math.abs(parseFloat(formData.percentage)) <= 30;
-
-    if (!validCity || !validPercentage) {
-      setErrors({
-        city: !validCity ? 'Ciudad no válida' : '',
-        percentage: !validPercentage ? 'Ingrese un valor entre -30% y 30%' : '',
-      });
-      return;
-    }
-    setErrors({
-      city: '',
-      percentage: '',
-    });
-
-    setSubmitStatus('pending');
-
-    const requestData: CityFeeRequest = {
-      cityId: citiesMap.get(formData.city)?.cityId || NaN,
-      percentage: parseFloat(formData.percentage),
-    };
-
-    actualizarTarifaPorCiudad(requestData)
-      .then((res) => {
-        if (res.status == 200) {
-          setSubmitStatus('success');
-        }
-      })
-      .catch(() => {
-        setSubmitStatus('error');
-      });
-  };
-
   return (
     <Layout>
-      <Grow in={fetchStatus != undefined}>
+      <Grow in={true}>
         <Paper
           component='form'
           elevation={4}
           className='p-6'
-          onSubmit={handleSubmit}
+          onSubmit={cityFeesMutation.mutate}
         >
           <Grid container direction='column' spacing={{ sm: 4, xs: 2 }}>
             <Grid item className='flex justify-center'>
-              <SkeletonWrapper
-                className='w-60'
-                loading={fetchStatus == 'pending'}
-              >
+              <SkeletonWrapper className='w-60' loading={cityFeesMap.isLoading}>
                 <Typography variant='subtitle1'>TARIFAS POR CIUDAD</Typography>
               </SkeletonWrapper>
             </Grid>
             <Grid item className='flex justify-between items-center gap-4'>
-              <SkeletonWrapper loading={fetchStatus == 'pending'}>
+              <SkeletonWrapper loading={cityFeesMap.isLoading}>
                 <Typography variant='body1' className='whitespace-nowrap'>
                   Elegir ciudad:
                 </Typography>
                 <Autocomplete
                   id='city'
                   value={formData.city}
-                  options={Array.from(citiesMap.keys())}
+                  options={Array.from(
+                    cityFeesMap.data ? cityFeesMap.data.keys() : []
+                  )}
                   noOptionsText=''
                   size='small'
                   className='w-1/2'
@@ -172,7 +148,7 @@ const PorCiudadPage = () => {
                     />
                   )}
                   onChange={(_evt, newCity: string | null) => {
-                    handleChange({
+                    updateFieldValue({
                       target: { name: 'city', value: newCity },
                     });
                   }}
@@ -180,7 +156,7 @@ const PorCiudadPage = () => {
               </SkeletonWrapper>
             </Grid>
             <Grid item className='flex justify-between items-center gap-8'>
-              <SkeletonWrapper loading={fetchStatus == 'pending'}>
+              <SkeletonWrapper loading={cityFeesMap.isLoading}>
                 <Typography variant='body1' className='whitespace-nowrap'>
                   Porcentaje de tarifa:
                 </Typography>
@@ -190,45 +166,45 @@ const PorCiudadPage = () => {
                   label='%'
                   value={formData.percentage}
                   required
-                  error={errors.percentage.length > 0}
-                  helperText={errors.percentage}
+                  error={validateErrors.percentage.length > 0}
+                  helperText={validateErrors.percentage}
                   variant='filled'
                   size='small'
                   className='w-1/2'
                   customInput={TextField}
-                  onChange={handleChange}
+                  onChange={updateFieldValue}
                 />
               </SkeletonWrapper>
             </Grid>
             {/* Alerts section */}
             <Grid item className='flex justify-center self-stretch'>
-              {submitStatus == 'success' && (
-                <Alert severity={'success'}>Guardado éxitoso</Alert>
+              {cityFeesMutation.isSuccess && (
+                <Alert severity={'success'}>Guardado exitoso</Alert>
               )}
-              {submitStatus == 'error' && (
-                <Alert severity='error'>No se pudo actualizar la tarifa</Alert>
+              {cityFeesMutation.isError && (
+                <Alert severity='error'>
+                  No se pudo actualizar la tarifa: {cityFeesMutation.error.message}
+                </Alert>
               )}
-              {submitStatus == 'pending' && (
+              {cityFeesMutation.isPending && (
                 <LinearProgress className='w-full'></LinearProgress>
               )}
-              {fetchStatus == 'error' && (
+              {cityFeesMap.isError && (
                 <Alert severity='error'>
                   No se puede conectar con el servidor, inténtelo más tarde
                 </Alert>
               )}
             </Grid>
             <Grid item className='flex justify-evenly gap-2'>
-              {fetchStatus == 'pending' ? (
+              {cityFeesMap.isLoading ? (
                 <SkeletonWrapper
                   className='w-full'
-                  loading={fetchStatus == 'pending'}
+                  loading={cityFeesMap.isLoading}
                 ></SkeletonWrapper>
               ) : (
                 <GrowWrapper>
                   <Button
-                    disabled={
-                      fetchStatus == 'error' || submitStatus == 'pending'
-                    }
+                    disabled={cityFeesMap.isError || cityFeesMap.isLoading}
                     variant='contained'
                     size='large'
                     type='submit'
