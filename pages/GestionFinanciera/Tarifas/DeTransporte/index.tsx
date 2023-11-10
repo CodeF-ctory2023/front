@@ -68,7 +68,7 @@ const DeTransportePage = () => {
       formData.startDate.isValid() &&
       formData.endDate.isValid() &&
       !formData.startDate.isAfter(formData.endDate);
-      
+
     if (!recargoValido || !fechasValidas) {
       setValidateErrors({
         recargo: !recargoValido ? 'Ingrese un valor entre el 0% y 30%' : '',
@@ -97,7 +97,6 @@ const DeTransportePage = () => {
         >
           <Grid container direction='column' spacing={{ xs: 2, sm: 4 }}>
             <Grid item className='flex justify-center'>
-              {/* //TODO: add skeleton wrappers */}
               <Typography variant='subtitle1' fontWeight={600}>
                 TARIFAS DE TRANSPORTE SIN PARADA
               </Typography>
