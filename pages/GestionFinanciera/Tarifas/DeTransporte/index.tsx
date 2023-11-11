@@ -102,7 +102,7 @@ const DeTransportePage = () => {
               </Typography>
             </Grid>
             <Grid item className='flex justify-between items-baseline gap-4'>
-              <Typography variant='body1'>
+              <Typography variant='body1' component='label' htmlFor='valorPorKm'>
                 Valor por kilómetro cubierto:
               </Typography>
               <NumericFormat
@@ -120,7 +120,7 @@ const DeTransportePage = () => {
               />
             </Grid>
             <Grid item className='flex justify-between items-baseline gap-4'>
-              <Typography variant='body1' className=''>
+              <Typography variant='body1' component='label' htmlFor='recargo'>
                 Recargo:
               </Typography>
               <NumericFormat
@@ -147,7 +147,7 @@ const DeTransportePage = () => {
               className='flex items-baseline justify-between gap-2'
             >
               <Grid item>
-                <Typography variant='body1'>Fechas de vigencia:</Typography>
+                <Typography variant='body1' component='legend'>Fechas de vigencia:</Typography>
               </Grid>
               <Grid item className='flex items-center flex-nowrap gap-2'>
                 <DatePicker
