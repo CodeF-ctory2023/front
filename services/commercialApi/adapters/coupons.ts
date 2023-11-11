@@ -3,18 +3,18 @@ import type { TCouponPayload } from '@/services/commercialApi/types';
 
 export const adaptCoupon = (coupon: TCouponPayload): TCoupon => {
   return {
-    id: coupon.id,
-    name: coupon.name,
-    description: coupon.description,
-    startDate: new Date(coupon.startDate),
-    endDate: new Date(coupon.endDate),
-    discountPercentage: coupon.discountPercentage,
-    maxDiscount: coupon.maxDiscount,
-    discountValue: coupon.discountValue,
-    minValue: coupon.minValue,
+    id: coupon.code,
+    name: coupon.strategy.name,
+    description: coupon.strategy.description,
+    startDate: new Date(coupon.strategy.startDate),
+    endDate: new Date(coupon.strategy.endDate),
+    discountPercentage: coupon.strategy.discountPercentage,
+    maxDiscount: coupon.strategy.maxDiscount,
+    discountValue: coupon.strategy.discountValue,
+    minValue: coupon.strategy.minValue,
     amount: coupon.amount,
-    city: coupon.city,
-    amountAvailable: coupon.amountAvailable,
+    city: coupon.strategy.city,
+    amountAvailable: coupon.amount, // TODO: fix this
     status: coupon.status,
   };
 };
