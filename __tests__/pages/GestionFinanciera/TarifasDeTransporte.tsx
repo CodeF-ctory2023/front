@@ -1,15 +1,10 @@
+import DeTransportePage from '@/pages/GestionFinanciera/Tarifas/DeTransporte/index';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import {
-  RenderResult,
-  fireEvent,
-  render,
-  screen,
-} from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { fireEvent, render, screen } from '@testing-library/react';
+import { userEvent } from '@testing-library/user-event';
 import 'dayjs/locale/es';
-import DeTransportePage from '../../../pages/GestionFinanciera/Tarifas/DeTransporte/index';
 
 jest.mock('next/router', () => ({
   useRouter: () => ({
@@ -29,10 +24,8 @@ describe('DeTransportePage', () => {
     },
   });
 
-  let el: RenderResult;
-
   beforeEach(() => {
-    el = render(
+    render(
       <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale='es'>
         <QueryClientProvider client={queryClient}>
           <DeTransportePage />
