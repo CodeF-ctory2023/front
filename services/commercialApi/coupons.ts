@@ -1,10 +1,12 @@
-import { TCouponPayload } from './types';
+import { TCouponPayload, TNewCouponPayload } from './types';
+
 import { adaptCoupon } from './adapters/coupons';
 import { service } from './service';
 
 export const getCoupons = async () => {
   try {
     const coupons: TCouponPayload[] = await service.get('coupons/all');
+
     return coupons.map((coupon) => adaptCoupon(coupon));
   } catch (error) {
     throw new Error('Error al obtener los cupones');
@@ -20,7 +22,7 @@ export const getCouponById = async (id: string) => {
   }
 };
 
-export const createCoupon = async (coupon: TCouponPayload) => {
+export const createCoupon = async (coupon: TNewCouponPayload) => {
   try {
     const newCoupon: TCouponPayload = await service.post('coupons', coupon);
     return adaptCoupon(newCoupon);
