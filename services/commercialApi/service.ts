@@ -9,7 +9,8 @@ export const service = {
       },
     });
     const data = await response.json();
-    return data;
+
+    return data.body;
   },
   post: async (endpoint: string, body: object) => {
     const response = await fetch(`${API_URL}/${endpoint}`, {
@@ -22,7 +23,7 @@ export const service = {
 
     if (response.ok) {
       const data = await response.json();
-      return data;
+      return data.body;
     }
 
     const error = await response.text();
@@ -39,7 +40,7 @@ export const service = {
 
     if (response.ok) {
       const data = await response.json();
-      return data;
+      return data.body;
     }
 
     const error = await response.text();
