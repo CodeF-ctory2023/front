@@ -80,6 +80,8 @@ const CreateDiscountModal = ({
   const [isDiscountValue, setIsDiscountValue] = useState(true);
   const [discountValue, setDiscountValue] = useState('');
   const [discountPercentage, setDiscountPercentage] = useState('');
+  const [minValue, setMinValue] = useState('');
+  const [maxDiscount, setMaxDiscount] = useState('');
 
   return (
     <CreateModal
@@ -128,6 +130,7 @@ const CreateDiscountModal = ({
                   onChange={() => {
                     setIsDiscountValue(true);
                     setDiscountPercentage('');
+                    setMaxDiscount('');
                   }}
                 />
                 <label htmlFor='discountValue'>&nbsp;Descuento fijo</label>
@@ -155,6 +158,7 @@ const CreateDiscountModal = ({
                   onChange={() => {
                     setIsDiscountValue(false);
                     setDiscountValue('');
+                    setMinValue('');
                   }}
                 />
                 <label htmlFor='discountPercentage'>
@@ -187,6 +191,8 @@ const CreateDiscountModal = ({
               placeholder='Valor'
               className='bg-gray-200 p-2 rounded-lg'
               disabled={!isDiscountValue}
+              value={minValue}
+              onChange={(e) => setMinValue(e.target.value)}
             />
           </label>
           <label htmlFor='maxDiscount' className='flex-grow flex flex-col'>
@@ -198,6 +204,8 @@ const CreateDiscountModal = ({
               placeholder='Valor'
               className='bg-gray-200 p-2 rounded-lg'
               disabled={isDiscountValue}
+              value={maxDiscount}
+              onChange={(e) => setMaxDiscount(e.target.value)}
             />
           </label>
         </fieldset>
@@ -270,6 +278,8 @@ const CreateCouponModal = ({
   const [isDiscountValue, setIsDiscountValue] = useState(true);
   const [discountValue, setDiscountValue] = useState('');
   const [discountPercentage, setDiscountPercentage] = useState('');
+  const [minValue, setMinValue] = useState('');
+  const [maxDiscount, setMaxDiscount] = useState('');
 
   return (
     <CreateModal
@@ -315,9 +325,11 @@ const CreateCouponModal = ({
                   name='tipo-descuento'
                   id='discountValue'
                   value='fijo'
+                  defaultChecked
                   onChange={() => {
                     setIsDiscountValue(true);
                     setDiscountPercentage('');
+                    setMaxDiscount('');
                   }}
                 />
                 <label htmlFor='discountValue'>&nbsp;Descuento fijo</label>
@@ -345,6 +357,7 @@ const CreateCouponModal = ({
                   onChange={() => {
                     setIsDiscountValue(false);
                     setDiscountValue('');
+                    setMinValue('');
                   }}
                 />
                 <label htmlFor='discountPercentage'>
@@ -377,6 +390,8 @@ const CreateCouponModal = ({
               placeholder='Valor'
               className='bg-gray-200 p-2 rounded-lg'
               disabled={!isDiscountValue}
+              value={minValue}
+              onChange={(e) => setMinValue(e.target.value)}
             />
           </label>
           <label htmlFor='maxDiscount' className='flex-grow flex flex-col'>
@@ -388,6 +403,8 @@ const CreateCouponModal = ({
               placeholder='Valor'
               className='bg-gray-200 p-2 rounded-lg'
               disabled={isDiscountValue}
+              value={maxDiscount}
+              onChange={(e) => setMaxDiscount(e.target.value)}
             />
           </label>
         </fieldset>
