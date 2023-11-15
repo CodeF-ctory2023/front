@@ -14,7 +14,7 @@ interface CreateModalChildProps {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   handleCreate: (formContext: HTMLFormElement | null) => boolean;
   regionOptions: { id: string; name: string }[];
-  userTypeOptions?: { id: string; name: string }[];
+  userTypeOptions: { id: string; name: string }[];
 }
 
 const CreateModal = ({
@@ -34,7 +34,7 @@ const CreateModal = ({
     >
       <dialog
         open={open}
-        className='bg-white p-8 rounded-xl border-4 shadow-lg w-2/3 max-w-[720px] backdrop:bg-gray-800 flex flex-col items-center'
+        className='bg-white p-8 rounded-xl border-4 shadow-lg w-2/3 max-w-[720px] max-h-[90%] backdrop:bg-gray-800 flex flex-col items-center overflow-auto'
       >
         <header className='mb-2'>
           <h1 className='text-3xl text-blue-500 font-bold'>Crear {type}</h1>
@@ -264,8 +264,13 @@ const CreateCouponModal = ({
   setOpen,
   handleCreate,
   regionOptions,
+  userTypeOptions,
 }: CreateModalChildProps) => {
   const formRef = useRef<HTMLFormElement>(null);
+  const [isDiscountValue, setIsDiscountValue] = useState(true);
+  const [discountValue, setDiscountValue] = useState('');
+  const [discountPercentage, setDiscountPercentage] = useState('');
+
   return (
     <CreateModal
       open={open}
@@ -285,6 +290,7 @@ const CreateCouponModal = ({
             type='text'
             name='name'
             id='name'
+            required
             placeholder={`Nombre del cupón`}
             className='bg-gray-200 p-2 rounded-lg'
           />
@@ -294,8 +300,9 @@ const CreateCouponModal = ({
             id='description'
             cols={30}
             rows={3}
+            required
             placeholder={`Descripción del cupón`}
-            className='bg-gray-200 p-2 rounded-lg'
+            className='bg-gray-200 p-2 rounded-lg disabled:opacity-50'
           ></textarea>
         </fieldset>
 
@@ -308,6 +315,10 @@ const CreateCouponModal = ({
                   name='tipo-descuento'
                   id='discountValue'
                   value='fijo'
+                  onChange={() => {
+                    setIsDiscountValue(true);
+                    setDiscountPercentage('');
+                  }}
                 />
                 <label htmlFor='discountValue'>&nbsp;Descuento fijo</label>
               </div>
@@ -316,7 +327,10 @@ const CreateCouponModal = ({
                 name='discountValue'
                 id='discountValue'
                 placeholder='Valor'
-                className='bg-gray-200 p-2 rounded-lg'
+                className='bg-gray-200 p-2 rounded-lg disabled:opacity-50'
+                disabled={!isDiscountValue}
+                value={discountValue}
+                onChange={(e) => setDiscountValue(e.target.value)}
               />
             </label>
           </div>
@@ -328,6 +342,10 @@ const CreateCouponModal = ({
                   name='tipo-descuento'
                   id='discountPercentage'
                   value='porcentaje'
+                  onChange={() => {
+                    setIsDiscountValue(false);
+                    setDiscountValue('');
+                  }}
                 />
                 <label htmlFor='discountPercentage'>
                   &nbsp;Descuento porcentual
@@ -339,22 +357,17 @@ const CreateCouponModal = ({
                 id='discountPercentage'
                 placeholder='Valor'
                 className='bg-gray-200 p-2 rounded-lg'
+                disabled={isDiscountValue}
+                value={discountPercentage}
+                onChange={(e) => {
+                  setDiscountPercentage(e.target.value);
+                }}
               />
             </label>
           </div>
         </fieldset>
 
         <fieldset className='flex gap-4'>
-          <label htmlFor='maxDiscount' className='flex-grow flex flex-col'>
-            Descuento máximo
-            <input
-              type='number'
-              name='maxDiscount'
-              id='maxDiscount'
-              placeholder='Valor'
-              className='bg-gray-200 p-2 rounded-lg'
-            />
-          </label>
           <label htmlFor='minValue' className='flex-grow flex flex-col'>
             Valor mínimo
             <input
@@ -362,7 +375,19 @@ const CreateCouponModal = ({
               name='minValue'
               id='minValue'
               placeholder='Valor'
-              className='bg-gray-200 p-2 rounded-lg'
+              className='bg-gray-200 p-2 rounded-lg disabled:opacity-50'
+              disabled={!isDiscountValue}
+            />
+          </label>
+          <label htmlFor='maxDiscount' className='flex-grow flex flex-col'>
+            Descuento máximo
+            <input
+              type='number'
+              name='maxDiscount'
+              id='maxDiscount'
+              placeholder='Valor'
+              className='bg-gray-200 p-2 rounded-lg disabled:opacity-50'
+              disabled={isDiscountValue}
             />
           </label>
         </fieldset>
@@ -371,7 +396,7 @@ const CreateCouponModal = ({
           <div className='flex-grow flex flex-col'>
             <label htmlFor='startDate'>Válido desde</label>
             <input
-              type='date'
+              type='datetime-local'
               name='startDate'
               id='startDate'
               className='bg-gray-200 p-2 rounded-lg'
@@ -381,7 +406,7 @@ const CreateCouponModal = ({
           <div className='flex-grow flex flex-col'>
             <label htmlFor='endDate'>Válido hasta</label>
             <input
-              type='date'
+              type='datetime-local'
               name='endDate'
               id='endDate'
               className='bg-gray-200 p-2 rounded-lg'
@@ -390,7 +415,7 @@ const CreateCouponModal = ({
         </fieldset>
 
         <fieldset className='flex gap-4'>
-          <label htmlFor='city' className='flex-grow flex flex-col'>
+          <label htmlFor='city' className='flex-1 flex-grow flex flex-col'>
             Región
             <select
               name='city'
@@ -398,6 +423,20 @@ const CreateCouponModal = ({
               className='bg-gray-200 p-2 rounded-lg'
             >
               {regionOptions.map(({ id, name }) => (
+                <option key={`region-${id}`} value={id}>
+                  {name}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label htmlFor='userType' className='flex-1 flex-grow flex flex-col'>
+            Tipo de usuario
+            <select
+              name='userType'
+              id='userType'
+              className='bg-gray-200 p-2 rounded-lg'
+            >
+              {userTypeOptions?.map(({ id, name }) => (
                 <option key={`region-${id}`} value={id}>
                   {name}
                 </option>
