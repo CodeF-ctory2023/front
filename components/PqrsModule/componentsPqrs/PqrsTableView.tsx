@@ -2,9 +2,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { PopUp } from './PopUp';
-import { pqrsInfo } from '@/components/PqrsModule/services/pqrsInfo';
 import { PqrsTable } from './PqrsTableContent';
 import { OperationsButton } from './OperationsButton';
 import {
@@ -16,9 +15,23 @@ import {
 import { HEADINGS } from '@/components/PqrsModule/utilities/utils';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import { usePqrs } from '@/hooks/pqrsHooks/usePqrs';
+import { pqrsType } from '../utilities';
 const PqrsTableView = () => {
+  const {getPqrs} = usePqrs();
+
   const [popupOpen, setPopupOpen] = useState<boolean>(false);
+  const [pqrsInfo, setPqrsInfo] = useState<pqrsType[]>();
+
+  useEffect(() => {
+    const getPqrsInfo = async () => {
+      const pqrsData = await getPqrs();
+      if(pqrsData){
+        setPqrsInfo(pqrsData);
+      }
+    };
+    getPqrsInfo();
+  }, []);
 
   const openPopup = () => {
     setPopupOpen(true);
@@ -58,7 +71,7 @@ const PqrsTableView = () => {
             </tr>
           </thead>
           <tbody className='divide-y divide-gray-100'>
-            {pqrsInfo.map((pqrs, index) => (
+            {pqrsInfo?.map((pqrs, index) => (
               <PqrsTable key={pqrs.id} index={index} pqrs={pqrs} />
             ))}
           </tbody>

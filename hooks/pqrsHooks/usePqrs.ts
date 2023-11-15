@@ -1,0 +1,43 @@
+import { PqrsApi } from '@/api/PqrsApi';
+import { createPqrsType } from '@/components/PqrsModule/types/createPqrs.types';
+import { pqrsType } from '@/components/PqrsModule/utilities';
+import Swal from 'sweetalert2';
+
+export const usePqrs = () => {
+  const getPqrs = async () => {
+    try {
+      const { data } = await PqrsApi.get<pqrsType[]>('/pqrs');
+      return data;
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Something went wrong!',
+      });
+    }
+  };
+
+  const createPqrs = async (data: createPqrsType) => {
+    try {
+      await PqrsApi.post('/pqrs', data);
+      Swal.fire({
+        icon: 'success',
+        title: 'PQRS created successfully',
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Something went wrong!',
+      });
+      console.log(error);
+    }
+  };
+
+  return {
+    getPqrs,
+    createPqrs,
+  };
+};

@@ -11,7 +11,7 @@ export const getComplaintOptions = () => (
         },
         {
             id: 3,
-            name: 'Otro',
+            name: 'Otros',
         }
        
     ]

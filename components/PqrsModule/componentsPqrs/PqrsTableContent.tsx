@@ -1,8 +1,7 @@
 /* eslint-disable no-restricted-imports */
 
 import React, { useState } from 'react';
-import { pqrsType } from '@/components/PqrsModule/utilities';
-import { pqrsInfo } from '@/components/PqrsModule/services/pqrsInfo';
+import { StatePqrs, pqrsType } from '@/components/PqrsModule/utilities';
 import { useRouter } from 'next/router';
 import { IconButton } from './IconButton';
 import { primaryColor, secondaryColor, bloodColor } from '@/components/PqrsModule/constants/colors';
@@ -18,7 +17,7 @@ interface PqrsTableProps {
 const PqrsTable = ({ index, pqrs }: PqrsTableProps) => {
 
   const router = useRouter();
-  const { text, backgroundColor, backgroundPoint } = getStateStyle(pqrs.state);
+  const { text, backgroundColor, backgroundPoint } = getStateStyle(pqrs.estadoPqrs);
   const [editionMode, setEditionMode] = useState<boolean>(false);
   const [pqrsState, setPqrsState] = useState<string>('');
   
@@ -37,7 +36,7 @@ const PqrsTable = ({ index, pqrs }: PqrsTableProps) => {
     setPqrsState(event.target.value);
   }
   const confirmEdition = () => {
-    pqrs.state = pqrsState;
+    pqrs.estadoPqrs = pqrsState as StatePqrs;
     setEditionMode(!editionMode);
     toast.success('Estado actualizado correctamente');
   }
@@ -53,8 +52,8 @@ const PqrsTable = ({ index, pqrs }: PqrsTableProps) => {
 
   const deletePqrs = (pqrs: pqrsType) => {
     //search and delete pqrs
-    const index = pqrsInfo.indexOf(pqrs);
-    pqrsInfo.splice(index, 1);
+    // const index = pqrsInfo.indexOf(pqrs);
+    // pqrsInfo.splice(index, 1);
     //refresh pqrs list
     router.push('/');
     toast.success('PQRS eliminada correctamente');
@@ -68,21 +67,21 @@ const PqrsTable = ({ index, pqrs }: PqrsTableProps) => {
   return (
     <tr key={index} className='hover:bg-slate-50 text-center' >
       <td className='py-2 w-[25%] text-sm text-gray-700 text-rigth '>
-        {pqrs.description.slice(0,25)+ "..."}
+        {pqrs.descripcionPqrs.slice(0,25)+ "..."}
       </td>
       <td className='  py-2 text-sm flex justify-center whitespace-nowrap '>
         <span className='state  text-gray-700  bg-gray-200'>
           <div className='mr-2 w-2 h-2  bg-gray-800 rounded-full'></div>
-          {pqrs.type}
+          {pqrs.tipoPqrs}
         </span>
       </td>
       <td className='text-sm  font-medium text-blue-500 hover:underline ] '>
-        {pqrs.createdAt.toDateString()}
+        {pqrs.fechaCreacion}
       </td>
       <td className={`  flex justify-center  whitespace-nowrap text-center ${editionMode ? 'hidden':''}`}>
         <span className={`state ${text} ${backgroundColor}`}>
           <div className={`mr-2 w-2 h-2 ${backgroundPoint} rounded-full`}></div>
-          {pqrs.state}
+          {pqrs.estadoPqrs}
         </span>
       </td>
       <td className={`p-3  flex justify-center  whitespace-nowrap text-center ${!editionMode ? 'hidden':''}`}>

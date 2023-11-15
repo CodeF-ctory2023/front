@@ -12,6 +12,10 @@ export const getClaimOptions = () => (
         {
             id: 3,
             name: 'Cobro inadecuado',
+        },
+        {
+            id: 4,
+            name: 'Otros',
         }
         
     ]
