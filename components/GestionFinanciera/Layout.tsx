@@ -25,9 +25,7 @@ export const Layout = ({ children }: LayoutProps) => {
       <Grid item>
         <NavBar />
       </Grid>
-      {/* <main className='flex flex-col flex-grow justify-center items-center self-stretch'>
-      </main> */}
-      <Grid item className='flex justify-center w-full px-6'>
+      <Grid item className='flex justify-center w-fit px-6'>
         <Suspense fallback={<CircularProgress />}>{children}</Suspense>
       </Grid>
       <Grid item width='100vw'>

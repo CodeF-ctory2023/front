@@ -5,6 +5,12 @@ import { useRouter } from 'next/router';
 const TarifasPage = () => {
   const router = useRouter();
 
+  const routes = [
+    '/GestionFinanciera/Tarifas/DeTransporte',
+    '/GestionFinanciera/Tarifas/PorCiudad',
+    '/GestionFinanciera',
+  ];
+
   return (
     <Layout>
       <div className='flex flex-col items-center justify-center py-6 px-4 gap-10'>
@@ -12,7 +18,7 @@ const TarifasPage = () => {
           variant='contained'
           size='large'
           className='w-full'
-          onClick={() => router.push('/GestionFinanciera/Tarifas/DeTransporte')}
+          onClick={() => router.push(routes[0])}
         >
           TARIFAS DE TRANSPORTE SIN PARADA
         </Button>
@@ -20,7 +26,7 @@ const TarifasPage = () => {
           variant='contained'
           size='large'
           className='w-full'
-          onClick={() => router.push('/GestionFinanciera/Tarifas/PorCiudad')}
+          onClick={() => router.push(routes[1])}
         >
           TARIFAS POR CIUDAD
         </Button>
@@ -28,7 +34,7 @@ const TarifasPage = () => {
           variant='contained'
           size='large'
           className='w-full'
-          onClick={() => router.push('/GestionFinanciera')}
+          onClick={() => router.push(routes[2])}
         >
           REGRESAR
         </Button>
