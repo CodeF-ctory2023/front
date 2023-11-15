@@ -32,12 +32,30 @@ export const usePqrs = () => {
         title: 'Oops...',
         text: 'Something went wrong!',
       });
-      console.log(error);
+    }
+  };
+
+  const deletePqrs = async (id: number) => {
+    try {
+      await PqrsApi.delete(`/pqrs/${id}`);
+      Swal.fire({
+        icon: 'success',
+        title: 'PQRS deleted successfully',
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Something went wrong!',
+      });
     }
   };
 
   return {
     getPqrs,
     createPqrs,
+    deletePqrs,
   };
 };

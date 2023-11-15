@@ -18,7 +18,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { usePqrs } from '@/hooks/pqrsHooks/usePqrs';
 import { pqrsType } from '../utilities';
 const PqrsTableView = () => {
-  const {getPqrs} = usePqrs();
+  const { getPqrs } = usePqrs();
 
   const [popupOpen, setPopupOpen] = useState<boolean>(false);
   const [pqrsInfo, setPqrsInfo] = useState<pqrsType[]>();
@@ -26,7 +26,7 @@ const PqrsTableView = () => {
   useEffect(() => {
     const getPqrsInfo = async () => {
       const pqrsData = await getPqrs();
-      if(pqrsData){
+      if (pqrsData) {
         setPqrsInfo(pqrsData);
       }
     };
@@ -59,7 +59,7 @@ const PqrsTableView = () => {
       <div className='overflow-auto bg-zinc-50 rounded-lg shadow-lg hidden md:block'>
         <table className='w-full '>
           <thead className='bg-blue-100 '>
-            <tr >
+            <tr>
               {HEADINGS.map((key, index) => (
                 <th
                   key={index}
@@ -72,7 +72,12 @@ const PqrsTableView = () => {
           </thead>
           <tbody className='divide-y divide-gray-100'>
             {pqrsInfo?.map((pqrs, index) => (
-              <PqrsTable key={pqrs.id} index={index} pqrs={pqrs} />
+              <PqrsTable
+                key={pqrs.id}
+                index={index}
+                pqrs={pqrs}
+                setPqrsInfo={setPqrsInfo}
+              />
             ))}
           </tbody>
         </table>

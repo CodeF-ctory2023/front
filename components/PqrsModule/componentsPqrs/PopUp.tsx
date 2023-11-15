@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-imports */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable import/no-default-export */
@@ -73,7 +74,7 @@ const   PopUp = ({ isOpen, closePopup }: PopUpProps) => {
       </div>
       {menuType &&
         <PqrsMenu options={menuType === 'Queja' ? claimOptions : complaintOptions}
-          type={menuType} /> // Show complaints menu if showComplaintMenu is true
+          type={menuType}/> // Show complaints menu if showComplaintMenu is true
       }
     </div>
   );
