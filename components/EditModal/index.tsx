@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
-type coupon = {
+type TEditCupon = {
   id: string;
   name: string;
   description: string;
@@ -12,11 +12,11 @@ type coupon = {
   minValue: number;
   amount: number;
   city: string;
-  amountAvailable: number;
   status: string;
+  userType: string;
 };
 
-type discount = {
+type TEditDiscount = {
   id: string;
   name: string;
   description: string;
@@ -29,17 +29,18 @@ type discount = {
   city: string;
   status: string;
   userType: string;
-  familyProfile: string;
 };
 
-interface EditModalProps {
-  children: React.ReactNode;
+interface EditModalProps<T> {
   id: string;
+  data: T;
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   type: string;
   handleEdit: (id: string, formContext: HTMLFormElement | null) => boolean;
-  formRef: React.RefObject<HTMLFormElement>;
+  userTypeOptions: { id: string; name: string }[];
+  regionOptions: { id: string; name: string }[];
+  children?: React.ReactNode;
 }
 
 interface EditModalChildProps<T> {
@@ -48,7 +49,7 @@ interface EditModalChildProps<T> {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   handleEdit: (id: string, formContext: HTMLFormElement | null) => boolean;
   regionOptions: { id: string; name: string }[];
-  userTypeOptions?: { id: string; name: string }[];
+  userTypeOptions: { id: string; name: string }[];
 }
 
 const EditModal = ({
@@ -58,8 +59,19 @@ const EditModal = ({
   setOpen,
   handleEdit,
   type,
-  formRef,
-}: EditModalProps) => {
+  regionOptions,
+  userTypeOptions,
+  data,
+}: EditModalProps<TEditCupon | TEditDiscount>) => {
+  const typeText = type === 'Cupón' ? 'del cupón' : 'de la promoción';
+
+  const formRef = useRef<HTMLFormElement>(null);
+
+  const [isFixedDiscount, setIsFixedDiscount] = useState<boolean | undefined>();
+
+  useEffect(() => {
+    setIsFixedDiscount(data.discountValue !== 0);
+  }, [data.discountValue]);
   return (
     <div
       className={`${
@@ -74,7 +86,186 @@ const EditModal = ({
         <header className='mb-2'>
           <h1 className='text-3xl text-blue-500 font-bold'>Editar {type}</h1>
         </header>
-        <main>{children}</main>
+        <main>
+          <form
+            action=''
+            ref={formRef}
+            className='w-[520px] flex  flex-col gap-4 my-4'
+            onSubmit={() => {
+              if (handleEdit(id, formRef.current)) {
+                setOpen(false);
+                formRef.current?.reset();
+              }
+            }}
+          >
+            <fieldset className='flex  flex-col gap-2'>
+              <label htmlFor='name'>Nombre</label>
+              <input
+                type='text'
+                name='name'
+                id='name'
+                defaultValue={data.name}
+                placeholder={`Nombre ${typeText}`}
+                className='bg-gray-200 p-2 rounded-lg'
+              />
+              <label htmlFor='description'>Descripción</label>
+              <textarea
+                name='description'
+                id='description'
+                cols={30}
+                rows={3}
+                defaultValue={data.description}
+                placeholder={`Descripción ${typeText}`}
+                className='bg-gray-200 p-2 rounded-lg'
+              ></textarea>
+            </fieldset>
+
+            <fieldset className='flex gap-4'>
+              <div className='flex-grow'>
+                <label htmlFor='discountValue' className='flex flex-col'>
+                  <div>
+                    <input
+                      type='radio'
+                      name='tipo-descuento'
+                      id='discountValue'
+                      value='fijo'
+                      required
+                      defaultChecked={data.discountValue !== 0}
+                      onChange={() => {
+                        setIsFixedDiscount(true);
+                      }}
+                    />
+                    <label htmlFor='discountValue'>&nbsp;Descuento fijo</label>
+                  </div>
+                  <input
+                    type='number'
+                    name='discountValue'
+                    id='discountValue'
+                    placeholder='Valor'
+                    className='bg-gray-200 p-2 rounded-lg disabled:opacity-50'
+                    disabled={!isFixedDiscount}
+                    defaultValue={data.discountValue}
+                  />
+                </label>
+              </div>
+              <div className='flex-grow'>
+                <label htmlFor='discountPercentage' className='flex flex-col'>
+                  <div>
+                    <input
+                      type='radio'
+                      name='tipo-descuento'
+                      id='discountPercentage'
+                      value='porcentaje'
+                      defaultChecked={data.discountValue === 0}
+                      onChange={() => {
+                        setIsFixedDiscount(false);
+                      }}
+                    />
+                    <label htmlFor='discountPercentage'>
+                      &nbsp;Descuento porcentual
+                    </label>
+                  </div>
+                  <input
+                    type='number'
+                    name='discountPercentage'
+                    id='discountPercentage'
+                    placeholder='Valor'
+                    className='bg-gray-200 p-2 rounded-lg disabled:opacity-50'
+                    disabled={isFixedDiscount}
+                    defaultValue={data.discountPercentage}
+                  />
+                </label>
+              </div>
+            </fieldset>
+
+            <fieldset className='flex gap-4'>
+              <label htmlFor='minValue' className='flex-grow flex flex-col'>
+                Valor mínimo
+                <input
+                  type='number'
+                  name='minValue'
+                  id='minValue'
+                  placeholder='Valor'
+                  className='bg-gray-200 p-2 rounded-lg disabled:opacity-50'
+                  disabled={!isFixedDiscount}
+                  defaultValue={data.minValue}
+                />
+              </label>
+              <label htmlFor='maxDiscount' className='flex-grow flex flex-col'>
+                Descuento máximo
+                <input
+                  type='number'
+                  name='maxDiscount'
+                  id='maxDiscount'
+                  placeholder='Valor'
+                  className='bg-gray-200 p-2 rounded-lg disabled:opacity-50'
+                  disabled={isFixedDiscount}
+                  defaultValue={data.maxDiscount}
+                />
+              </label>
+            </fieldset>
+
+            <fieldset className='flex gap-4'>
+              <div className='flex-grow flex flex-col'>
+                <label htmlFor='startDate'>Válida desde</label>
+                <input
+                  type='datetime-local'
+                  name='startDate'
+                  id='startDate'
+                  className='bg-gray-200 p-2 rounded-lg'
+                  defaultValue={data.startDate.toISOString().split('T')[0]}
+                />
+              </div>
+
+              <div className='flex-grow flex flex-col'>
+                <label htmlFor='endDate'>Válida hasta</label>
+                <input
+                  type='datetime-local'
+                  name='endDate'
+                  id='endDate'
+                  className='bg-gray-200 p-2 rounded-lg'
+                  defaultValue={data.endDate.toISOString().split('T')[0]}
+                />
+              </div>
+            </fieldset>
+
+            <fieldset className='flex gap-4'>
+              <label htmlFor='city' className='flex-1 flex-grow flex flex-col'>
+                Región
+                <select
+                  name='city'
+                  id='city'
+                  className='bg-gray-200 p-2 rounded-lg'
+                >
+                  {regionOptions.map(({ id, name }) => (
+                    <option key={`region-${id}`} value={id}>
+                      {name}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label
+                htmlFor='userType'
+                className='flex-1 flex-grow flex flex-col'
+              >
+                Tipo de usuario
+                <select
+                  name='userType'
+                  id='userType'
+                  className='bg-gray-200 p-2 rounded-lg'
+                  defaultValue={data.userType}
+                >
+                  {userTypeOptions?.map(({ id, name }) => (
+                    <option key={`user-type-${id}`} value={id}>
+                      {name}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            </fieldset>
+            {children}
+          </form>
+        </main>
         <footer className='self-end flex gap-4'>
           <button
             className='text-lg font-semibold rounded-lg py-2 px-4 border-4 border-red-500 text-red-500'
@@ -86,14 +277,8 @@ const EditModal = ({
             Cancelar
           </button>
           <button
+            type='submit'
             className='text-lg font-semibold rounded-lg py-2 px-4 border-4 border-blue-500 text-blue-500'
-            onClick={() => {
-              const editResult = handleEdit(id, formRef.current);
-              if (editResult) {
-                setOpen(false);
-                formRef.current?.reset();
-              }
-            }}
           >
             Editar
           </button>
@@ -109,199 +294,33 @@ const EditCouponModal = ({
   setOpen,
   handleEdit,
   regionOptions,
-}: EditModalChildProps<coupon>) => {
-  const formRef = useRef<HTMLFormElement>(null);
-
-  const [isFixedDiscount, setIsFixedDiscount] = useState<boolean | undefined>();
-
-  useEffect(() => {
-    setIsFixedDiscount(data.discountValue !== 0);
-  }, [data.discountValue]);
-
+  userTypeOptions,
+}: EditModalChildProps<TEditCupon>) => {
   return (
     <EditModal
       id={data.id}
       open={open}
       setOpen={setOpen}
       handleEdit={handleEdit}
-      formRef={formRef}
       type='Cupón'
+      regionOptions={regionOptions}
+      userTypeOptions={userTypeOptions}
+      data={data}
     >
-      <form
-        action=''
-        ref={formRef}
-        className='w-[520px] flex  flex-col gap-4 my-4'
-      >
-        <fieldset className='flex  flex-col gap-2'>
-          <label htmlFor='name'>Nombre</label>
+      <fieldset className='flex gap-4'>
+        <label htmlFor='amount' className='flex-grow flex flex-col'>
+          Cantidad de cupones
           <input
-            type='text'
-            name='name'
-            id='name'
-            defaultValue={data.name}
-            placeholder={`Nombre del cupón`}
+            type='number'
+            name='amount'
+            id='amount'
+            disabled
+            defaultValue={data.amount}
+            placeholder='Cantidad'
             className='bg-gray-200 p-2 rounded-lg'
           />
-          <label htmlFor='description'>Descripción</label>
-          <textarea
-            name='description'
-            id='description'
-            cols={30}
-            rows={3}
-            defaultValue={data.description}
-            placeholder={`Descripción del cupón`}
-            className='bg-gray-200 p-2 rounded-lg'
-          ></textarea>
-        </fieldset>
-
-        <fieldset className='flex gap-4'>
-          <div className='flex-grow'>
-            <label htmlFor='discountValue' className='flex flex-col'>
-              <div>
-                <input
-                  type='radio'
-                  name='tipo-descuento'
-                  id='discountValue'
-                  defaultChecked={isFixedDiscount}
-                  onChange={() => setIsFixedDiscount(true)}
-                  value='fijo'
-                />
-                <label htmlFor='discountValue'>&nbsp;Descuento fijo</label>
-              </div>
-              <input
-                type='number'
-                name='discountValue'
-                id='discountValue'
-                defaultValue={data.discountValue}
-                placeholder='Valor'
-                disabled={!isFixedDiscount}
-                className='bg-gray-200 p-2 rounded-lg disabled:opacity-50'
-              />
-            </label>
-          </div>
-          <div className='flex-grow'>
-            <label htmlFor='discountPercentage' className='flex flex-col'>
-              <div>
-                <input
-                  type='radio'
-                  name='tipo-descuento'
-                  id='discountPercentage'
-                  defaultChecked={!isFixedDiscount}
-                  onChange={() => setIsFixedDiscount(false)}
-                  value='porcentaje'
-                />
-                <label htmlFor='discountPercentage'>
-                  &nbsp;Descuento porcentual
-                </label>
-              </div>
-              <input
-                type='number'
-                name='discountPercentage'
-                id='discountPercentage'
-                defaultValue={data.discountPercentage}
-                placeholder='Valor'
-                disabled={isFixedDiscount}
-                className='bg-gray-200 p-2 rounded-lg disabled:opacity-50'
-              />
-            </label>
-          </div>
-        </fieldset>
-
-        <fieldset className='flex gap-4'>
-          <label htmlFor='minValue' className='flex-grow flex flex-col'>
-            Valor mínimo
-            <input
-              type='number'
-              name='minValue'
-              id='minValue'
-              defaultValue={data.minValue}
-              placeholder='Valor'
-              className='bg-gray-200 p-2 rounded-lg disabled:opacity-50'
-              disabled={!isFixedDiscount}
-            />
-          </label>
-          <label htmlFor='maxDiscount' className='flex-grow flex flex-col'>
-            Descuento máximo
-            <input
-              type='number'
-              name='maxDiscount'
-              id='maxDiscount'
-              defaultValue={data.maxDiscount}
-              placeholder='Valor'
-              className='bg-gray-200 p-2 rounded-lg disabled:opacity-50'
-              disabled={isFixedDiscount}
-            />
-          </label>
-        </fieldset>
-
-        <fieldset className='flex gap-4'>
-          <div className='flex-grow flex flex-col'>
-            <label htmlFor='startDate'>Válido desde</label>
-            <input
-              type='date'
-              name='startDate'
-              id='startDate'
-              defaultValue={data.startDate.toISOString().split('T')[0]}
-              className='bg-gray-200 p-2 rounded-lg'
-            />
-          </div>
-
-          <div className='flex-grow flex flex-col'>
-            <label htmlFor='endDate'>Válido hasta</label>
-            <input
-              type='date'
-              name='endDate'
-              id='endDate'
-              defaultValue={data.endDate.toISOString().split('T')[0]}
-              className='bg-gray-200 p-2 rounded-lg'
-            />
-          </div>
-        </fieldset>
-
-        <fieldset className='flex gap-4'>
-          <label htmlFor='city' className='flex-grow flex flex-col'>
-            Ciudad
-            <select
-              name='city'
-              id='city'
-              defaultValue={data.city}
-              className='bg-gray-200 p-2 rounded-lg'
-            >
-              {regionOptions.map(({ id, name }) => (
-                <option key={`region-${id}`} value={id}>
-                  {name}
-                </option>
-              ))}
-            </select>
-          </label>
-          <label htmlFor='status' className='flex-grow flex flex-col'>
-            Estado
-            <select
-              name='status'
-              id='status'
-              defaultValue={data.status}
-              className='bg-gray-200 p-2 rounded-lg'
-            >
-              <option value='activo'>Activo</option>
-              <option value='inactivo'>Inactivo</option>
-            </select>
-          </label>
-        </fieldset>
-
-        <fieldset className='flex gap-4'>
-          <label htmlFor='amount' className='flex-grow flex flex-col'>
-            Cantidad de cupones
-            <input
-              type='number'
-              name='amount'
-              id='amount'
-              defaultValue={data.amount}
-              placeholder='Cantidad'
-              className='bg-gray-200 p-2 rounded-lg'
-            />
-          </label>
-        </fieldset>
-      </form>
+        </label>
+      </fieldset>
     </EditModal>
   );
 };
@@ -313,195 +332,18 @@ const EditDiscountModal = ({
   handleEdit,
   regionOptions,
   userTypeOptions,
-}: EditModalChildProps<discount>) => {
-  const formRef = useRef<HTMLFormElement>(null);
-
-  const [isFixedDiscount, setIsFixedDiscount] = useState<boolean | undefined>(
-    undefined
-  );
-
-  useEffect(() => {
-    setIsFixedDiscount(data.discountValue !== 0);
-  }, [data.discountValue]);
-
+}: EditModalChildProps<TEditDiscount>) => {
   return (
     <EditModal
       id={data.id}
       open={open}
       setOpen={setOpen}
       handleEdit={handleEdit}
-      formRef={formRef}
       type='Promoción'
-    >
-      <form
-        action=''
-        ref={formRef}
-        className='w-[520px] flex  flex-col gap-4 my-4'
-      >
-        <fieldset className='flex  flex-col gap-2'>
-          <label htmlFor='name'>Nombre</label>
-          <input
-            type='text'
-            name='name'
-            id='name'
-            defaultValue={data.name}
-            placeholder={`Nombre de la promoción`}
-            className='bg-gray-200 p-2 rounded-lg'
-          />
-          <label htmlFor='description'>Descripción</label>
-          <textarea
-            name='description'
-            id='description'
-            cols={30}
-            rows={3}
-            defaultValue={data.description}
-            placeholder={`Descripción de la promoción`}
-            className='bg-gray-200 p-2 rounded-lg'
-          ></textarea>
-        </fieldset>
-
-        <fieldset className='flex gap-4'>
-          <div className='flex-grow'>
-            <label htmlFor='discountValue' className='flex flex-col'>
-              <div>
-                <input
-                  type='radio'
-                  name='tipo-descuento'
-                  id='discountValue'
-                  value='fijo'
-                  required
-                  defaultChecked={data.discountValue !== 0}
-                  onChange={() => {
-                    setIsFixedDiscount(true);
-                  }}
-                />
-                <label htmlFor='discountValue'>&nbsp;Descuento fijo</label>
-              </div>
-              <input
-                type='number'
-                name='discountValue'
-                id='discountValue'
-                placeholder='Valor'
-                className='bg-gray-200 p-2 rounded-lg disabled:opacity-50'
-                disabled={!isFixedDiscount}
-                defaultValue={data.discountValue}
-              />
-            </label>
-          </div>
-          <div className='flex-grow'>
-            <label htmlFor='discountPercentage' className='flex flex-col'>
-              <div>
-                <input
-                  type='radio'
-                  name='tipo-descuento'
-                  id='discountPercentage'
-                  value='porcentaje'
-                  defaultChecked={data.discountValue === 0}
-                  onChange={() => {
-                    setIsFixedDiscount(false);
-                  }}
-                />
-                <label htmlFor='discountPercentage'>
-                  &nbsp;Descuento porcentual
-                </label>
-              </div>
-              <input
-                type='number'
-                name='discountPercentage'
-                id='discountPercentage'
-                placeholder='Valor'
-                className='bg-gray-200 p-2 rounded-lg disabled:opacity-50'
-                disabled={isFixedDiscount}
-                defaultValue={data.discountPercentage}
-              />
-            </label>
-          </div>
-        </fieldset>
-
-        <fieldset className='flex gap-4'>
-          <label htmlFor='minValue' className='flex-grow flex flex-col'>
-            Valor mínimo
-            <input
-              type='number'
-              name='minValue'
-              id='minValue'
-              placeholder='Valor'
-              className='bg-gray-200 p-2 rounded-lg disabled:opacity-50'
-              disabled={!isFixedDiscount}
-              defaultValue={data.minValue}
-            />
-          </label>
-          <label htmlFor='maxDiscount' className='flex-grow flex flex-col'>
-            Descuento máximo
-            <input
-              type='number'
-              name='maxDiscount'
-              id='maxDiscount'
-              placeholder='Valor'
-              className='bg-gray-200 p-2 rounded-lg disabled:opacity-50'
-              disabled={isFixedDiscount}
-              defaultValue={data.maxDiscount}
-            />
-          </label>
-        </fieldset>
-
-        <fieldset className='flex gap-4'>
-          <div className='flex-grow flex flex-col'>
-            <label htmlFor='startDate'>Válida desde</label>
-            <input
-              type='date'
-              name='startDate'
-              id='startDate'
-              className='bg-gray-200 p-2 rounded-lg'
-              defaultValue={data.startDate.toISOString().split('T')[0]}
-            />
-          </div>
-
-          <div className='flex-grow flex flex-col'>
-            <label htmlFor='endDate'>Válida hasta</label>
-            <input
-              type='date'
-              name='endDate'
-              id='endDate'
-              className='bg-gray-200 p-2 rounded-lg'
-              defaultValue={data.endDate.toISOString().split('T')[0]}
-            />
-          </div>
-        </fieldset>
-
-        <fieldset className='flex gap-4'>
-          <label htmlFor='city' className='flex-grow flex flex-col'>
-            Región
-            <select
-              name='city'
-              id='city'
-              className='bg-gray-200 p-2 rounded-lg'
-            >
-              {regionOptions.map(({ id, name }) => (
-                <option key={`region-${id}`} value={id}>
-                  {name}
-                </option>
-              ))}
-            </select>
-          </label>
-          <label htmlFor='userType' className='flex-grow flex flex-col'>
-            Tipo de usuario
-            <select
-              name='userType'
-              id='userType'
-              className='bg-gray-200 p-2 rounded-lg'
-              defaultValue={data.userType}
-            >
-              {userTypeOptions?.map(({ id, name }) => (
-                <option key={`user-type-${id}`} value={id}>
-                  {name}
-                </option>
-              ))}
-            </select>
-          </label>
-        </fieldset>
-      </form>
-    </EditModal>
+      regionOptions={regionOptions}
+      userTypeOptions={userTypeOptions}
+      data={data}
+    />
   );
 };
 
