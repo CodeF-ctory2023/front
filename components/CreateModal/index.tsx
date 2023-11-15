@@ -137,7 +137,7 @@ const CreateDiscountModal = ({
                 name='discountValue'
                 id='discountValue'
                 placeholder='Valor'
-                className='bg-gray-200 p-2 rounded-lg disabled:opacity-50'
+                className='bg-gray-200 p-2 rounded-lg'
                 disabled={!isDiscountValue}
                 value={discountValue}
                 onChange={(e) => setDiscountValue(e.target.value)}
@@ -166,7 +166,7 @@ const CreateDiscountModal = ({
                 name='discountPercentage'
                 id='discountPercentage'
                 placeholder='Valor'
-                className='bg-gray-200 p-2 rounded-lg disabled:opacity-50'
+                className='bg-gray-200 p-2 rounded-lg'
                 disabled={isDiscountValue}
                 value={discountPercentage}
                 onChange={(e) => {
@@ -185,7 +185,7 @@ const CreateDiscountModal = ({
               name='minValue'
               id='minValue'
               placeholder='Valor'
-              className='bg-gray-200 p-2 rounded-lg disabled:opacity-50'
+              className='bg-gray-200 p-2 rounded-lg'
               disabled={!isDiscountValue}
             />
           </label>
@@ -196,7 +196,7 @@ const CreateDiscountModal = ({
               name='maxDiscount'
               id='maxDiscount'
               placeholder='Valor'
-              className='bg-gray-200 p-2 rounded-lg disabled:opacity-50'
+              className='bg-gray-200 p-2 rounded-lg'
               disabled={isDiscountValue}
             />
           </label>
@@ -302,7 +302,7 @@ const CreateCouponModal = ({
             rows={3}
             required
             placeholder={`Descripción del cupón`}
-            className='bg-gray-200 p-2 rounded-lg disabled:opacity-50'
+            className='bg-gray-200 p-2 rounded-lg'
           ></textarea>
         </fieldset>
 
@@ -327,7 +327,7 @@ const CreateCouponModal = ({
                 name='discountValue'
                 id='discountValue'
                 placeholder='Valor'
-                className='bg-gray-200 p-2 rounded-lg disabled:opacity-50'
+                className='bg-gray-200 p-2 rounded-lg'
                 disabled={!isDiscountValue}
                 value={discountValue}
                 onChange={(e) => setDiscountValue(e.target.value)}
@@ -375,7 +375,7 @@ const CreateCouponModal = ({
               name='minValue'
               id='minValue'
               placeholder='Valor'
-              className='bg-gray-200 p-2 rounded-lg disabled:opacity-50'
+              className='bg-gray-200 p-2 rounded-lg'
               disabled={!isDiscountValue}
             />
           </label>
@@ -386,7 +386,7 @@ const CreateCouponModal = ({
               name='maxDiscount'
               id='maxDiscount'
               placeholder='Valor'
-              className='bg-gray-200 p-2 rounded-lg disabled:opacity-50'
+              className='bg-gray-200 p-2 rounded-lg'
               disabled={isDiscountValue}
             />
           </label>
