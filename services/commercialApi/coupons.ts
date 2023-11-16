@@ -24,7 +24,10 @@ export const getCouponById = async (id: string) => {
 
 export const createCoupon = async (coupon: TNewCouponPayload) => {
   try {
-    const newCoupon: TCouponPayload = await service.post('coupons', coupon);
+    const newCoupon: TCouponPayload = await service.post(
+      'coupons/create',
+      coupon
+    );
     return adaptCoupon(newCoupon);
   } catch (error) {
     throw new Error('Error al crear el cupón');
@@ -34,7 +37,7 @@ export const createCoupon = async (coupon: TNewCouponPayload) => {
 export const updateCoupon = async (id: string, coupon: TCouponPayload) => {
   try {
     const updatedCoupon: TCouponPayload = await service.patch(
-      `coupons/${id}`,
+      `coupons/edit/${id}`,
       coupon
     );
     return adaptCoupon(updatedCoupon);
@@ -45,7 +48,9 @@ export const updateCoupon = async (id: string, coupon: TCouponPayload) => {
 
 export const deleteCoupon = async (id: string) => {
   try {
-    const deletedCoupon: TCouponPayload = await service.delete(`coupons/${id}`);
+    const deletedCoupon: TCouponPayload = await service.delete(
+      `coupons/delete/${id}`
+    );
     return adaptCoupon(deletedCoupon);
   } catch (error) {
     throw new Error('Error al eliminar el cupón');
