@@ -2,7 +2,7 @@ import { Layout } from '@/components/GestionFinanciera/Layout';
 import { Button, Grid } from '@mui/material';
 import { useRouter } from 'next/router';
 
-const AdminPage = () => {
+const GestionFinancieraPage = () => {
   const router = useRouter();
 
   return (
@@ -39,4 +39,4 @@ const AdminPage = () => {
   );
 };
 
-export default AdminPage;
+export default GestionFinancieraPage;

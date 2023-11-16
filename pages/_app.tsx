@@ -1,6 +1,12 @@
 import { ThemeRegistry } from '@/components/utils/ThemeRegistry';
 import '@/styles/globals.css';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import {
+  QueryClient,
+  QueryClientProvider
+} from '@tanstack/react-query';
+import 'dayjs/locale/es';
 import type { AppProps } from 'next/app';
 
 const App = ({ Component, pageProps }: AppProps) => {
@@ -14,11 +20,13 @@ const App = ({ Component, pageProps }: AppProps) => {
   });
 
   return (
-    <ThemeRegistry>
-      <QueryClientProvider client={queryClient}>
-        <Component {...pageProps} />
-      </QueryClientProvider>
-    </ThemeRegistry>
+    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale='es'>
+      <ThemeRegistry>
+        <QueryClientProvider client={queryClient}>
+          <Component {...pageProps} />
+        </QueryClientProvider>
+      </ThemeRegistry>
+    </LocalizationProvider>
   );
 };
 
