@@ -1,5 +1,7 @@
-/* eslint-disable no-console */
-import { CityFeeRequest } from '@/interfaces/CityFee.interface';
+import {
+  CityFeeRequest,
+  CityFeeResponse,
+} from '@/interfaces/CityFee.interface';
 import { NonStopFee } from '@/interfaces/NonStopFee.interfaces';
 import axios from 'axios';
 
@@ -8,8 +10,24 @@ const api = axios.create({
   timeout: 3000,
 });
 
-const obtenerTarifasPorCiudad = () => {
-  return api.get('/cities/names');
+const obtenerTarifasPorCiudad = async (): Promise<CityFeeResponse> => {
+  return api
+    .get('/cities/names')
+    .then((res) => {
+      if (res.status === 200) {
+        return res.data;
+      }
+      if (res.status === 400) {
+        throw new Error(res.data);
+      }
+    })
+    .catch((err) => {
+      if (err.response) {
+        throw new Error(err.response.data.message);
+      } else {
+        throw new Error('Error al conectar con el servidor, intente más tarde');
+      }
+    });
 };
 
 const actualizarTarifaPorCiudad = (request: CityFeeRequest) => {
