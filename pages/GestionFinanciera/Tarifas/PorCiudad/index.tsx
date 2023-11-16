@@ -7,9 +7,7 @@ import {
 import { GrowWrapper } from '@/components/GestionFinanciera/GrowWrapper';
 import { Layout } from '@/components/GestionFinanciera/Layout';
 import { SkeletonWrapper } from '@/components/GestionFinanciera/SkeletonWrapper';
-import {
-  CityFeeRequest
-} from '@/interfaces/CityFee.interface';
+import { CityFeeRequest } from '@/interfaces/CityFee.interface';
 import {
   Alert,
   Autocomplete,
@@ -39,31 +37,7 @@ const PorCiudadPage = () => {
   });
 
   const cityFeesMutation = useMutation({
-    mutationFn: async (e: FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-
-      // validate data
-      const validCity =
-        formData.city.length > 0 && cityFeesMap.data?.has(formData.city);
-      const validPercentage =
-        !isNaN(parseFloat(formData.percentage)) &&
-        Math.abs(parseFloat(formData.percentage)) <= 30;
-
-      if (!validCity) {
-        throw Error('Ciudad no válida');
-      }
-      if (!validPercentage) {
-        setValidateErrors({
-          percentage: 'Ingrese un valor entre -30% y 30%',
-        });
-        throw Error('Porcentaje no válido');
-      }
-
-      // reset validate errors
-      setValidateErrors({
-        percentage: '',
-      });
-
+    mutationFn: async () => {
       const requestData: CityFeeRequest = {
         cityId: cityFeesMap.data?.get(formData.city)?.cityId || NaN,
         percentage: parseFloat(formData.percentage),
@@ -73,6 +47,35 @@ const PorCiudadPage = () => {
       return res;
     },
   });
+
+  const validateAndMutate = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    cityFeesMutation.reset();
+
+    // validate data
+    const validCity =
+      formData.city.length > 0 && cityFeesMap.data?.has(formData.city);
+    const validPercentage =
+      !isNaN(parseFloat(formData.percentage)) &&
+      Math.abs(parseFloat(formData.percentage)) <= 30;
+
+    if (!validCity) {
+      return;
+    }
+    if (!validPercentage) {
+      setValidateErrors({
+        percentage: 'Ingrese un valor entre -30% y 30%',
+      });
+      return;
+    }
+
+    // reset validate errors
+    setValidateErrors({
+      percentage: '',
+    });
+
+    cityFeesMutation.mutate();
+  };
 
   const cityFeesMap = useQuery({
     queryKey: ['cityFees'],
@@ -115,7 +118,7 @@ const PorCiudadPage = () => {
           component='form'
           elevation={4}
           className='p-6'
-          onSubmit={cityFeesMutation.mutate}
+          onSubmit={validateAndMutate}
         >
           <Grid container direction='column' spacing={{ sm: 4, xs: 2 }}>
             <Grid item className='flex justify-center'>
@@ -125,7 +128,12 @@ const PorCiudadPage = () => {
             </Grid>
             <Grid item className='flex justify-between items-center gap-4'>
               <SkeletonWrapper loading={cityFeesMap.isLoading}>
-                <Typography variant='body1' className='whitespace-nowrap'>
+                <Typography
+                  variant='body1'
+                  component='label'
+                  htmlFor='city'
+                  className='whitespace-nowrap'
+                >
                   Elegir ciudad:
                 </Typography>
                 <Autocomplete
@@ -135,6 +143,12 @@ const PorCiudadPage = () => {
                     cityFeesMap.data ? cityFeesMap.data.keys() : []
                   )}
                   noOptionsText=''
+                  isOptionEqualToValue={(option, value) => {
+                    if (value === '') {
+                      return true;
+                    }
+                    return option === value;
+                  }}
                   size='small'
                   className='w-1/2'
                   renderInput={(params) => (
@@ -157,7 +171,12 @@ const PorCiudadPage = () => {
             </Grid>
             <Grid item className='flex justify-between items-center gap-8'>
               <SkeletonWrapper loading={cityFeesMap.isLoading}>
-                <Typography variant='body1' className='whitespace-nowrap'>
+                <Typography
+                  variant='body1'
+                  component='label'
+                  htmlFor='percentage'
+                  className='whitespace-nowrap'
+                >
                   Porcentaje de tarifa:
                 </Typography>
                 <NumericFormat
@@ -177,24 +196,27 @@ const PorCiudadPage = () => {
               </SkeletonWrapper>
             </Grid>
             {/* Alerts section */}
-            <Grid item className='flex justify-center self-stretch'>
-              {cityFeesMutation.isSuccess && (
-                <Alert severity={'success'}>Guardado exitoso</Alert>
-              )}
-              {cityFeesMutation.isError && (
-                <Alert severity='error'>
-                  No se pudo actualizar la tarifa: {cityFeesMutation.error.message}
-                </Alert>
-              )}
-              {cityFeesMutation.isPending && (
-                <LinearProgress className='w-full'></LinearProgress>
-              )}
-              {cityFeesMap.isError && (
-                <Alert severity='error'>
-                  No se puede conectar con el servidor, inténtelo más tarde
-                </Alert>
-              )}
-            </Grid>
+            {(!cityFeesMutation.isIdle || cityFeesMap.isError) && (
+              <Grid item className='flex justify-center self-stretch'>
+                {cityFeesMutation.isSuccess && (
+                  <Alert severity={'success'}>Guardado exitoso</Alert>
+                )}
+                {cityFeesMutation.isError && (
+                  <Alert severity='error'>
+                    No se pudo actualizar la tarifa:{' '}
+                    {cityFeesMutation.error.message}
+                  </Alert>
+                )}
+                {cityFeesMutation.isPending && (
+                  <LinearProgress className='w-full'></LinearProgress>
+                )}
+                {cityFeesMap.isError && (
+                  <Alert severity='error'>
+                    No se puede conectar con el servidor, inténtelo más tarde
+                  </Alert>
+                )}
+              </Grid>
+            )}
             <Grid item className='flex justify-evenly gap-2'>
               {cityFeesMap.isLoading ? (
                 <SkeletonWrapper

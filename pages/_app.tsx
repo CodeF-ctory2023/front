@@ -8,6 +8,7 @@ const App = ({ Component, pageProps }: AppProps) => {
     defaultOptions: {
       queries: {
         staleTime: 3000,
+        retry: false,
       },
     },
   });
