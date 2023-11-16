@@ -1,6 +1,7 @@
 export type TCouponPayload = {
   code: string;
-  amount: number;
+  amountCreated: number;
+  amountAvalaible: number;
   status: string;
   strategy: {
     idStrategy: number;
@@ -14,13 +15,13 @@ export type TCouponPayload = {
     minValue: number;
     maxDiscount: number;
     city: string;
+    userType: string;
     users: string[];
-    // amountAvailable: number;
   };
 };
 
 export type TNewCouponPayload = {
-  amount: number;
+  amountCreated: number;
   strategy: {
     name: string;
     description: string;
@@ -32,5 +33,6 @@ export type TNewCouponPayload = {
     maxDiscount: number;
     isActive: boolean;
     city: string;
+    usertype: string;
   };
 };

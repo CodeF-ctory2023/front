@@ -12,4 +12,5 @@ export type TCoupon = {
   city: string;
   amountAvailable: number;
   status: string;
+  userType: string;
 };

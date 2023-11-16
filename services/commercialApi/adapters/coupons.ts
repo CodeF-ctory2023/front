@@ -12,9 +12,10 @@ export const adaptCoupon = (coupon: TCouponPayload): TCoupon => {
     maxDiscount: coupon.strategy.maxDiscount,
     discountValue: coupon.strategy.discountValue,
     minValue: coupon.strategy.minValue,
-    amount: coupon.amount,
+    amount: coupon.amountCreated,
     city: coupon.strategy.city,
-    amountAvailable: coupon.amount, // TODO: fix this
+    amountAvailable: coupon.amountCreated,
     status: coupon.status,
+    userType: coupon.strategy.userType,
   };
 };
