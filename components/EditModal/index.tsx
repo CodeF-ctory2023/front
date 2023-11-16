@@ -64,6 +64,7 @@ const EditModal = ({
   data,
 }: EditModalProps<TEditCupon | TEditDiscount>) => {
   const typeText = type === 'Cupón' ? 'del cupón' : 'de la promoción';
+  const ACTUAL_DATE = new Date().toISOString().split(':').slice(0, 2).join(':');
 
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -91,7 +92,8 @@ const EditModal = ({
             action=''
             ref={formRef}
             className='w-[520px] flex  flex-col gap-4 my-4'
-            onSubmit={() => {
+            onSubmit={(e) => {
+              e.preventDefault();
               if (handleEdit(id, formRef.current)) {
                 setOpen(false);
                 formRef.current?.reset();
@@ -107,6 +109,8 @@ const EditModal = ({
                 defaultValue={data.name}
                 placeholder={`Nombre ${typeText}`}
                 className='bg-gray-200 p-2 rounded-lg'
+                required
+                maxLength={250}
               />
               <label htmlFor='description'>Descripción</label>
               <textarea
@@ -117,11 +121,13 @@ const EditModal = ({
                 defaultValue={data.description}
                 placeholder={`Descripción ${typeText}`}
                 className='bg-gray-200 p-2 rounded-lg'
+                required
+                maxLength={250}
               ></textarea>
             </fieldset>
 
             <fieldset className='flex gap-4'>
-              <div className='flex-grow'>
+              <div className='flex-1 flex-grow'>
                 <label htmlFor='discountValue' className='flex flex-col'>
                   <div>
                     <input
@@ -145,10 +151,13 @@ const EditModal = ({
                     className='bg-gray-200 p-2 rounded-lg disabled:opacity-50'
                     disabled={!isFixedDiscount}
                     defaultValue={data.discountValue}
+                    required={isFixedDiscount}
+                    min={0}
+                    max={1000000}
                   />
                 </label>
               </div>
-              <div className='flex-grow'>
+              <div className='flex-1 flex-grow'>
                 <label htmlFor='discountPercentage' className='flex flex-col'>
                   <div>
                     <input
@@ -173,13 +182,19 @@ const EditModal = ({
                     className='bg-gray-200 p-2 rounded-lg disabled:opacity-50'
                     disabled={isFixedDiscount}
                     defaultValue={data.discountPercentage}
+                    required={!isFixedDiscount}
+                    min={0}
+                    max={100}
                   />
                 </label>
               </div>
             </fieldset>
 
             <fieldset className='flex gap-4'>
-              <label htmlFor='minValue' className='flex-grow flex flex-col'>
+              <label
+                htmlFor='minValue'
+                className='flex-1 flex-grow flex flex-col'
+              >
                 Valor mínimo
                 <input
                   type='number'
@@ -189,9 +204,15 @@ const EditModal = ({
                   className='bg-gray-200 p-2 rounded-lg disabled:opacity-50'
                   disabled={!isFixedDiscount}
                   defaultValue={data.minValue}
+                  required={isFixedDiscount}
+                  min={0}
+                  max={1000000}
                 />
               </label>
-              <label htmlFor='maxDiscount' className='flex-grow flex flex-col'>
+              <label
+                htmlFor='maxDiscount'
+                className='flex-1 flex-grow flex flex-col'
+              >
                 Descuento máximo
                 <input
                   type='number'
@@ -201,6 +222,9 @@ const EditModal = ({
                   className='bg-gray-200 p-2 rounded-lg disabled:opacity-50'
                   disabled={isFixedDiscount}
                   defaultValue={data.maxDiscount}
+                  required={!isFixedDiscount}
+                  min={0}
+                  max={1000000}
                 />
               </label>
             </fieldset>
@@ -213,7 +237,11 @@ const EditModal = ({
                   name='startDate'
                   id='startDate'
                   className='bg-gray-200 p-2 rounded-lg'
-                  defaultValue={data.startDate.toISOString().split('T')[0]}
+                  defaultValue={`${
+                    data.startDate.toISOString().split('T')[0]
+                  }T${data.startDate.toTimeString().slice(0, 5)}`}
+                  required
+                  min={ACTUAL_DATE}
                 />
               </div>
 
@@ -224,7 +252,11 @@ const EditModal = ({
                   name='endDate'
                   id='endDate'
                   className='bg-gray-200 p-2 rounded-lg'
-                  defaultValue={data.endDate.toISOString().split('T')[0]}
+                  defaultValue={`${
+                    data.endDate.toISOString().split('T')[0]
+                  }T${data.endDate.toTimeString().slice(0, 5)}`}
+                  required
+                  min={ACTUAL_DATE}
                 />
               </div>
             </fieldset>
@@ -236,6 +268,7 @@ const EditModal = ({
                   name='city'
                   id='city'
                   className='bg-gray-200 p-2 rounded-lg'
+                  required
                 >
                   {regionOptions.map(({ id, name }) => (
                     <option key={`region-${id}`} value={id}>
@@ -254,6 +287,7 @@ const EditModal = ({
                   id='userType'
                   className='bg-gray-200 p-2 rounded-lg'
                   defaultValue={data.userType}
+                  required
                 >
                   {userTypeOptions?.map(({ id, name }) => (
                     <option key={`user-type-${id}`} value={id}>
@@ -264,25 +298,25 @@ const EditModal = ({
               </label>
             </fieldset>
             {children}
+            <footer className='self-end flex gap-4'>
+              <button
+                className='text-lg font-semibold rounded-lg py-2 px-4 border-4 border-red-500 text-red-500'
+                onClick={() => {
+                  setOpen(false);
+                  formRef.current?.reset();
+                }}
+              >
+                Cancelar
+              </button>
+              <button
+                type='submit'
+                className='text-lg font-semibold rounded-lg py-2 px-4 border-4 border-blue-500 text-blue-500'
+              >
+                Editar
+              </button>
+            </footer>
           </form>
         </main>
-        <footer className='self-end flex gap-4'>
-          <button
-            className='text-lg font-semibold rounded-lg py-2 px-4 border-4 border-red-500 text-red-500'
-            onClick={() => {
-              setOpen(false);
-              formRef.current?.reset();
-            }}
-          >
-            Cancelar
-          </button>
-          <button
-            type='submit'
-            className='text-lg font-semibold rounded-lg py-2 px-4 border-4 border-blue-500 text-blue-500'
-          >
-            Editar
-          </button>
-        </footer>
       </dialog>
     </div>
   );
@@ -318,6 +352,9 @@ const EditCouponModal = ({
             defaultValue={data.amount}
             placeholder='Cantidad'
             className='bg-gray-200 p-2 rounded-lg'
+            required
+            min={1}
+            max={1000000}
           />
         </label>
       </fieldset>
