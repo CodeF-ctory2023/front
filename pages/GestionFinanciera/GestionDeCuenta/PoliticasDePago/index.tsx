@@ -10,7 +10,7 @@ import {
 
 import { useState } from 'react';
 import { useRouter } from 'next/router';
-
+import axios from "axios"
 
 
 
@@ -59,6 +59,8 @@ const PoliticasDePagoPage = () => {
       return;
     }
     else{
+      const fecha=new Date();
+      axios.post("http://localhost:8080/ssmu-api/policies/create",{associate:numericValue1,taxes:numericValue2,platform:sum,date:`${fecha.getFullYear()}-${fecha.getMonth() + 1}-${fecha.getDate()}` })
       setInputValue1(''); // Establecer el campo 1 como vacío
       setInputValue2(''); // Establecer el campo 2 como vacío
       return;
