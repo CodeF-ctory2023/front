@@ -28,6 +28,7 @@ const CreateModal = ({
   userTypeOptions,
 }: CreateModalProps) => {
   const typeText = type === 'Promoción' ? 'de la promoción' : 'del cupón';
+  const ACTUAL_DATE = new Date().toISOString().split(':').slice(0, 2).join(':');
 
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -71,6 +72,8 @@ const CreateModal = ({
                 type='text'
                 placeholder={`Nombre ${typeText}`}
                 className='bg-gray-200 p-2 rounded-lg'
+                required
+                maxLength={250}
               />
               <label htmlFor='description'>Descripción</label>
               <textarea
@@ -80,11 +83,13 @@ const CreateModal = ({
                 rows={3}
                 placeholder={`Descripción ${typeText}`}
                 className='bg-gray-200 p-2 rounded-lg'
+                required
+                maxLength={250}
               ></textarea>
             </fieldset>
 
             <fieldset className='flex gap-4'>
-              <div className='flex-grow'>
+              <div className='flex-1 flex-grow'>
                 <label htmlFor='discountValue' className='flex flex-col'>
                   <div>
                     <input
@@ -111,10 +116,13 @@ const CreateModal = ({
                     disabled={!isDiscountValue}
                     value={discountValue}
                     onChange={(e) => setDiscountValue(e.target.value)}
+                    required={isDiscountValue}
+                    min={0}
+                    max={1000000}
                   />
                 </label>
               </div>
-              <div className='flex-grow'>
+              <div className='flex-1 flex-grow'>
                 <label htmlFor='discountPercentage' className='flex flex-col'>
                   <div>
                     <input
@@ -143,13 +151,19 @@ const CreateModal = ({
                     onChange={(e) => {
                       setDiscountPercentage(e.target.value);
                     }}
+                    required={!isDiscountValue}
+                    min={0}
+                    max={100}
                   />
                 </label>
               </div>
             </fieldset>
 
             <fieldset className='flex gap-4'>
-              <label htmlFor='minValue' className='flex-grow flex flex-col'>
+              <label
+                htmlFor='minValue'
+                className='flex-1 flex-grow flex flex-col'
+              >
                 Valor mínimo
                 <input
                   type='number'
@@ -160,9 +174,15 @@ const CreateModal = ({
                   disabled={!isDiscountValue}
                   value={minValue}
                   onChange={(e) => setMinValue(e.target.value)}
+                  required={isDiscountValue}
+                  min={0}
+                  max={1000000}
                 />
               </label>
-              <label htmlFor='maxDiscount' className='flex-grow flex flex-col'>
+              <label
+                htmlFor='maxDiscount'
+                className='flex-1 flex-grow flex flex-col'
+              >
                 Descuento máximo
                 <input
                   type='number'
@@ -173,6 +193,9 @@ const CreateModal = ({
                   disabled={isDiscountValue}
                   value={maxDiscount}
                   onChange={(e) => setMaxDiscount(e.target.value)}
+                  required={!isDiscountValue}
+                  min={0}
+                  max={1000000}
                 />
               </label>
             </fieldset>
@@ -185,6 +208,8 @@ const CreateModal = ({
                   name='startDate'
                   id='startDate'
                   className='bg-gray-200 p-2 rounded-lg'
+                  required
+                  min={ACTUAL_DATE}
                 />
               </div>
 
@@ -195,6 +220,8 @@ const CreateModal = ({
                   name='endDate'
                   id='endDate'
                   className='bg-gray-200 p-2 rounded-lg'
+                  required
+                  min={ACTUAL_DATE}
                 />
               </div>
             </fieldset>
@@ -206,6 +233,7 @@ const CreateModal = ({
                   name='city'
                   id='city'
                   className='bg-gray-200 p-2 rounded-lg'
+                  required
                 >
                   {regionOptions.map(({ id, name }) => (
                     <option key={`region-${id}`} value={id}>
@@ -223,6 +251,7 @@ const CreateModal = ({
                   name='userType'
                   id='userType'
                   className='bg-gray-200 p-2 rounded-lg'
+                  required
                 >
                   {userTypeOptions?.map(({ id, name }) => (
                     <option key={`user-type-${id}`} value={id}>
@@ -301,6 +330,9 @@ const CreateCouponModal = ({
             id='amount'
             placeholder='Cantidad'
             className='bg-gray-200 p-2 rounded-lg'
+            required
+            min={1}
+            max={1000000}
           />
         </label>
       </fieldset>
