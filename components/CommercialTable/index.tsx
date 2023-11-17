@@ -1,36 +1,7 @@
+import { TCoupon, TDiscount } from '@/types';
+
 import { Dispatch } from 'react';
 
-type coupon = {
-  id: string;
-  name: string;
-  description: string;
-  startDate: Date;
-  endDate: Date;
-  discountPercentage: number;
-  maxDiscount: number;
-  discountValue: number;
-  minValue: number;
-  amount: number;
-  city: string;
-  amountAvailable: number;
-  status: string;
-};
-
-type discounts = {
-  id: string;
-  name: string;
-  description: string;
-  startDate: Date;
-  endDate: Date;
-  discountPercentage: number;
-  maxDiscount: number;
-  discountValue: number;
-  minValue: number;
-  city: string;
-  status: string;
-  userType: string;
-  familyProfile: string;
-};
 interface TableProps<T> {
   elements: T[];
   setOpenEdit: Dispatch<React.SetStateAction<boolean>>;
@@ -43,7 +14,7 @@ const DiscountsTable = ({
   setOpenEdit,
   setIdToEdit,
   setIdToDelete,
-}: TableProps<discounts>) => {
+}: TableProps<TDiscount>) => {
   return (
     <table className='w-full border-collapse table-auto text-center'>
       <thead className='border-b-2 h-12'>
@@ -117,7 +88,7 @@ const CouponsTable = ({
   setOpenEdit,
   setIdToEdit,
   setIdToDelete,
-}: TableProps<coupon>) => {
+}: TableProps<TCoupon>) => {
   if (couponsList.length === 0)
     return (
       <div className='flex justify-center items-center text-2xl text-gray-500'>
