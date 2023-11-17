@@ -36,8 +36,12 @@ interface EditModalProps<T> {
   data: T;
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setIdToEdit: React.Dispatch<React.SetStateAction<string>>;
   type: string;
-  handleEdit: (id: string, formContext: HTMLFormElement | null) => boolean;
+  handleEdit: (
+    id: string,
+    formContext: HTMLFormElement | null
+  ) => Promise<boolean>;
   userTypeOptions: { id: string; name: string }[];
   regionOptions: { id: string; name: string }[];
   children?: React.ReactNode;
@@ -47,8 +51,12 @@ interface EditModalChildProps<T> {
   data: T;
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  handleEdit: (id: string, formContext: HTMLFormElement | null) => boolean;
+  handleEdit: (
+    id: string,
+    formContext: HTMLFormElement | null
+  ) => Promise<boolean>;
   regionOptions: { id: string; name: string }[];
+  setIdToEdit: React.Dispatch<React.SetStateAction<string>>;
   userTypeOptions: { id: string; name: string }[];
 }
 
@@ -57,6 +65,7 @@ const EditModal = ({
   children,
   open,
   setOpen,
+  setIdToEdit,
   handleEdit,
   type,
   regionOptions,
@@ -92,9 +101,10 @@ const EditModal = ({
             action=''
             ref={formRef}
             className='w-[520px] flex  flex-col gap-4 my-4'
-            onSubmit={(e) => {
+            onSubmit={async (e) => {
               e.preventDefault();
-              if (handleEdit(id, formRef.current)) {
+              const result = await handleEdit(id, formRef.current);
+              if (result) {
                 setOpen(false);
                 formRef.current?.reset();
               }
@@ -110,7 +120,7 @@ const EditModal = ({
                 placeholder={`Nombre ${typeText}`}
                 className='bg-gray-200 p-2 rounded-lg'
                 required
-                maxLength={250}
+                maxLength={50}
               />
               <label htmlFor='description'>Descripción</label>
               <textarea
@@ -269,6 +279,7 @@ const EditModal = ({
                   id='city'
                   className='bg-gray-200 p-2 rounded-lg'
                   required
+                  disabled
                 >
                   {regionOptions.map(({ id, name }) => (
                     <option key={`region-${id}`} value={id}>
@@ -288,6 +299,7 @@ const EditModal = ({
                   className='bg-gray-200 p-2 rounded-lg'
                   defaultValue={data.userType}
                   required
+                  disabled
                 >
                   {userTypeOptions?.map(({ id, name }) => (
                     <option key={`user-type-${id}`} value={id}>
@@ -300,9 +312,11 @@ const EditModal = ({
             {children}
             <footer className='self-end flex gap-4'>
               <button
+                type='button'
                 className='text-lg font-semibold rounded-lg py-2 px-4 border-4 border-red-500 text-red-500'
                 onClick={() => {
                   setOpen(false);
+                  setIdToEdit('');
                   formRef.current?.reset();
                 }}
               >
@@ -326,6 +340,7 @@ const EditCouponModal = ({
   data,
   open,
   setOpen,
+  setIdToEdit,
   handleEdit,
   regionOptions,
   userTypeOptions,
@@ -335,6 +350,7 @@ const EditCouponModal = ({
       id={data.id}
       open={open}
       setOpen={setOpen}
+      setIdToEdit={setIdToEdit}
       handleEdit={handleEdit}
       type='Cupón'
       regionOptions={regionOptions}
@@ -366,6 +382,7 @@ const EditDiscountModal = ({
   data,
   open,
   setOpen,
+  setIdToEdit,
   handleEdit,
   regionOptions,
   userTypeOptions,
@@ -375,6 +392,7 @@ const EditDiscountModal = ({
       id={data.id}
       open={open}
       setOpen={setOpen}
+      setIdToEdit={setIdToEdit}
       handleEdit={handleEdit}
       type='Promoción'
       regionOptions={regionOptions}
