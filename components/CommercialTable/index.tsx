@@ -15,6 +15,12 @@ const DiscountsTable = ({
   setIdToEdit,
   setIdToDelete,
 }: TableProps<TDiscount>) => {
+  if (discountsList.length === 0)
+    return (
+      <div className='flex justify-center items-center text-2xl text-gray-500'>
+        No hay promociones registradas
+      </div>
+    );
   return (
     <table className='w-full border-collapse table-auto text-center'>
       <thead className='border-b-2 h-12'>
