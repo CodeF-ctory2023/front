@@ -36,6 +36,7 @@ interface EditModalProps<T> {
   data: T;
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setIdToEdit: React.Dispatch<React.SetStateAction<string>>;
   type: string;
   handleEdit: (id: string, formContext: HTMLFormElement | null) => boolean;
   userTypeOptions: { id: string; name: string }[];
@@ -49,6 +50,7 @@ interface EditModalChildProps<T> {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   handleEdit: (id: string, formContext: HTMLFormElement | null) => boolean;
   regionOptions: { id: string; name: string }[];
+  setIdToEdit: React.Dispatch<React.SetStateAction<string>>;
   userTypeOptions: { id: string; name: string }[];
 }
 
@@ -57,6 +59,7 @@ const EditModal = ({
   children,
   open,
   setOpen,
+  setIdToEdit,
   handleEdit,
   type,
   regionOptions,
@@ -303,6 +306,7 @@ const EditModal = ({
                 className='text-lg font-semibold rounded-lg py-2 px-4 border-4 border-red-500 text-red-500'
                 onClick={() => {
                   setOpen(false);
+                  setIdToEdit('');
                   formRef.current?.reset();
                 }}
               >
@@ -326,6 +330,7 @@ const EditCouponModal = ({
   data,
   open,
   setOpen,
+  setIdToEdit,
   handleEdit,
   regionOptions,
   userTypeOptions,
@@ -335,6 +340,7 @@ const EditCouponModal = ({
       id={data.id}
       open={open}
       setOpen={setOpen}
+      setIdToEdit={setIdToEdit}
       handleEdit={handleEdit}
       type='Cupón'
       regionOptions={regionOptions}
@@ -366,6 +372,7 @@ const EditDiscountModal = ({
   data,
   open,
   setOpen,
+  setIdToEdit,
   handleEdit,
   regionOptions,
   userTypeOptions,
@@ -375,6 +382,7 @@ const EditDiscountModal = ({
       id={data.id}
       open={open}
       setOpen={setOpen}
+      setIdToEdit={setIdToEdit}
       handleEdit={handleEdit}
       type='Promoción'
       regionOptions={regionOptions}
