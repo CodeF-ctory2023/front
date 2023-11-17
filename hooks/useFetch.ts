@@ -4,6 +4,7 @@ interface IUseFetch<T> {
   loading: boolean;
   error: null | string;
   data: T | undefined;
+  setData: React.Dispatch<React.SetStateAction<T | undefined>>;
 }
 
 const useFetch = <T>(
@@ -28,7 +29,7 @@ const useFetch = <T>(
       });
   }, [callback]);
 
-  return { loading, error, data };
+  return { loading, error, data, setData };
 };
 
 export { useFetch };
