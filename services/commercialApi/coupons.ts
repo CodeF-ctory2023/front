@@ -48,10 +48,7 @@ export const updateCoupon = async (id: string, coupon: TCouponPayload) => {
 
 export const deleteCoupon = async (id: string) => {
   try {
-    const deletedCoupon: TCouponPayload = await service.delete(
-      `coupons/delete/${id}`
-    );
-    return adaptCoupon(deletedCoupon);
+    await service.delete(`coupons/delete/${id}`);
   } catch (error) {
     throw new Error('Error al eliminar el cupón');
   }
