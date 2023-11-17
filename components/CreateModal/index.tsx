@@ -5,7 +5,7 @@ interface CreateModalProps {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   type: string;
-  handleCreate: (formContext: HTMLFormElement | null) => boolean;
+  handleCreate: (formContext: HTMLFormElement | null) => Promise<boolean>;
   regionOptions: { id: string; name: string }[];
   userTypeOptions: { id: string; name: string }[];
 }
@@ -13,7 +13,7 @@ interface CreateModalProps {
 interface CreateModalChildProps {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  handleCreate: (formContext: HTMLFormElement | null) => boolean;
+  handleCreate: (formContext: HTMLFormElement | null) => Promise<boolean>;
   regionOptions: { id: string; name: string }[];
   userTypeOptions: { id: string; name: string }[];
 }
@@ -56,9 +56,10 @@ const CreateModal = ({
             action=''
             ref={formRef}
             className='w-[520px] flex  flex-col gap-4 my-4'
-            onSubmit={(e) => {
+            onSubmit={async (e) => {
               e.preventDefault();
-              if (handleCreate(formRef.current)) {
+              const result = await handleCreate(formRef.current);
+              if (result) {
                 setOpen(false);
                 formRef.current?.reset();
                 setDiscountPercentage('');
@@ -77,7 +78,7 @@ const CreateModal = ({
                 placeholder={`Nombre ${typeText}`}
                 className='bg-gray-200 p-2 rounded-lg'
                 required
-                maxLength={250}
+                maxLength={50}
               />
               <label htmlFor='description'>Descripción</label>
               <textarea
