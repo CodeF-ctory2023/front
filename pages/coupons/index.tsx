@@ -1,135 +1,156 @@
+import {
+  TCouponPayload,
+  TNewCouponPayload,
+} from '@/services/commercialApi/types';
+import {
+  createCoupon,
+  deleteCoupon,
+  getCoupons,
+  updateCoupon,
+} from '@/services/commercialApi';
+
+import { Alert } from '@/components/alerts';
+import { COMMERCIAL_CONSTANTS } from '@/constants/commercial';
 import { CouponsTable } from '@/components/CommercialTable';
 import { CreateCouponModal } from '@/components/CreateModal';
 import { EditCouponModal } from '@/components/EditModal';
 import Head from 'next/head';
 import Link from 'next/link';
+import { TCoupon } from '@/types';
+import { useDelete } from '@/hooks/useDelete';
+import { useFetch } from '@/hooks/useFetch';
 import { useState } from 'react';
 
-type coupon = {
-  id: string;
-  name: string;
-  description: string;
-  startDate: Date;
-  endDate: Date;
-  discountPercentage: number;
-  maxDiscount: number;
-  discountValue: number;
-  minValue: number;
-  amount: number;
-  city: string;
-  amountAvailable: number;
-  status: string;
-};
+const CITY_OPTIONS = COMMERCIAL_CONSTANTS.regions;
+const USER_TYPE_OPTIONS = COMMERCIAL_CONSTANTS.userTypes;
 
 const Coupons = () => {
-  const [coupons, setCoupons] = useState([
-    {
-      id: '1',
-      name: 'Recorrido Amor y Amistad',
-      description:
-        'Recorrido por los lugares más emblemáticos de la ciudad de Bogotá',
-      amount: 100,
-      amountAvailable: 10,
-      startDate: new Date('20 Oct 2021'),
-      endDate: new Date('20 Oct 2023'),
-      discountPercentage: 50,
-      maxDiscount: 1000,
-      discountValue: 0,
-      minValue: 0,
-      city: 'Bogotá',
-      status: 'activo',
-    },
-    {
-      id: '2',
-      name: 'Mi primer viaje',
-      description:
-        'Recorrido por los lugares más emblemáticos de la ciudad de Bogotá',
-      amount: 100,
-      amountAvailable: 10,
-      startDate: new Date('20 Oct 2021'),
-      endDate: new Date('20 Oct 2023'),
-      discountPercentage: 0,
-      maxDiscount: 0,
-      discountValue: 1000,
-      minValue: 500,
-      city: 'Bogotá',
-      status: 'activo',
-    },
-  ]);
+  const { data: coupons, setData: setCoupons } = useFetch<TCoupon[]>(
+    getCoupons,
+    []
+  );
 
   const [idCouponToEdit, setIdCouponToEdit] = useState('');
 
   const [openCreateModal, setOpenCreateModal] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
+  const [openAlert, setOpenAlert] = useState(false);
+  const [alertOptions, setAlertOptions] = useState<{
+    severity: 'success' | 'error' | 'info' | 'confirm';
+    message: string;
+  }>({
+    severity: 'success',
+    message: '',
+  });
 
-  const handleCreate = (formContext: HTMLFormElement | null) => {
+  const handleCreate = async (formContext: HTMLFormElement | null) => {
     if (formContext) {
       const formData = new FormData(formContext);
       const data = Object.fromEntries(formData.entries());
-      const id = coupons.length + 1;
 
-      const newCoupon = {
-        id: id.toString(),
-        name: data.name as string,
-        amount: parseInt(data.amount as string),
-        amountAvailable: parseInt(data.amount as string),
-        endDate: new Date(data.endDate.toString()),
-        startDate: new Date(data.startDate.toString()),
-        description: data.description as string,
-        discountPercentage: parseInt(data.discountPercentage as string),
-        maxDiscount: 0,
-        discountValue: parseInt(data.discountValue as string),
-        minValue: 0,
-        city: data.city as string,
-        status: 'inactivo',
+      const startDate = data.startDate.toString().replace('T', ' ') + ':00';
+      const endDate = data.endDate.toString().replace('T', ' ') + ':00';
+
+      const newCoupon: TNewCouponPayload = {
+        amountCreated: parseInt(data.amount as string),
+        strategy: {
+          name: data.name as string,
+          endDate,
+          startDate,
+          description: data.description as string,
+          discountPercentage: parseInt(
+            (data.discountPercentage as string) || '0'
+          ),
+          maxDiscount: parseInt((data.maxDiscount as string) || '0'),
+          discountValue: parseInt((data.discountValue as string) || '0'),
+          minValue: parseInt((data.minValue as string) || '0'),
+          city: data.city as string,
+          userType: data.userType as string,
+          isActive: true,
+        },
       };
 
-      setCoupons([...coupons, newCoupon]);
-
-      return true;
+      try {
+        const response = await createCoupon(newCoupon);
+        setCoupons([...(coupons ?? []), response]);
+        setAlertOptions({
+          severity: 'success',
+          message: 'Cupón creado exitosamente',
+        });
+        setOpenCreateModal(false);
+        setOpenAlert(true);
+        return true;
+      } catch (err) {
+        setAlertOptions({
+          severity: 'error',
+          message: 'Error al crear el cupón',
+        });
+        setOpenAlert(true);
+        return false;
+      }
     }
 
     return false;
   };
 
-  const handleEdit = (id: string, formContext: HTMLFormElement | null) => {
+  const handleEdit = async (
+    id: string,
+    formContext: HTMLFormElement | null
+  ) => {
     if (formContext) {
       const formData = new FormData(formContext);
       const data = Object.fromEntries(formData.entries());
-
-      const newCoupon = {
-        id: id.toString(),
-        name: data.name as string,
-        amount: parseInt(data.amount as string),
-        amountAvailable: parseInt(data.amount as string),
-        endDate: new Date(data.endDate.toString()),
-        startDate: new Date(data.startDate.toString()),
-        description: data.description as string,
-        discountPercentage: parseInt(data.discountPercentage as string),
-        maxDiscount: 0,
-        discountValue: parseInt(data.discountValue as string),
-        minValue: 0,
-        city: data.city as string,
-        status: 'inactivo',
+      const startDate = data.startDate.toString().replace('T', ' ') + ':00';
+      const endDate = data.endDate.toString().replace('T', ' ') + ':00';
+      const editedCoupon = {
+        strategy: {
+          name: data.name as string,
+          endDate,
+          startDate,
+          description: data.description as string,
+          discountPercentage: parseInt(
+            (data.discountPercentage as string) || '0'
+          ),
+          maxDiscount: parseInt((data.maxDiscount as string) || '0'),
+          discountValue: parseInt((data.discountValue as string) || '0'),
+          minValue: parseInt((data.minValue as string) || '0'),
+        },
       };
 
-      const index = coupons.findIndex((coupon) => coupon.id === id);
-      const newCoupons = [...coupons];
-      newCoupons[index] = newCoupon;
-
-      setCoupons(newCoupons);
-
-      return true;
+      try {
+        const response = await updateCoupon(id, editedCoupon as TCouponPayload);
+        const newCoupons = coupons?.map((coupon) =>
+          coupon.id === id ? response : coupon
+        );
+        setCoupons(newCoupons ?? []);
+        setAlertOptions({
+          severity: 'success',
+          message: 'Cupón editado exitosamente',
+        });
+        setOpenEditModal(false);
+        setOpenAlert(true);
+        return true;
+      } catch (error) {
+        setAlertOptions({
+          severity: 'error',
+          message: 'Error al editar el cupón',
+        });
+        setOpenAlert(true);
+        return false;
+      }
     }
-
     return false;
   };
 
-  const CITY_OPTIONS = [
-    { id: '1', name: 'Bogotá' },
-    { id: '2', name: 'Medellín' },
-    { id: '3', name: 'Cali' },
-  ];
+  const { setIdToDelete: setIdCouponToDelete, setDeleteConfirm } =
+    useDelete<TCoupon>(
+      coupons,
+      setCoupons,
+      setAlertOptions,
+      setOpenAlert,
+      'coupon',
+      deleteCoupon
+    );
 
   return (
     <>
@@ -143,24 +164,6 @@ const Coupons = () => {
             <Link href='./'>
               <h1 className='text-4xl font-bold'>SSMU</h1>
             </Link>
-          </section>
-          <section className='search'>
-            <form action=''>
-              <input
-                type='text'
-                name='search'
-                id='search'
-                placeholder='Buscar en SSMU'
-                className='bg-white px-4 py-2 w-72 rounded-l-lg'
-              />
-              <button
-                type='submit'
-                title='Buscar'
-                className='bg-white px-4 py-2 rounded-r-lg'
-              >
-                🔎
-              </button>
-            </form>
           </section>
           <section>
             <a href='./admin-profile'>
@@ -212,27 +215,12 @@ const Coupons = () => {
 
           <main className='my-8 min-h-[80%]'>
             <CouponsTable
-              elements={coupons}
+              elements={coupons ?? []}
               setOpenEdit={setOpenEditModal}
-              setIdCouponToEdit={setIdCouponToEdit}
+              setIdToEdit={setIdCouponToEdit}
+              setIdToDelete={setIdCouponToDelete}
             />
           </main>
-
-          <footer className='flex float-right gap-4 font-semibold text-white'>
-            <button className='text-2xl text-gray-500'>&lt;</button>
-            <ol className='text-lg flex gap-2'>
-              <li>
-                <button className='bg-gray-500 w-9 h-9 rounded-full'>1</button>
-              </li>
-              <li>
-                <button className='bg-blue-500 w-9 h-9 rounded-full'>2</button>
-              </li>
-              <li>
-                <button className='bg-gray-500 w-9 h-9 rounded-full'>3</button>
-              </li>
-            </ol>
-            <button className='text-2xl text-gray-500'>&gt;</button>
-          </footer>
         </section>
 
         <CreateCouponModal
@@ -240,18 +228,29 @@ const Coupons = () => {
           setOpen={setOpenCreateModal}
           handleCreate={handleCreate}
           regionOptions={CITY_OPTIONS}
+          userTypeOptions={USER_TYPE_OPTIONS}
         />
         {idCouponToEdit && (
           <EditCouponModal
             open={openEditModal}
             setOpen={setOpenEditModal}
+            setIdToEdit={setIdCouponToEdit}
             data={
-              coupons.find((coupon) => coupon.id === idCouponToEdit) as coupon
+              coupons?.find((coupon) => coupon.id === idCouponToEdit) as TCoupon
             }
             handleEdit={handleEdit}
             regionOptions={CITY_OPTIONS}
+            userTypeOptions={USER_TYPE_OPTIONS}
           />
         )}
+        <Alert
+          severity={alertOptions.severity}
+          open={openAlert}
+          setOpen={setOpenAlert}
+          setConfirm={setDeleteConfirm}
+        >
+          <p>{alertOptions.message}</p>
+        </Alert>
       </main>
     </>
   );
