@@ -38,7 +38,10 @@ interface EditModalProps<T> {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setIdToEdit: React.Dispatch<React.SetStateAction<string>>;
   type: string;
-  handleEdit: (id: string, formContext: HTMLFormElement | null) => boolean;
+  handleEdit: (
+    id: string,
+    formContext: HTMLFormElement | null
+  ) => Promise<boolean>;
   userTypeOptions: { id: string; name: string }[];
   regionOptions: { id: string; name: string }[];
   children?: React.ReactNode;
@@ -48,7 +51,10 @@ interface EditModalChildProps<T> {
   data: T;
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  handleEdit: (id: string, formContext: HTMLFormElement | null) => boolean;
+  handleEdit: (
+    id: string,
+    formContext: HTMLFormElement | null
+  ) => Promise<boolean>;
   regionOptions: { id: string; name: string }[];
   setIdToEdit: React.Dispatch<React.SetStateAction<string>>;
   userTypeOptions: { id: string; name: string }[];
@@ -95,9 +101,10 @@ const EditModal = ({
             action=''
             ref={formRef}
             className='w-[520px] flex  flex-col gap-4 my-4'
-            onSubmit={(e) => {
+            onSubmit={async (e) => {
               e.preventDefault();
-              if (handleEdit(id, formRef.current)) {
+              const result = await handleEdit(id, formRef.current);
+              if (result) {
                 setOpen(false);
                 formRef.current?.reset();
               }
