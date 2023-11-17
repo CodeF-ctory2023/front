@@ -34,13 +34,15 @@ type discounts = {
 interface TableProps<T> {
   elements: T[];
   setOpenEdit: Dispatch<React.SetStateAction<boolean>>;
-  setIdCouponToEdit: Dispatch<React.SetStateAction<string>>;
+  setIdToEdit: Dispatch<React.SetStateAction<string>>;
+  setIdToDelete: Dispatch<React.SetStateAction<string>>;
 }
 
 const DiscountsTable = ({
   elements: discountsList,
   setOpenEdit,
-  setIdCouponToEdit,
+  setIdToEdit,
+  setIdToDelete,
 }: TableProps<discounts>) => {
   return (
     <table className='w-full border-collapse table-auto text-center'>
@@ -85,14 +87,20 @@ const DiscountsTable = ({
                 <button
                   onClick={() => {
                     setOpenEdit(true);
-                    setIdCouponToEdit(id);
+                    setIdToEdit(id);
                   }}
                   title='Editar'
                   className='p-1'
                 >
                   ✏️
                 </button>
-                <button title='Eliminar' className='p-1'>
+                <button
+                  onClick={() => {
+                    setIdToDelete(id);
+                  }}
+                  title='Eliminar'
+                  className='p-1'
+                >
                   🗑️
                 </button>
               </td>
@@ -107,8 +115,15 @@ const DiscountsTable = ({
 const CouponsTable = ({
   elements: couponsList,
   setOpenEdit,
-  setIdCouponToEdit,
+  setIdToEdit,
+  setIdToDelete,
 }: TableProps<coupon>) => {
+  if (couponsList.length === 0)
+    return (
+      <div className='flex justify-center items-center text-2xl text-gray-500'>
+        No hay cupones registrados
+      </div>
+    );
   return (
     <table className='w-full border-collapse table-auto text-center'>
       <thead className='border-b-2 h-12'>
@@ -138,14 +153,20 @@ const CouponsTable = ({
                 <button
                   onClick={() => {
                     setOpenEdit(true);
-                    setIdCouponToEdit(id);
+                    setIdToEdit(id);
                   }}
                   title='Editar'
                   className='p-1'
                 >
                   ✏️
                 </button>
-                <button title='Eliminar' className='p-1'>
+                <button
+                  onClick={() => {
+                    setIdToDelete(id);
+                  }}
+                  title='Eliminar'
+                  className='p-1'
+                >
                   🗑️
                 </button>
               </td>
