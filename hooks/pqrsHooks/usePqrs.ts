@@ -1,4 +1,5 @@
 import { PqrsApi } from '@/api/PqrsApi';
+import { StatePqrs } from '@/components/PqrsModule/types/Enum.types';
 import { createPqrsType } from '@/components/PqrsModule/types/createPqrs.types';
 import { pqrsType } from '@/components/PqrsModule/utilities';
 import Swal from 'sweetalert2';
@@ -53,9 +54,28 @@ export const usePqrs = () => {
     }
   };
 
+  const updatePqrsState = async (id: number, state: StatePqrs) => {
+    try {
+      await PqrsApi.put(`/pqrs/${id}/${state}`);
+      Swal.fire({
+        icon: 'success',
+        title: 'PQRS updated successfully',
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Something went wrong!',
+      });
+    }
+  }
+
   return {
     getPqrs,
     createPqrs,
     deletePqrs,
+    updatePqrsState,
   };
 };

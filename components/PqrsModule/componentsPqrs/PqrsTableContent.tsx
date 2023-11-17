@@ -12,7 +12,6 @@ import {
 } from '@/components/PqrsModule/constants/colors';
 import { getStateStyle } from '@/components/PqrsModule/services/getStateStyle';
 import { DialogDelete } from './DialogDelete';
-import { toast } from 'react-toastify';
 import { usePqrs } from '@/hooks/pqrsHooks/usePqrs';
 
 interface PqrsTableProps {
@@ -27,10 +26,10 @@ const PqrsTable = ({ index, pqrs, setPqrsInfo }: PqrsTableProps) => {
     pqrs.estadoPqrs
   );
   const [editionMode, setEditionMode] = useState<boolean>(false);
-  const [pqrsState, setPqrsState] = useState<string>('');
+  const [pqrsState, setPqrsState] = useState<StatePqrs>(pqrs.estadoPqrs);
 
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
-  const { deletePqrs, getPqrs } = usePqrs();
+  const { deletePqrs, getPqrs, updatePqrsState } = usePqrs();
 
   const handleDeletePqrs = () => {
     setIsDialogOpen(true);
@@ -41,12 +40,15 @@ const PqrsTable = ({ index, pqrs, setPqrsInfo }: PqrsTableProps) => {
   };
 
   const setPqrsStateValue = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setPqrsState(event.target.value);
+    setPqrsState(event.target.value as StatePqrs);
   };
-  const confirmEdition = () => {
-    pqrs.estadoPqrs = pqrsState as StatePqrs;
+  const confirmEdition = async () => {
+    await updatePqrsState(pqrs.id, pqrsState);
     setEditionMode(!editionMode);
-    toast.success('Estado actualizado correctamente');
+    const pqrsData = await getPqrs();
+    if (pqrsData) {
+      setPqrsInfo(pqrsData);
+    }
   };
   const cancelEdition = () => {
     setEditionMode(!editionMode);
@@ -101,8 +103,11 @@ const PqrsTable = ({ index, pqrs, setPqrsInfo }: PqrsTableProps) => {
           onChange={(e) => setPqrsStateValue(e)}
           className='w-full bg-white border border-gray-300 hover:border-gray-400 px-3 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline'
         >
+          <option defaultValue={pqrs.estadoPqrs} value={pqrs.estadoPqrs}>
+            None
+          </option>
           <option value={'Pendiente'}>Pendiente</option>
-          <option value={'En proceso'}>En proceso</option>
+          <option value={'Proceso'}>Proceso</option>
           <option value={'Finalizado'}>Finalizado</option>
         </select>
       </td>
