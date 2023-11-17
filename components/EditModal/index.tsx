@@ -113,7 +113,7 @@ const EditModal = ({
                 placeholder={`Nombre ${typeText}`}
                 className='bg-gray-200 p-2 rounded-lg'
                 required
-                maxLength={250}
+                maxLength={50}
               />
               <label htmlFor='description'>Descripción</label>
               <textarea
@@ -272,6 +272,7 @@ const EditModal = ({
                   id='city'
                   className='bg-gray-200 p-2 rounded-lg'
                   required
+                  disabled
                 >
                   {regionOptions.map(({ id, name }) => (
                     <option key={`region-${id}`} value={id}>
@@ -291,6 +292,7 @@ const EditModal = ({
                   className='bg-gray-200 p-2 rounded-lg'
                   defaultValue={data.userType}
                   required
+                  disabled
                 >
                   {userTypeOptions?.map(({ id, name }) => (
                     <option key={`user-type-${id}`} value={id}>
@@ -303,6 +305,7 @@ const EditModal = ({
             {children}
             <footer className='self-end flex gap-4'>
               <button
+                type='button'
                 className='text-lg font-semibold rounded-lg py-2 px-4 border-4 border-red-500 text-red-500'
                 onClick={() => {
                   setOpen(false);
