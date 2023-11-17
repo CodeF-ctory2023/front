@@ -61,6 +61,10 @@ const CreateModal = ({
               if (handleCreate(formRef.current)) {
                 setOpen(false);
                 formRef.current?.reset();
+                setDiscountPercentage('');
+                setDiscountValue('');
+                setMinValue('');
+                setMaxDiscount('');
               }
             }}
           >
@@ -264,10 +268,15 @@ const CreateModal = ({
             {children}
             <footer className='self-end flex gap-4'>
               <button
+                type='button'
                 className='text-lg font-semibold rounded-lg py-2 px-4 border-4 border-red-500 text-red-500'
                 onClick={() => {
                   setOpen(false);
                   formRef.current?.reset();
+                  setDiscountPercentage('');
+                  setDiscountValue('');
+                  setMinValue('');
+                  setMaxDiscount('');
                 }}
               >
                 Cancelar
