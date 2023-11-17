@@ -109,6 +109,12 @@ const CouponsTable = ({
   setOpenEdit,
   setIdCouponToEdit,
 }: TableProps<coupon>) => {
+  if (couponsList.length === 0)
+    return (
+      <div className='flex justify-center items-center text-2xl text-gray-500'>
+        No hay cupones registrados
+      </div>
+    );
   return (
     <table className='w-full border-collapse table-auto text-center'>
       <thead className='border-b-2 h-12'>
