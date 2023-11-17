@@ -33,6 +33,6 @@ export type TNewCouponPayload = {
     maxDiscount: number;
     isActive: boolean;
     city: string;
-    usertype: string;
+    userType: string;
   };
 };
