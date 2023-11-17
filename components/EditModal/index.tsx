@@ -105,6 +105,7 @@ const EditModal = ({
               e.preventDefault();
               const result = await handleEdit(id, formRef.current);
               if (result) {
+                setIdToEdit('');
                 setOpen(false);
                 formRef.current?.reset();
               }
