@@ -2,7 +2,7 @@ import { Layout } from '@/components/GestionFinanciera/Layout';
 import { Button, Grid } from '@mui/material';
 import { useRouter } from 'next/router';
 
-const AdminPage = () => {
+const GestionFinancieraPage = () => {
   const router = useRouter();
 
   return (
@@ -31,7 +31,7 @@ const AdminPage = () => {
             className='w-full'
             onClick={() => router.push('/GestionFinanciera/GestionDeCuenta')}
           >
-            GESTION DE CUENTA
+            GESTIÓN DE CUENTA
           </Button>
         </Grid>
       </Grid>
@@ -39,4 +39,4 @@ const AdminPage = () => {
   );
 };
 
-export default AdminPage;
+export default GestionFinancieraPage;
