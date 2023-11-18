@@ -2,14 +2,15 @@
 import React, { useState } from "react";
 import Swal from "sweetalert2";
 import { useRouter } from 'next/router';
-
-export default function EditEmail() {
+import { User }from '@/interfaces/GestionUsuarios/User.interface'
+import { ChangeEvent }from '@/interfaces/GestionUsuarios/ChangeEvent.interface'
+export const EditEmail = () => {
 
   const router = useRouter();
   const loggedInUserId = localStorage.getItem("loggedin");
   const findedUsers = localStorage.getItem("users");
   const users = findedUsers ? JSON.parse(findedUsers) : [] ;
-  const loggedInUser = users.find((user:any) => user.id === loggedInUserId);
+  const loggedInUser = users.find((user:User) => user.id === loggedInUserId);
 
   const [userData, setUserData] = useState(
     loggedInUser || {
@@ -19,7 +20,7 @@ export default function EditEmail() {
 
   const [error, setError] = useState("");
 
-  const handleInputChange = (e:any) => {
+  const handleInputChange = (e:ChangeEvent) => {
     const { name, value } = e.target;
     setUserData({ ...userData, [name]: value });
   };
@@ -28,7 +29,7 @@ export default function EditEmail() {
     
     const existingUsers = findedUsers ? JSON.parse(findedUsers) : [];
     const isEmailExist = existingUsers.some(
-      (user:any) => user.email === userData.email
+      (user:User) => user.email === userData.email
     );
 
     if (userData.email !== "") {
@@ -54,7 +55,7 @@ export default function EditEmail() {
         setError("");
       }, 5000);
     } else {
-      const updatedUsers = users.map((user:any) => {
+      const updatedUsers = users.map((user:User) => {
         if (user.id === loggedInUserId) {
           return { ...user, email: userData.email };
         }
@@ -99,3 +100,5 @@ export default function EditEmail() {
     </section>
   );
 }
+
+export default EditEmail;

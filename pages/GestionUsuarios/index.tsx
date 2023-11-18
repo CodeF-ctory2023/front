@@ -1,8 +1,10 @@
  
+
 import { useState } from "react";
 import Swal from "sweetalert2";
 import { useRouter } from 'next/router';
 import Link from 'next/link'
+import { User }from '@/interfaces/GestionUsuarios/User.interface' 
 const Login = () => {
 
   const router = useRouter();
@@ -11,13 +13,13 @@ const Login = () => {
     email: "",
     password: "",
   });
-
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleLogin = (e:any) => {
     e.preventDefault();
 
     const registeredUsers = findedUsers ? JSON.parse(findedUsers) : [];
     const user = registeredUsers.find(
-      (user:any) => user.email === input.email && user.password === input.password
+      (user:User) => user.email === input.email && user.password === input.password
     );
 
     if (user) {
@@ -79,7 +81,7 @@ const Login = () => {
             })
           }
         />
-        <a onClick={handleLogin} type="submit" className="text-white font-bold bg-blue-600 px-5 py-2 rounded">Ingresar</a>
+        <button onClick={handleLogin} type="submit" className="text-white font-bold bg-blue-600 px-5 py-2 rounded">Ingresar</button>
       </form>
       <div className="mt-neg-6">
         <p className="mb-2">¿No tienes cuenta?</p>

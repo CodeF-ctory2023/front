@@ -2,13 +2,15 @@
 import React, { useState } from "react";
 import Swal from "sweetalert2";
 import { useRouter } from 'next/router';
-export default function EditName() {
+import { User }from '@/interfaces/GestionUsuarios/User.interface'
+import { ChangeEvent }from '@/interfaces/GestionUsuarios/ChangeEvent.interface'
+export const EditName = () => {
   
   const router = useRouter();
   const findedUsers = localStorage.getItem("users");
   const loggedInUserId = localStorage.getItem("loggedin");
   const users = findedUsers ? JSON.parse(findedUsers) : [];
-  const loggedInUser = users.find((user:any) => user.id === loggedInUserId);
+  const loggedInUser = users.find((user:User) => user.id === loggedInUserId);
 
   const [userData, setUserData] = useState(
     loggedInUser || {
@@ -17,7 +19,7 @@ export default function EditName() {
     }
   );
 
-  const handleInputChange = (e:any) => {
+  const handleInputChange = (e:ChangeEvent) => {
     const { name, value } = e.target;
     const alphabeticRegex = /^[A-Za-z\s]*$/;
     if (!value.match(alphabeticRegex)) {
@@ -54,7 +56,7 @@ export default function EditName() {
       return;
     }
 
-    const updatedUsers = users.map((user:any) => {
+    const updatedUsers = users.map((user:User) => {
       if (user.id === loggedInUserId) {
         return userData;
       }
@@ -111,3 +113,5 @@ export default function EditName() {
     </section>
   );
 }
+
+export default EditName;

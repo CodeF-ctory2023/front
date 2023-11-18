@@ -1,7 +1,9 @@
+
 import { useState } from "react"
 import Swal from 'sweetalert2'
 import Link from 'next/link'
 import { useRouter } from 'next/router';
+import { User }from '@/interfaces/GestionUsuarios/User.interface'
 const Register = () => {
 
     const router = useRouter();
@@ -28,12 +30,12 @@ const Register = () => {
         if (!/\d/.test(password)) {
             return false
         }
-        if (!/[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]/.test(password)) {
-            return false
+        if (!/[!@#$%^&*()_+{}[\]:;<>,.?~\\-]/.test(password)) {
+            return false;
         }
         return true
     }
-
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
     const handleSubmit = (e:any) => {
         e.preventDefault()
         if (
@@ -66,8 +68,8 @@ const Register = () => {
             })
         } else {
             const existingUsers = findedUsers ? JSON.parse(findedUsers) : [];
-            const isIdExist = existingUsers.some(user => user.id === input.id)
-            const isEmailExist = existingUsers.some(user => user.email === input.email)
+            const isIdExist = existingUsers.some((user:User) => user.id === input.id)
+            const isEmailExist = existingUsers.some((user:User) => user.email === input.email)
             if (isIdExist) {
                 Swal.fire({
                     title: 'Error!',

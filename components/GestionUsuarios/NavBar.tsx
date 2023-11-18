@@ -1,7 +1,9 @@
  
 import { useRouter } from 'next/router';
 import Link from 'next/link'
-export default function Navbar() {
+import Image from 'next/image'
+
+export const Navbar = () => {
 
     const router = useRouter();
     const handleLogout = () => {
@@ -29,13 +31,13 @@ export default function Navbar() {
             />
         </div>
         <div className="navbar-right flex mr-10">
-            <img
+            <Image
                 src='/src/assets/colombia.png'
                 alt="Bandera de Colombia"
                 className="flag-icon   w-7 h-7 ml-10 cursor-pointer"
             />
             <div className='    dropdown inline-block relative'>
-                <img
+                <Image
                     src='/src/assets/perfilUsuario.png'
                     alt="foto de perfil"
                     className='profile-icon   w-7 h-7 ml-10 cursor-pointer'
@@ -50,3 +52,4 @@ export default function Navbar() {
     </nav>
   )
 }
+

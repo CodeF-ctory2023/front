@@ -1,5 +1,7 @@
-import Navbar from '../../../components/GestionUsuarios/NavBar';
-import Aside from '../../../components/GestionUsuarios/Aside';
+import Image from 'next/image';
+import {Navbar} from '@/components/GestionUsuarios/NavBar';
+import {Aside} from '@/components/GestionUsuarios/Aside';
+import { User }from '@/interfaces/GestionUsuarios/User.interface'
 import { useRouter } from 'next/router';
 
 
@@ -8,7 +10,7 @@ import { useRouter } from 'next/router';
   const findedUsers = localStorage.getItem("users");
   const loggedInUserId = localStorage.getItem("loggedin")
   const users = findedUsers ? JSON.parse(findedUsers) : [];
-  const loggedInUser = users.find((user:any) => user.id === loggedInUserId)
+  const loggedInUser = users.find((user:User) => user.id === loggedInUserId)
 
   return (
     <>
@@ -29,9 +31,9 @@ import { useRouter } from 'next/router';
                 <p className='mb-6 w-96'>
                   {loggedInUser.name} {loggedInUser.lastname}
                 </p>
-                <a  
+                <button  
                   onClick={() => router.push('/GestionUsuarios/Editname')}
-                className='inline-block bg-white text-gray-500 w-7 h-7 rounded-full text-center leading-7 no-underline cursor-pointer absolute left-96'><img src="/src/assets/mayor.png" alt="" /></a>
+                className='inline-block bg-white text-gray-500 w-7 h-7 rounded-full text-center leading-7 no-underline cursor-pointer absolute left-96'><Image src="/src/assets/mayor.png" alt="" /></button>
               </div>
             </div>
             <div>
@@ -40,9 +42,9 @@ import { useRouter } from 'next/router';
                 <p className='mb-6 w-96'>
                   {loggedInUser.email}
                 </p>
-                <a 
+                <button 
                 onClick={() => router.push('/GestionUsuarios/EditEmail')}
-                className='inline-block bg-white text-gray-500 w-7 h-7 rounded-full text-center leading-7 no-underline cursor-pointer absolute left-96'><img src="/src/assets/mayor.png" alt="" /></a>
+                className='inline-block bg-white text-gray-500 w-7 h-7 rounded-full text-center leading-7 no-underline cursor-pointer absolute left-96'><Image src="/src/assets/mayor.png" alt="" /></button>
               </div>
             </div>
           </div>
