@@ -96,7 +96,7 @@ const Register = () => {
                     text: 'Se ha registrado exitosamente',
                     icon: 'success',
                     confirmButtonText: 'Ok',
-                    timer: 5000,
+                    timer: 3000,
                     position: 'top',
                     background: 'black',
                     color: 'white'
@@ -105,7 +105,7 @@ const Register = () => {
                 localStorage.setItem("users", JSON.stringify(existingUsers))
                 setTimeout(() => {                
                     router.push('/GestionUsuarios/Home');
-                  }, 5000);
+                  }, 3000);
 
             }
         }
