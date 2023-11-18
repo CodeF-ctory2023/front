@@ -44,6 +44,7 @@ const PorCiudadPage = () => {
       };
 
       const res = await actualizarTarifaPorCiudad(requestData);
+      cityFeesMap.refetch();
       return res;
     },
   });
