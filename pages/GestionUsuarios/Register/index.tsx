@@ -106,7 +106,7 @@ const Register = () => {
                 existingUsers.push(input)
                 localStorage.setItem("users", JSON.stringify(existingUsers))
                 setTimeout(() => {                
-                    router.push('/GestionUsuarios/Home');
+                    router.push('/GestionUsuarios');
                   }, 3000);
 
             }
