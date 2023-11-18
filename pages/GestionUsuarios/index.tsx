@@ -1,10 +1,11 @@
-import '../app.css'
-import { useNavigate, Link } from "react-router-dom";
+ 
 import { useState } from "react";
 import Swal from "sweetalert2";
+import { useRouter } from 'next/router';
+import Link from 'next/link'
+const Login = () => {
 
-export const Login = () => {
-  const navigate = useNavigate();
+  const router = useRouter();
   const findedUsers = localStorage.getItem("users");  
   const [input, setInput] = useState({
     email: "",
@@ -31,7 +32,7 @@ export const Login = () => {
         color: "white",
       });
       localStorage.setItem("loggedin", user.id);
-      navigate("/");
+      router.push('/GestionUsuarios');
     } else {
       Swal.fire({
         title: "Error!",
@@ -47,11 +48,11 @@ export const Login = () => {
   };
 
   return (
-    <section className="flex flex-col items-center gap-4">
-      <h1>Iniciar sesión</h1>
+    <section className="flex flex-col items-center gap-4 h-screen justify-center">
+      <h1 className="text-xl font-bold">Iniciar sesión</h1>
       <form className="form-login  flex flex-col items-center gap-4" onSubmit={handleLogin}>
         <input
-        className="w-full p-2 mb-4 border border-gray-300 rounded-md block"
+        className="w-full p-2 mb-4 border border-gray-300 rounded-md block shadow-md"
           type="email"
           placeholder="Correo electrónico"
           name="email"
@@ -64,7 +65,7 @@ export const Login = () => {
           }
         />
         <input
-          className="w-full p-2 mb-2 border border-gray-300 rounded-md"
+          className="w-full p-2 mb-2 border border-gray-300 rounded-md shadow-md"
           type="password"
           placeholder="Contraseña"
           name="password"
@@ -76,12 +77,15 @@ export const Login = () => {
             })
           }
         />
-        <button>Ingresar</button>
+        <Link href="/GestionUsuarios/Home" className="text-white font-bold bg-blue-600 px-5 py-2 rounded">Ingresar</Link>
       </form>
       <div className="mt-neg-6">
-        <p>¿No tienes cuenta?</p>
-        <Link to="/register">Registrarse!</Link>
+        <p className="mb-2">¿No tienes cuenta?</p>
+        <Link className="text-white font-bold bg-blue-600 px-5 py-2 rounded" href="/GestionUsuarios/Register">Registrarse!</Link>
       </div>
     </section>
   );
 };
+
+
+export default Login;

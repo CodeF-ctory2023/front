@@ -1,11 +1,10 @@
 import { useState } from "react"
-import { useNavigate, Link } from "react-router-dom"
-import './register.css'
 import Swal from 'sweetalert2'
-import '../app.css'
-export const Register = () => {
+import Link from 'next/link'
+import { useRouter } from 'next/router';
+const Register = () => {
 
-    const navigate = useNavigate()
+    const router = useRouter();
     const findedUsers = localStorage.getItem("users");
     const [input, setInput] = useState({
         name : "",
@@ -104,32 +103,38 @@ export const Register = () => {
                 })
                 existingUsers.push(input)
                 localStorage.setItem("users", JSON.stringify(existingUsers))
-                navigate('/login')
+                setTimeout(() => {                
+                    router.push('/GestionUsuarios/Home');
+                  }, 5000);
+
             }
         }
     }
 
   return (
-    <section className="flex flex-col items-center gap-4">
-        <h1>Crea tu perfil</h1>
+    <section className="flex flex-col items-center gap-4 h-screen justify-center">
+        <h1 className="text-xl font-bold">Crea tu perfil</h1>
         <form className="flex justify-center flex-col items-center gap-4 w-96" onSubmit={handleSubmit}>
             <div className="w-96 flex gap-4 flex-wrap">
-                <input className="flex-1 pl-4" type="text" placeholder="Nombre*" name="name" value={input.name} onChange={(e) => setInput({...input,[e.target.name] : e.target.value,})} />
-                <input className="flex-1 pl-4" type="text" placeholder="Apellidos*" name="lastname" value={input.lastname} onChange={(e) => setInput({...input,[e.target.name] : e.target.value,})} />
+                <input className="flex-1 pl-4 w-3/6 border border-gray-300 shadow-md rounded-sm p-1" type="text" placeholder="Nombre*" name="name" value={input.name} onChange={(e) => setInput({...input,[e.target.name] : e.target.value,})} />
+                <input className="flex-1 pl-4 w-3/6 border border-gray-300 shadow-md rounded-sm p-1" type="text" placeholder="Apellidos*" name="lastname" value={input.lastname} onChange={(e) => setInput({...input,[e.target.name] : e.target.value,})} />
             </div>
-            <input className="border border-gray-300" type="number" placeholder="Identificación*" name="id" value={input.id} onChange={(e) => setInput({...input, [e.target.name] : e.target.value,})} />
-            <input className="border border-gray-300" type="email" placeholder="Correo electrónico*" name="email" value={input.email} onChange={(e) => setInput({...input, [e.target.name] : e.target.value,})} />
-            <input className="border border-gray-300" type="password" placeholder="Contraseña*" name="password" value={input.password} onChange={(e) => setInput({...input,[e.target.name] : e.target.value,})} />
+            <input className="border border-gray-300 shadow-md rounded-sm p-1 w-full" type="number" placeholder="Identificación*" name="id" value={input.id} onChange={(e) => setInput({...input, [e.target.name] : e.target.value,})} />
+            <input className="border border-gray-300 shadow-md rounded-sm p-1 w-full" type="email" placeholder="Correo electrónico*" name="email" value={input.email} onChange={(e) => setInput({...input, [e.target.name] : e.target.value,})} />
+            <input className="border border-gray-300 shadow-md rounded-sm p-1 w-full" type="password" placeholder="Contraseña*" name="password" value={input.password} onChange={(e) => setInput({...input,[e.target.name] : e.target.value,})} />
             <div className="my-10">
                 <input className="absolute opacity-0 m-10" type="checkbox" id="information" name="information" checked={input.information} onChange={(e) => setInput({...input,[e.target.name] : e.target.checked,})} />
                 <label className="text-xs pr-28 text-gray-72 relative pl-8" htmlFor="information">Me gustaria recibir información, promociones y novedades <br /> relacionadas con la plataforma</label>
             </div>
-            <button className="mb-4">Registrarme</button>
+            <button className="mb-4 text-white font-bold bg-blue-600 px-5 py-2 rounded">Registrarme</button>
         </form>
-        <div className="redirect-login">
+        <div className="flex items-center justify-center flex-col">
             <p>¿Ya tienes una cuenta?</p>
-            <Link to="/login">Ingresar!</Link>
+            <Link className="text-white font-bold bg-blue-600 px-5 py-2 rounded" href="/GestionUsuarios">Ingresar!</Link>
         </div>
     </section>
   )
 }
+
+
+export default Register;

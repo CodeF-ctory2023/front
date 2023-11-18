@@ -1,10 +1,10 @@
-import { useNavigate } from "react-router-dom";
+
 import React, { useState } from "react";
 import Swal from "sweetalert2";
-import '../app.css'
+import { useRouter } from 'next/router';
 export default function EditName() {
   
-  const navigate = useNavigate();
+  const router = useRouter();
   const findedUsers = localStorage.getItem("users");
   const loggedInUserId = localStorage.getItem("loggedin");
   const users = findedUsers ? JSON.parse(findedUsers) : [];
@@ -70,7 +70,7 @@ export default function EditName() {
       color: "white",
     });
     localStorage.setItem("users", JSON.stringify(updatedUsers));
-    navigate("/");
+    router.push('/GestionUsuarios/Home')
   };
 
   return (

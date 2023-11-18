@@ -1,14 +1,12 @@
-import './navbar.css'
-import '../app.css'
-import { Link, useNavigate } from 'react-router-dom'
-import '../app.css'
+ 
+import { useRouter } from 'next/router';
+import Link from 'next/link'
 export default function Navbar() {
 
-    const navigate = useNavigate()
-
+    const router = useRouter();
     const handleLogout = () => {
         localStorage.removeItem("loggedin")
-        navigate('/login')
+        router.push('/GestionUsuarios');
     }
 
   return (
@@ -43,7 +41,7 @@ export default function Navbar() {
                     className='profile-icon   w-7 h-7 ml-10 cursor-pointer'
                 />
                 <div className="     dropdown-content hidden absolute w-500 overflow-auto shadow-md pr-12 rounded-2xl">
-                    <Link className='block text-black p-2 no-underline hover:text-white hover:bg-blue-500' to="/">Información de la cuenta</Link>
+                    <Link className='block text-black p-2 no-underline hover:text-white hover:bg-blue-500' href="/GestionUsuarios/Home">Información de la cuenta</Link>
                     <button className='rounded-none border-none p-10% text-lg font-semibold font-inherit bg-transparent text-red-500 cursor-pointer transition-none hover:text-white hover:bg-blue-500' onClick={handleLogout}>Cerrar sesión</button>
                 </div>
             </div>

@@ -1,10 +1,11 @@
-import { useNavigate } from "react-router-dom";
+
 import React, { useState } from "react";
 import Swal from "sweetalert2";
-import '../app.css'
+import { useRouter } from 'next/router';
+
 export default function EditEmail() {
-  
-  const navigate = useNavigate();
+
+  const router = useRouter();
   const loggedInUserId = localStorage.getItem("loggedin");
   const findedUsers = localStorage.getItem("users");
   const users = findedUsers ? JSON.parse(findedUsers) : [] ;
@@ -70,7 +71,7 @@ export default function EditEmail() {
         background: "black",
         color: "white",
       });
-      navigate("/");
+    router.push('/GestionUsuarios/Home')
     }
   };
 
