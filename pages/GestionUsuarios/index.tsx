@@ -26,13 +26,15 @@ const Login = () => {
         html: `¡Bienvenid@ <strong>${user.name}</strong>. Inició sesión correctamente`,
         icon: "success",
         confirmButtonText: "Ok",
-        timer: 7000,
+        timer: 3000,
         position: "top",
         background: "black",
         color: "white",
       });
       localStorage.setItem("loggedin", user.id);
-      router.push('/GestionUsuarios');
+      setTimeout(() => {                
+        router.push('/GestionUsuarios/Home');
+      }, 3000);
     } else {
       Swal.fire({
         title: "Error!",
@@ -77,7 +79,7 @@ const Login = () => {
             })
           }
         />
-        <Link href="/GestionUsuarios/Home" className="text-white font-bold bg-blue-600 px-5 py-2 rounded">Ingresar</Link>
+        <a onClick={handleLogin} type="submit" className="text-white font-bold bg-blue-600 px-5 py-2 rounded">Ingresar</a>
       </form>
       <div className="mt-neg-6">
         <p className="mb-2">¿No tienes cuenta?</p>
