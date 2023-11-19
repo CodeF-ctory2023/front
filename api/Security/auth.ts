@@ -20,6 +20,10 @@ interface RegisterParams {
   role: ('USER' | 'DRIVER')[];
 }
 
+interface LogoutParams {
+  token: string;
+}
+
 export const login = async ({
   email,
   password,
@@ -53,6 +57,21 @@ export const register = async ({
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email, password, role }),
+  });
+
+  if (!res.ok) {
+    throw new Error(res.statusText);
+  }
+
+  return null;
+};
+
+export const logout = async ({ token }: LogoutParams): Promise<null> => {
+  const res = await fetch(`${API}/auth/logout`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
   });
 
   if (!res.ok) {
