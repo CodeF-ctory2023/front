@@ -180,10 +180,10 @@ const Discounts = () => {
           </section>
         </nav>
       </header>
-      <main className='grid grid-cols-6 gap-4 min-h-[calc(100vh_-_64px)] bg-gray-50'>
-        <aside className='col-span-1 p-8 bg-blue-50'>
+      <main className='2xl:grid-cols-6 md:grid grid-cols-7 gap-4 min-h-[calc(100vh_-_64px)] bg-gray-50'>
+        <aside className='2xl:col-span-1 md:col-span-2 p-8 bg-blue-50 '>
           <h2 className='text-xl font-semibold'>Marketing</h2>
-          <ul className='px-6 py-4'>
+          <ul className='py-4'>
             <li
               className={`px-4 py-1 rounded-full font-semibold bg-blue-500 text-white`}
             >
