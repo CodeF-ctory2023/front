@@ -342,7 +342,7 @@ const CreateCouponModal = ({
             className='bg-gray-200 p-2 rounded-lg'
             required
             min={1}
-            max={1000000}
+            max={100}
           />
         </label>
       </fieldset>
