@@ -34,7 +34,11 @@ const DiscountsTable = ({
         </tr>
       </thead>
       <tbody>
-        {discountsList.map(({ id, name, startDate, endDate, status }) => {
+        {discountsList.map(({ id, name, startDate, endDate }) => {
+          let status = 'inactivo';
+          if (startDate < new Date() && endDate > new Date()) {
+            status = 'activo';
+          }
           return (
             <tr key={`discount-row-${id}`} className='border-b-2 h-12'>
               <td>{id}</td>
