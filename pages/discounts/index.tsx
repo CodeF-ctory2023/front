@@ -192,6 +192,9 @@ const Discounts = () => {
             <li className={`px-4 py-1 rounded-full font-semibold`}>
               <Link href='../coupons'>&#8226; Cupones</Link>
             </li>
+            <li className={`px-4 py-1 rounded-full font-semibold`}>
+              <Link href='../coupons/validate'>&#8226; Validar</Link>
+            </li>
           </ul>
         </aside>
 
