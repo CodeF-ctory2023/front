@@ -48,7 +48,7 @@ const Map = () => {
           radius={state?.nearbyDrivers?.radius}
         />
       ) : null}
-      {id && <MapRouting />}
+      {(id || state.services.length) && <MapRouting />}
     </MapContainer>
   );
 };

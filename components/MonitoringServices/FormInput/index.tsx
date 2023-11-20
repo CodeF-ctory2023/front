@@ -13,7 +13,7 @@ export const FormInput = ({
     <div className='flex items-center gap-1 bg-white pl-1 rounded-md'>
       {inputIcon}
       <input
-        className='bg-white rounded-md p-1 text-sm outline-none'
+        className='bg-white rounded-md p-1 text-sm outline-none w-full'
         type={inputType}
         placeholder={inputPlaceholder}
         disabled={inputDisabled}
@@ -21,16 +21,5 @@ export const FormInput = ({
         onChange={inputOnChange}
       />
     </div>
-    // <div className='flex items-center gap-1 bg-white max-w-min pl-1 rounded-md'>
-    //   {inputIcon}
-    //   <input
-    //     className='bg-white rounded-md p-1 text-sm outline-none'
-    //     type={inputType}
-    //     placeholder={inputPlaceholder}
-    //     disabled={inputDisabled}
-    //     value={inputValue}
-    //     onChange={inputOnChange}
-    //   />
-    // </div>
   );
 };

@@ -29,7 +29,7 @@ export const ServiceRequest = ({
   };
 
   return (
-    <div className='flex flex-col gap-1 bg-orange-300 p-2 rounded-md'>
+    <div className='flex flex-col gap-1 bg-blue-400 p-2 rounded-md'>
       <p className='whitespace-nowrap overflow-hidden max-w-full text-ellipsis'>
         <span className='font-bold'>Ubicación Usuario:</span> {locationName}
       </p>
@@ -38,7 +38,7 @@ export const ServiceRequest = ({
         {destinationName}
       </p>
       <button
-        className='bg-green-600 py-1 px-2 rounded-md text-sm text-white hover:bg-green-700 transition duration-300 max-w-min self-end'
+        className='bg-green-700 py-1 px-2 rounded-md text-sm text-white hover:bg-green-700 transition duration-300 max-w-min self-end'
         onClick={() => handleAcceptService(serviceId)}
       >
         Aceptar

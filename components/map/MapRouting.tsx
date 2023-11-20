@@ -4,33 +4,71 @@ import 'leaflet-routing-machine';
 import 'leaflet-routing-machine/dist/leaflet-routing-machine.css';
 import { useMap } from 'react-leaflet';
 import { useGlobalContext } from '@/context/Global';
-import { ReducerActions } from '@/types';
+import { MarkerType, MarkerTypes, ReducerActions } from '@/types';
 import { useRouter } from 'next/router';
 
 const carIcon = L.icon({
-  iconUrl: '/assets/img/icon/car.svg',
+  iconUrl: '/assets/img/icon/car-white.svg',
+  iconSize: [32, 32],
+  iconAnchor: [16, 32],
+});
+
+const userIcon = L.icon({
+  iconUrl: '/assets/img/icon/user.svg',
   iconSize: [32, 32],
   iconAnchor: [16, 32],
 });
 
 export const MapRouting = () => {
+  const [continueAnimation, setContinueAnimation] = useState(true);
+
   const [activeRoute, setActiveRoute] = useState(false);
   const [finishedRoute, setFinishedRoute] = useState(false);
   const [location, setLocation] = useState<number[]>([]);
-  const [driverLocation, setDriverLocation] = useState<number[]>([
-    6.309716, -75.571136,
-  ]);
+  const [userId, setUserId] = useState('');
+  const [driverId, setDriverId] = useState('');
+  const [userLocationName, setUserLocationName] = useState('');
   const { state, dispatch } = useGlobalContext();
   const { markers, services } = state;
   const markerRef = useRef<L.Marker>();
+  const userMarkerRef = useRef<L.Marker>();
   const routingControlRef = useRef(null);
 
   const map = useMap();
   const router = useRouter();
   const { id } = router.query;
 
+  const driverCoords =
+    state.drivers.find((driver) => driver.id === id)?.coords || [];
+  const [driverLocation, setDriverLocation] = useState<
+    LatLngExpression | number[]
+  >(driverCoords);
+
+  const addMarker = (marker: MarkerType) => {
+    dispatch({ type: ReducerActions.ADD, payload: marker });
+  };
+
+  const removeMarker = (id: string, type: string) => {
+    dispatch({
+      type: ReducerActions.REMOVE,
+      payload: { id, type },
+    });
+  };
+
   useEffect(() => {
-    const userMarker = markers.find((marker) => marker.type === 'user');
+    if (services.length) setContinueAnimation(true);
+    else setContinueAnimation(false);
+  }, [services]);
+
+  useEffect(() => {
+    const userMarker = markers.find(
+      (marker) => marker.type === MarkerTypes.USER
+    );
+    const driverMarker = markers.find(
+      (marker) => marker.type === MarkerTypes.DRIVER
+    );
+
+    setActiveRoute(false);
 
     if (!userMarker) return;
 
@@ -42,41 +80,104 @@ export const MapRouting = () => {
 
     setLocation([userMarker.lat, userMarker.long]);
     setActiveRoute(true);
+    setUserId(userMarker.id);
+    if (userMarker.name) setUserLocationName(userMarker.name);
+
+    if (driverMarker?.id) setDriverId(driverMarker.id);
   }, [markers, services]);
 
   useEffect(() => {
     if (!activeRoute) return;
 
     if (id?.length)
-      dispatch({ type: ReducerActions.REMOVE, payload: id.toString() });
-
-    const waypoints = [
-      L.latLng(driverLocation[0], driverLocation[1]),
-      L.latLng(location[0], location[1]),
-    ];
+      dispatch({
+        type: ReducerActions.REMOVE,
+        payload: { id: id.toString(), type: MarkerTypes.DRIVER },
+      });
 
     const animateMarker = (
       coordinates: LatLngExpression[],
       instructions: object[],
       index: number
     ) => {
-      if (index < coordinates.length) {
-        if (!markerRef.current) {
+      if (!continueAnimation) {
+        dispatch({
+          type: ReducerActions.REMOVE,
+          payload: { id: id?.toString(), type: MarkerTypes.DRIVER },
+        });
+        if (markerRef.current) {
+          map.removeLayer(markerRef.current);
+          markerRef.current = undefined;
+        }
+
+        if (userMarkerRef.current) {
+          map.removeLayer(userMarkerRef.current);
+          userMarkerRef.current = undefined;
+        }
+
+        return;
+      }
+
+      if (index < coordinates.length && continueAnimation) {
+        //aqui
+        dispatch({
+          type: ReducerActions.ADD_DRIVER_COORDS,
+          payload: {
+            id: id?.toString() || '',
+            coords: [coordinates[index].lat, coordinates[index].lng],
+          },
+        });
+
+        if (finishedRoute && !userMarkerRef.current) {
+          removeMarker(userId, MarkerTypes.USER);
+          userMarkerRef.current = L.marker(coordinates[index], {
+            icon: userIcon,
+          }).addTo(map);
+        }
+
+        if (!markerRef.current && continueAnimation) {
           markerRef.current = L.marker(coordinates[index], {
             icon: carIcon,
           }).addTo(map);
         } else {
           (markerRef.current as L.Marker).setLatLng(coordinates[index]);
+
+          removeMarker(driverId, MarkerTypes.DRIVER);
+          addMarker({
+            id: driverId,
+            lat: coordinates[index].lat,
+            long: coordinates[index].lng,
+            icon: '/assets/img/icon/car-white.svg',
+            type: MarkerTypes.DRIVER,
+          });
+
+          if (finishedRoute) {
+            (userMarkerRef.current as L.Marker).setLatLng(coordinates[index]);
+            removeMarker(userId, MarkerTypes.USER);
+            addMarker({
+              id: userId,
+              lat: coordinates[index].lat,
+              long: coordinates[index].lng,
+              icon: '/assets/img/icon/user.svg',
+              type: MarkerTypes.USER,
+              name: userLocationName,
+            });
+          }
         }
 
         setTimeout(() => {
           animateMarker(coordinates, instructions, index + 1);
-        }, 40);
+        }, 150);
       } else {
         setActiveRoute(false);
         setFinishedRoute(true);
       }
     };
+
+    const waypoints = [
+      L.latLng(driverLocation[0], driverLocation[1]),
+      L.latLng(location[0], location[1]),
+    ];
 
     if (routingControlRef.current) {
       map.removeControl(routingControlRef.current);
@@ -113,12 +214,12 @@ export const MapRouting = () => {
         animateMarker(coordinates, instructions, 0);
       }
     );
-  }, [activeRoute]);
+  }, [activeRoute, continueAnimation]);
 
   useEffect(() => {
     if (finishedRoute) {
       const destinationMarker = markers.find(
-        (marker) => marker.type === 'destination'
+        (marker) => marker.type === MarkerTypes.DESTINATION
       );
 
       if (destinationMarker) {

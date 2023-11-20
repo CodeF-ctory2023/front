@@ -4,3 +4,8 @@ export interface Service {
   locationName: string;
   destinationName: string;
 }
+
+export interface ActiveService {
+  activeService: boolean;
+  driverCoords: number[];
+}

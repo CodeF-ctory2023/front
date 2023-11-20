@@ -16,12 +16,12 @@ export const useServiceForm = () => {
   });
 
   const [userLocation, setUserLocation] = useState<UserLocation>({
-    locationCoords: [0, 0],
+    locationCoords: [],
     locationName: '',
     destinationName: 'Universidad de Antioquia',
     showMarker: false,
     activeLocation: true,
-    circleRadius: 100,
+    circleRadius: 1000,
     showCircle: false,
     locationError: false,
   });
@@ -143,7 +143,7 @@ export const useServiceForm = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!locationCoords) {
+    if (!locationCoords.toString().length) {
       updateLocation({ locationError: true });
       return;
     }

@@ -11,12 +11,23 @@ const initialState: State = {
     radius: 0,
   },
   services: [],
+  activeService: {
+    activeService: false,
+    driverCoords: [],
+  },
+  drivers: [],
 };
 
 const init = () => {
   return {
     ...initialState,
     markers: drivers.map((driver) => driver),
+    drivers: drivers.map((driver) => {
+      return {
+        id: driver.id,
+        coords: [driver.lat, driver.long],
+      };
+    }),
   };
 };
 

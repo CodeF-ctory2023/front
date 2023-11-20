@@ -8,7 +8,7 @@ export const ServiceList = () => {
   const { services } = state;
 
   return (
-    <article className='p-4 bg-green-400 max-w-sm w-96 rounded-lg shadow-md pointer-events-auto fixed bottom-8 right-8 z-50'>
+    <article className='p-6 bg-blue-300 shadow-md pointer-events-auto fixed left-0 bottom-0 z-50 w-screen sm:w-max sm:left-auto sm:right-8 sm:bottom-8 sm:rounded-lg sm:max-w-lg'>
       <div className='flex flex-col gap-2 items-start'>
         <div className='flex items-center gap-2'>
           <div className='bg-gray-300 w-12 h-12 rounded-full overflow-hidden'>
@@ -20,10 +20,10 @@ export const ServiceList = () => {
             />
           </div>
           <div className='text-sm'>
-            <h2 className='mb-1'>
+            <h2 className='mb-1 sm:text-base'>
               <span className='font-bold'>Conductor: </span>Lucas
             </h2>
-            <p>
+            <p className='sm:text-base'>
               <span className='font-bold'>Vehículo: </span>Renault Sandero -{' '}
               <span className='font-bold'>Placa: </span>000000
             </p>
