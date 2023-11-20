@@ -23,7 +23,7 @@ const MainConfigurarCriterios = () => {
           // Resto del código si la solicitud es exitosa
     
         } catch (error) {
-          console.error(error);
+          //console.error(error);
           window.alert("Error al crear el grupo");
         }
       };
