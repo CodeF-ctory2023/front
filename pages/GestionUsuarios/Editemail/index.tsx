@@ -1,6 +1,8 @@
 
 import React, { useState } from "react";
 import Swal from "sweetalert2";
+import {Navbar} from '@/components/GestionUsuarios/NavBar';
+import {Aside} from '@/components/GestionUsuarios/Aside';
 import { useRouter } from 'next/router';
 import { User }from '@/interfaces/GestionUsuarios/User.interface'
 import { ChangeEvent }from '@/interfaces/GestionUsuarios/ChangeEvent.interface'
@@ -77,10 +79,13 @@ export const EditEmail = () => {
   };
 
   return (
-    <section className="flex flex-col text-left relative md:text-center">
+  <>
+    <Navbar />
+    <Aside />
+    <section className="fixed top-12 pt-20 pb-40 w-full h-screen flex flex-col items-center text-left justify-center">
       <div className="ml-4 mb-8 lg:ml-0 md:ml-0 sm:ml-0 ml-4">
         <div className="text-left">
-          <h1 className="mb-4 font-bold">Correo electrónico</h1>
+          <h1 className="mb-4 font-bold text-xl mb-4">Correo electrónico</h1>
           <p className="text-sm mb-4">Personaliza tu experiencia</p>
         </div>
         <div>
@@ -94,10 +99,11 @@ export const EditEmail = () => {
           {error && <div className="text-red-500 absolute text-sm whitespace-nowrap">{error}</div>}
         </div>
       </div>
-      <button onClick={handleSave} className="rounded-lg border border-transparent px-4 py-1.5 bg-blue-500 text-white cursor-pointer transition duration-250 w-108% ml-4 text-center mt-3 hover:border-white hover:bg-blue-900 hover:text-white">
+      <button onClick={handleSave} className="rounded-lg w-56 border border-transparent px-4 py-1.5 bg-blue-500 text-white cursor-pointer transition duration-250 w-108% ml-4 text-center mt-3 hover:border-white hover:bg-blue-900 hover:text-white">
         Actualizar
       </button>
     </section>
+  </>
   );
 }
 

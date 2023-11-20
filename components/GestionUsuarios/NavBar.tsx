@@ -31,14 +31,18 @@ export const Navbar = () => {
             />
         </div>
         <div className="navbar-right flex mr-10">
-            <Image
-                src='/src/assets/colombia.png'
+            <Image 
+                width={40}
+                height={40}
+                src='https://cdn-icons-png.flaticon.com/512/5372/5372705.png'
                 alt="Bandera de Colombia"
                 className="flag-icon   w-7 h-7 ml-10 cursor-pointer"
             />
             <div className='    dropdown inline-block relative'>
                 <Image
-                    src='/src/assets/perfilUsuario.png'
+                    width={30}
+                    height={30}
+                    src='https://cdn-icons-png.flaticon.com/512/1144/1144760.png'
                     alt="foto de perfil"
                     className='profile-icon   w-7 h-7 ml-10 cursor-pointer'
                 />
