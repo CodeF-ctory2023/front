@@ -71,7 +71,7 @@ const GroupTable = ({changeGrupos, changeSocios, filt}: tableProps) => {
             },
             {
                 ident: 7,
-                descripcion: '10 a 20 servicios',
+                descripcion: '20 a 100 servicios',
                 rangomin: 20,
                 rangomax: 100,
                 ciudad: 3,
