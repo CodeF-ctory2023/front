@@ -25,7 +25,7 @@ const fuelTypes = [
 
 
 interface FormVehicleProps {
-    formData: VehicleModel; // You'll need to define this VehicleModel type somewhere
+    formData: VehicleModel;
     onChange: (fieldName: keyof VehicleModel, value: string | boolean) => void;
 }
 
@@ -67,6 +67,7 @@ export const FormVehicle: React.FC<FormVehicleProps> = ({ formData, onChange }) 
         onChange('capacity', NEWVALUE);
     }
 
+
     const handleLuggageChange = (event: React.SyntheticEvent<Element, Event>, checked: boolean) => 
     {
         onChange('allow_luggage', checked);
@@ -90,7 +91,7 @@ export const FormVehicle: React.FC<FormVehicleProps> = ({ formData, onChange }) 
                         variant="outlined"
                         className="w-full"
                         inputProps={{ style: { fontSize: '14px' } }}
-                    // onChange={handleNameChange}
+                        onChange={handleLicensePlateChange}
                     />
 
                     <TextField
@@ -99,7 +100,7 @@ export const FormVehicle: React.FC<FormVehicleProps> = ({ formData, onChange }) 
                         variant="outlined"
                         className="w-full"
                         inputProps={{ style: { fontSize: '14px' } }}
-                    // onChange={handleNameChange}
+                        onChange={handleColorChange}
                     />
                 </div>
 
@@ -110,7 +111,7 @@ export const FormVehicle: React.FC<FormVehicleProps> = ({ formData, onChange }) 
                         variant="outlined"
                         className="w-full"
                         inputProps={{ style: { fontSize: '14px' } }}
-                    // onChange={handleNameChange}
+                        onChange={handleBrandChange}
                     />
 
                     <TextField
@@ -119,7 +120,7 @@ export const FormVehicle: React.FC<FormVehicleProps> = ({ formData, onChange }) 
                         variant="outlined"
                         className="w-full"
                         inputProps={{ style: { fontSize: '14px' } }}
-                    // onChange={handleNameChange}
+                         onChange={handleModelChange}
                     />
                 </div>
 
@@ -132,7 +133,7 @@ export const FormVehicle: React.FC<FormVehicleProps> = ({ formData, onChange }) 
                         variant='standard'
                         className="w-full"
                         inputProps={{ style: { fontSize: '14px' } }}
-                    // onChange={handleNameChange}
+                        onChange={handleFuelTypeChange}
                     >
                         {fuelTypes.map((option) => (
                             <MenuItem key={option.value} value={option.value}>
@@ -147,7 +148,7 @@ export const FormVehicle: React.FC<FormVehicleProps> = ({ formData, onChange }) 
                         variant="outlined"
                         className="w-full"
                         inputProps={{ style: { fontSize: '14px' } }}
-                    // onChange={handleNameChange}
+                        onChange={handleCapacityChange}
                     />
 
                     <FormControlLabel 

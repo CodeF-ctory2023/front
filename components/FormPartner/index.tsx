@@ -339,13 +339,13 @@ export const FormPartner: React.FC<FormPartnerProps> = ({ formData, onChange }) 
                         id="outlined-license-country"
                         label="País de expedición"
                         variant="outlined"
-                        className="w-full"
+                        className="w-full pb-8"
                         inputProps={{ style: { fontSize: '14px' } }}
                         onChange={handleLicenseCountryChange}
                     />
                 </div>
-
-                <h4> Sube los siguientes documentos en un pdf:</h4>            
+                
+                <h4> Sube los documentos en un pdf:</h4>            
                 <div className="flex justify-center items-center p-6 border-solid bg-white border-2 border-sky-400 rounded-lg border-opacity-25">
                     <div className="w-full">
                         <CustomUploadFileComponent />
