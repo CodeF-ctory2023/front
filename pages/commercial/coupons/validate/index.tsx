@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { Alert } from '@/components/alerts';
+import { Alert } from '@/components/commercialComponents/alerts';
 import Head from 'next/head';
 import Link from 'next/link';
 import { getCouponById } from '@/services/commercialApi';

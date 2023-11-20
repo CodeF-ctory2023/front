@@ -1,22 +1,22 @@
 import {
-  TCouponPayload,
-  TNewCouponPayload,
+  TDiscountPayload,
+  TNewDiscountPayload,
 } from '@/services/commercialApi/types';
 import {
-  createCoupon,
-  deleteCoupon,
-  getCoupons,
-  updateCoupon,
-} from '@/services/commercialApi';
+  createDiscount,
+  deleteDiscount,
+  getDiscounts,
+  updateDiscount,
+} from '@/services/commercialApi/discounts';
 
-import { Alert } from '@/components/alerts';
+import { Alert } from '@/components/commercialComponents/alerts';
 import { COMMERCIAL_CONSTANTS } from '@/constants/commercial';
-import { CouponsTable } from '@/components/CommercialTable';
-import { CreateCouponModal } from '@/components/CreateModal';
-import { EditCouponModal } from '@/components/EditModal';
+import { CreateDiscountModal } from '@/components/commercialComponents/CreateModal';
+import { DiscountsTable } from '@/components/commercialComponents/CommercialTable';
+import { EditDiscountModal } from '@/components/commercialComponents/EditModal';
 import Head from 'next/head';
 import Link from 'next/link';
-import { TCoupon } from '@/types';
+import { TDiscount } from '@/types';
 import { useDelete } from '@/hooks/useDelete';
 import { useFetch } from '@/hooks/useFetch';
 import { useState } from 'react';
@@ -24,13 +24,13 @@ import { useState } from 'react';
 const CITY_OPTIONS = COMMERCIAL_CONSTANTS.regions;
 const USER_TYPE_OPTIONS = COMMERCIAL_CONSTANTS.userTypes;
 
-const Coupons = () => {
-  const { data: coupons, setData: setCoupons } = useFetch<TCoupon[]>(
-    getCoupons,
+const Discounts = () => {
+  const { data: discounts, setData: setDiscounts } = useFetch<TDiscount[]>(
+    getDiscounts,
     []
   );
 
-  const [idCouponToEdit, setIdCouponToEdit] = useState('');
+  const [idDiscountToEdit, setIdDiscountToEdit] = useState('');
 
   const [openCreateModal, setOpenCreateModal] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
@@ -47,35 +47,31 @@ const Coupons = () => {
     if (formContext) {
       const formData = new FormData(formContext);
       const data = Object.fromEntries(formData.entries());
-
       const startDate = data.startDate.toString().replace('T', ' ') + ':00';
       const endDate = data.endDate.toString().replace('T', ' ') + ':00';
 
-      const newCoupon: TNewCouponPayload = {
-        amountCreated: parseInt(data.amount as string),
-        strategy: {
-          name: data.name as string,
-          endDate,
-          startDate,
-          description: data.description as string,
-          discountPercentage: parseInt(
-            (data.discountPercentage as string) || '0'
-          ),
-          maxDiscount: parseInt((data.maxDiscount as string) || '0'),
-          discountValue: parseInt((data.discountValue as string) || '0'),
-          minValue: parseInt((data.minValue as string) || '0'),
-          city: data.city as string,
-          userType: data.userType as string,
-          isActive: true,
-        },
+      const newDiscount: TNewDiscountPayload = {
+        name: data.name as string,
+        endDate,
+        startDate,
+        description: data.description as string,
+        discountPercentage: parseInt(
+          (data.discountPercentage as string) || '0'
+        ),
+        maxDiscount: parseInt((data.maxDiscount as string) || '0'),
+        discountValue: parseInt((data.discountValue as string) || '0'),
+        minValue: parseInt((data.minValue as string) || '0'),
+        isActive: true,
+        city: data.city as string,
+        userType: data.userType as string,
       };
 
       try {
-        const response = await createCoupon(newCoupon);
-        setCoupons([...(coupons ?? []), response]);
+        const response = await createDiscount(newDiscount);
+        setDiscounts([...(discounts ?? []), response]);
         setAlertOptions({
           severity: 'success',
-          message: 'Cupón creado exitosamente',
+          message: 'Promoción creada exitosamente',
         });
         setOpenCreateModal(false);
         setOpenAlert(true);
@@ -83,7 +79,7 @@ const Coupons = () => {
       } catch (err) {
         setAlertOptions({
           severity: 'error',
-          message: 'Error al crear el cupón',
+          message: 'Error al crear la promoción',
         });
         setOpenAlert(true);
         return false;
@@ -102,30 +98,32 @@ const Coupons = () => {
       const data = Object.fromEntries(formData.entries());
       const startDate = data.startDate.toString().replace('T', ' ') + ':00';
       const endDate = data.endDate.toString().replace('T', ' ') + ':00';
-      const editedCoupon = {
-        strategy: {
-          name: data.name as string,
-          endDate,
-          startDate,
-          description: data.description as string,
-          discountPercentage: parseInt(
-            (data.discountPercentage as string) || '0'
-          ),
-          maxDiscount: parseInt((data.maxDiscount as string) || '0'),
-          discountValue: parseInt((data.discountValue as string) || '0'),
-          minValue: parseInt((data.minValue as string) || '0'),
-        },
+
+      const editedDiscount = {
+        name: data.name as string,
+        endDate,
+        startDate,
+        description: data.description as string,
+        discountPercentage: parseInt(
+          (data.discountPercentage as string) || '0'
+        ),
+        maxDiscount: parseInt((data.maxDiscount as string) || '0'),
+        discountValue: parseInt((data.discountValue as string) || '0'),
+        minValue: parseInt((data.minValue as string) || '0'),
       };
 
       try {
-        const response = await updateCoupon(id, editedCoupon as TCouponPayload);
-        const newCoupons = coupons?.map((coupon) =>
-          coupon.id === id ? response : coupon
+        const response = await updateDiscount(
+          id,
+          editedDiscount as TDiscountPayload
         );
-        setCoupons(newCoupons ?? []);
+        const newDiscounts = discounts?.map((discount) =>
+          discount.id === id ? response : discount
+        );
+        setDiscounts(newDiscounts ?? []);
         setAlertOptions({
           severity: 'success',
-          message: 'Cupón editado exitosamente',
+          message: 'Promoción editada exitosamente',
         });
         setOpenEditModal(false);
         setOpenAlert(true);
@@ -133,35 +131,36 @@ const Coupons = () => {
       } catch (error) {
         setAlertOptions({
           severity: 'error',
-          message: 'Error al editar el cupón',
+          message: 'Error al editar la promoción',
         });
         setOpenAlert(true);
         return false;
       }
     }
+
     return false;
   };
 
-  const { setIdToDelete: setIdCouponToDelete, setDeleteConfirm } =
-    useDelete<TCoupon>(
-      coupons,
-      setCoupons,
+  const { setIdToDelete: setIdDiscountToDelete, setDeleteConfirm } =
+    useDelete<TDiscount>(
+      discounts,
+      setDiscounts,
       setAlertOptions,
       setOpenAlert,
-      'coupon',
-      deleteCoupon
+      'discount',
+      deleteDiscount
     );
 
   return (
     <>
       <Head>
-        <title>Cupones</title>
+        <title>Promociones</title>
         <meta name='description' content='Cupones' />
       </Head>
       <header>
         <nav className='flex justify-between items-center h-16 px-8 bg-blue-500 text-white'>
           <section className='brand'>
-            <Link href='./'>
+            <Link href='./coupons'>
               <h1 className='text-4xl font-bold'>SSMU</h1>
             </Link>
           </section>
@@ -185,16 +184,16 @@ const Coupons = () => {
         <aside className='2xl:col-span-1 md:col-span-2 p-8 bg-blue-50 '>
           <h2 className='text-xl font-semibold'>Marketing</h2>
           <ul className='py-4'>
-            <li className={`px-4 py-1 rounded-full font-semibold`}>
-              <Link href='../discounts'>&#8226; Promociones</Link>
-            </li>
             <li
               className={`px-4 py-1 rounded-full font-semibold bg-blue-500 text-white`}
             >
-              <Link href='../coupons'>&#8226; Cupones</Link>
+              <Link href='../commercial/discounts'>&#8226; Promociones</Link>
             </li>
             <li className={`px-4 py-1 rounded-full font-semibold`}>
-              <Link href='coupons/validate'>&#8226; Validar</Link>
+              <Link href='../commercial/coupons'>&#8226; Cupones</Link>
+            </li>
+            <li className={`px-4 py-1 rounded-full font-semibold`}>
+              <Link href='../commercial/coupons/validate'>&#8226; Validar</Link>
             </li>
           </ul>
         </aside>
@@ -202,7 +201,9 @@ const Coupons = () => {
         <section className='col-span-5 mx-16 my-8 px-16 py-8 bg-white rounded-xl overflow-y-auto'>
           <header className='flex justify-between items-center'>
             <div>
-              <h1 className='text-4xl font-semibold text-blue-500'>Cupones</h1>
+              <h1 className='text-4xl font-semibold text-blue-500'>
+                Promociones
+              </h1>
             </div>
             <div>
               <button
@@ -211,39 +212,41 @@ const Coupons = () => {
                 }}
                 className='text-lg text-blue-500 border-4 border-blue-500 px-2 py-1 rounded-lg'
               >
-                Nuevo Cupón +
+                Nueva promoción +
               </button>
             </div>
           </header>
 
           <main className='my-8 min-h-[80%]'>
-            <CouponsTable
-              elements={coupons ?? []}
+            <DiscountsTable
+              elements={discounts ?? []}
+              setIdToEdit={setIdDiscountToEdit}
               setOpenEdit={setOpenEditModal}
-              setIdToEdit={setIdCouponToEdit}
-              setIdToDelete={setIdCouponToDelete}
+              setIdToDelete={setIdDiscountToDelete}
             />
           </main>
         </section>
 
-        <CreateCouponModal
+        <CreateDiscountModal
           open={openCreateModal}
           setOpen={setOpenCreateModal}
           handleCreate={handleCreate}
           regionOptions={CITY_OPTIONS}
           userTypeOptions={USER_TYPE_OPTIONS}
         />
-        {idCouponToEdit && (
-          <EditCouponModal
+        {idDiscountToEdit && (
+          <EditDiscountModal
             open={openEditModal}
             setOpen={setOpenEditModal}
-            setIdToEdit={setIdCouponToEdit}
-            data={
-              coupons?.find((coupon) => coupon.id === idCouponToEdit) as TCoupon
-            }
+            setIdToEdit={setIdDiscountToEdit}
             handleEdit={handleEdit}
             regionOptions={CITY_OPTIONS}
             userTypeOptions={USER_TYPE_OPTIONS}
+            data={
+              discounts?.find(
+                (discount) => discount.id === idDiscountToEdit
+              ) as TDiscount
+            }
           />
         )}
         <Alert
@@ -259,4 +262,4 @@ const Coupons = () => {
   );
 };
 
-export default Coupons;
+export default Discounts;
