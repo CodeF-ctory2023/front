@@ -1,8 +1,11 @@
-import L from "leaflet";
+import L, { LatLng } from "leaflet";
 import { createControlComponent } from "@react-leaflet/core";
 import "leaflet-routing-machine";
+import { useState } from "react";
+import { Stomp, Client } from "@stomp/stompjs";
 
 const RoutingMachineLayer = ({ position, start, end, color }) => {
+
   const instance = L.Routing.control({
     position,
     waypoints: [
@@ -31,7 +34,7 @@ const RoutingMachineLayer = ({ position, start, end, color }) => {
         });
       } else {
         // Icono predeterminado para los puntos intermedios
-        return L.marker(wp.latLng, {
+        return L.marker(end, {
           icon: L.icon({
             iconUrl: 'car.jpg',
             iconSize: [41, 41],
@@ -41,13 +44,7 @@ const RoutingMachineLayer = ({ position, start, end, color }) => {
           }),
         });
       }
-    },
-    show: false,
-    addWaypoints: false,
-    routeWhileDragging: true,
-    draggableWaypoints: true,
-    fitSelectedRoutes: true,
-    showAlternatives: false
+    }
   });
 
   return instance;

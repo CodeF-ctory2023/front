@@ -1,9 +1,11 @@
-
+'use client'
 import { Circle, MapContainer, Marker, Popup, TileLayer, ZoomControl } from "react-leaflet";
 import 'leaflet/dist/leaflet.css'
 import RoutingMachine from './RoutingMachine';
 import L, { LatLngExpression } from "leaflet";
 import icon from 'leaflet/dist/images/marker-icon.png';
+import { useState } from "react";
+import { Client } from "@stomp/stompjs";
 
 
 var usuario: LatLngExpression = [6.272058720869105, -75.56019922577197]
@@ -44,8 +46,34 @@ function encontrarConductorMasCercano(usuario: LatLngExpression, conductores: La
 
 
 export default function Map() {
+  const [driverPosition, setDriverPosition] = useState(new L.LatLng(0, 0));
 
-  const conductoresDentroDeRadio = conductoresMasCercanos(conductores, usuario, 300);
+  const stompClient = new Client({
+    brokerURL: 'ws://localhost:8080/ssmu-api/websocket'
+});
+
+stompClient.onConnect = (frame) => {
+    stompClient.subscribe('/taxi/coordenada', (greeting) => {
+      var body = greeting.body;
+      var obj = JSON.parse(body);
+        // console.log(obj);
+        setDriverPosition(new L.LatLng(obj.x, obj.y));
+    });
+};
+
+stompClient.onWebSocketError = (error) => {
+    console.error('Error with websocket', error);
+};
+
+stompClient.onStompError = (frame) => {
+    console.error('Broker reported error: ' + frame.headers['message']);
+    console.error('Additional details: ' + frame.body);
+};
+
+stompClient.activate();
+
+
+  const conductoresDentroDeRadio = conductoresMasCercanos(conductores, usuario, 500);
 
   const conductorMasCercano = encontrarConductorMasCercano(usuario, conductoresDentroDeRadio);
 
@@ -66,7 +94,7 @@ export default function Map() {
     />
     {/*poner en el mapa a ubicacion de usuario  */}
     {/* Marcador para la ubicación del usuario */}
-    {/* <Marker icon={
+    {/* { <Marker icon={
       new L.Icon({
         iconUrl: 'pin4.png',
         iconSize: [25, 41],
@@ -78,12 +106,13 @@ export default function Map() {
       <Popup>
         Ubicación del Usuario,
       </Popup>
-    </Marker> */}
+    </Marker>} */}
+    
 <RoutingMachine position={'topleft'}
       start={usuario}
-      end={conductorMasCercanoLatLngExpression}
+      end={driverPosition}
       color={'#757de8'} />
-    <Circle center={usuario} pathOptions={fillBlueOptions} radius={300} />
+    {/* <Circle center={usuario} pathOptions={fillBlueOptions} radius={500} /> */}
 
     {/* Marcador para el conductor más cercano */}
     {/* <Marker icon={
@@ -94,7 +123,7 @@ export default function Map() {
         popupAnchor: [0, -41],
         shadowSize: [41, 41],
       })
-    } position={conductorMasCercanoLatLngExpression}>
+    } position={driverPosition}>
       <Popup>
         Ubicación del conductor,
       </Popup>
