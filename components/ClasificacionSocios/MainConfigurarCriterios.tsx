@@ -13,7 +13,7 @@ const MainConfigurarCriterios = () => {
     const crearGrupo = async () => {
         try {
             await axios.post("http://localhost:8080/api/grupo/crearGrupo", {
-                idGrupo: 17,
+                idGrupo: 20,
                 nombreGrupo: nombreGrupo,
                 descripcion: descripcionGrupo,
                 criterio: criterioClasificacion,

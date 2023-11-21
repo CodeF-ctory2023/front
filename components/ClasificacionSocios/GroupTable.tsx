@@ -35,45 +35,27 @@ const GroupTable = ({changeGrupos, changeSocios, filt}: tableProps) => {
             },
             {
                 ident: 3,
-                descripcion: '0 a 10 servicios',
-                rangomin: 0,
-                rangomax: 10,
+                descripcion: '21 a 30 servicios',
+                rangomin: 21,
+                rangomax: 30,
                 ciudad: 2,
-                cantidadPorGrupo: 50,
-                isClicked: false
-            },
-            {
-                ident: 4,
-                descripcion: '10 a 20 servicios',
-                rangomin: 11,
-                rangomax: 20,
-                ciudad: 2,
-                cantidadPorGrupo: 20,
-                isClicked: false
-            },
-            {
-                ident: 5,
-                descripcion: '0 a 10 servicios',
-                rangomin: 0,
-                rangomax: 10,
-                ciudad: 3,
-                cantidadPorGrupo: 50,
-                isClicked: false
-            },
-            {
-                ident: 6,
-                descripcion: '10 a 20 servicios',
-                rangomin: 11,
-                rangomax: 20,
-                ciudad: 3,
                 cantidadPorGrupo: 20,
                 isClicked: false
             },
             {
                 ident: 7,
-                descripcion: '20 a 100 servicios',
-                rangomin: 20,
+                descripcion: '31 a 100 servicios',
+                rangomin: 31,
                 rangomax: 100,
+                ciudad: 3,
+                cantidadPorGrupo: 20,
+                isClicked: false
+            },
+            {
+                ident: 158,
+                descripcion: '101 a 200 servicios',
+                rangomin: 101,
+                rangomax: 200,
                 ciudad: 3,
                 cantidadPorGrupo: 20,
                 isClicked: false
