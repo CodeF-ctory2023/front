@@ -93,82 +93,74 @@ const CreateModal = ({
               ></textarea>
             </fieldset>
 
-            <fieldset className='flex gap-4'>
-              <div className='flex-1 flex-grow'>
+            <fieldset className='flex flex-col gap-4'>
+              <div className='w-full flex'>
                 <label
-                  htmlFor='discountValue'
-                  className='flex flex-col'
-                  aria-controls='discountValue'
+                  htmlFor='radioDiscountValue'
+                  className='flex-1 flex flex-row-reverse justify-end items-center'
                 >
-                  <div>
-                    <input
-                      type='radio'
-                      name='tipo-descuento'
-                      id='discountValue'
-                      value='fijo'
-                      required
-                      defaultChecked
-                      onChange={() => {
-                        setIsDiscountValue(true);
-                        setDiscountPercentage('');
-                        setMaxDiscount('');
-                      }}
-                    />
-                    <label htmlFor='discountValue'>&nbsp;Descuento fijo</label>
-                  </div>
+                  &nbsp;Descuento fijo
                   <input
-                    type='number'
-                    name='discountValue'
-                    id='discountValue'
-                    placeholder='Valor'
-                    className='bg-gray-200 p-2 rounded-lg'
-                    disabled={!isDiscountValue}
-                    value={discountValue}
-                    onChange={(e) => setDiscountValue(e.target.value)}
-                    required={isDiscountValue}
-                    min={0}
-                    max={1000000}
+                    type='radio'
+                    name='tipo-descuento'
+                    id='radioDiscountValue'
+                    value='fijo'
+                    required
+                    defaultChecked
+                    onChange={() => {
+                      setIsDiscountValue(true);
+                      setDiscountPercentage('');
+                      setMaxDiscount('');
+                    }}
+                  />
+                </label>
+                <label
+                  htmlFor='radioDiscountPercentage'
+                  className='flex-1 flex flex-row-reverse justify-end items-center'
+                >
+                  &nbsp;Descuento porcentual
+                  <input
+                    type='radio'
+                    name='tipo-descuento'
+                    id='radioDiscountPercentage'
+                    value='porcentaje'
+                    onChange={() => {
+                      setIsDiscountValue(false);
+                      setDiscountValue('');
+                      setMinValue('');
+                    }}
                   />
                 </label>
               </div>
-              <div className='flex-1 flex-grow'>
-                <label
-                  htmlFor='discountPercentage'
-                  className='flex flex-col'
-                  aria-controls='discountPercentage'
-                >
-                  <div>
-                    <input
-                      type='radio'
-                      name='tipo-descuento'
-                      id='discountPercentage'
-                      value='porcentaje'
-                      onChange={() => {
-                        setIsDiscountValue(false);
-                        setDiscountValue('');
-                        setMinValue('');
-                      }}
-                    />
-                    <label htmlFor='discountPercentage'>
-                      &nbsp;Descuento porcentual
-                    </label>
-                  </div>
-                  <input
-                    type='number'
-                    name='discountPercentage'
-                    id='discountPercentage'
-                    placeholder='Valor'
-                    className='bg-gray-200 p-2 rounded-lg'
-                    disabled={isDiscountValue}
-                    value={discountPercentage}
-                    onChange={(e) => {
-                      setDiscountPercentage(e.target.value);
-                    }}
-                    required={!isDiscountValue}
-                    min={0}
-                    max={100}
-                  />
-                </label>
+              <div className='w-full flex gap-4'>
+                <input
+                  type='number'
+                  name='discountValue'
+                  id='discountValue'
+                  placeholder='Valor'
+                  className='flex-1 bg-gray-200 p-2 rounded-lg'
+                  disabled={!isDiscountValue}
+                  value={discountValue}
+                  onChange={(e) => setDiscountValue(e.target.value)}
+                  required={isDiscountValue}
+                  min={0}
+                  max={1000000}
+                />
+                <input
+                  type='number'
+                  name='discountPercentage'
+                  id='discountPercentage'
+                  placeholder='Valor'
+                  className='flex-1 bg-gray-200 p-2 rounded-lg'
+                  disabled={isDiscountValue}
+                  value={discountPercentage}
+                  onChange={(e) => {
+                    setDiscountPercentage(e.target.value);
+                  }}
+                  required={!isDiscountValue}
+                  min={0}
+                  max={100}
+                />
               </div>
             </fieldset>
 
