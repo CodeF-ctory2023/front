@@ -95,7 +95,11 @@ const CreateModal = ({
 
             <fieldset className='flex gap-4'>
               <div className='flex-1 flex-grow'>
-                <label htmlFor='discountValue' className='flex flex-col'>
+                <label
+                  htmlFor='discountValue'
+                  className='flex flex-col'
+                  aria-controls='discountValue'
+                >
                   <div>
                     <input
                       type='radio'
@@ -128,7 +132,11 @@ const CreateModal = ({
                 </label>
               </div>
               <div className='flex-1 flex-grow'>
-                <label htmlFor='discountPercentage' className='flex flex-col'>
+                <label
+                  htmlFor='discountPercentage'
+                  className='flex flex-col'
+                  aria-controls='discountPercentage'
+                >
                   <div>
                     <input
                       type='radio'
