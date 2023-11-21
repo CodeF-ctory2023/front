@@ -42,4 +42,24 @@
 
 table {
     @apply w-full text-left border border-separate rounded border-slate-200;
-  }
+}
+
+.debug{
+    border: 1px solid red;
+}
+
+.titles-configuracion-m2{
+    @apply font-bold text-xl mb-2 text-gray-500;
+}
+
+.input-configuracion-m2{
+    @apply text-xl text-gray-500 font-medium;
+}
+
+input{
+    @apply border border-gray-300 px-5 py-5 rounded-lg focus:outline-blue-400;
+}
+
+select{
+    @apply border border-gray-300 px-5 py-5 rounded-lg focus:outline-blue-400;
+}

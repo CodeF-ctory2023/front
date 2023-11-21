@@ -21,7 +21,7 @@ const MainVisualizarGrupos = () => {
     }
 
     return (
-        <div className="flex flex-col px-7 py-7 w-full font-m2">
+        <div className="flex flex-col px-7 py-7 font-m2 m-auto h-screen">
             <div className="flex items-center border-b gap-10 pb-5">
                 <h2 className="titles-m2 text-center">Visualización de Grupos</h2>
                 <input className="w-96 h-16 rounded-lg border border-gray-400 py-4 px-4" type="text" value={filter} onChange={handleInput} />
