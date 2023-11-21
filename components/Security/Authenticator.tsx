@@ -18,7 +18,7 @@ type AuthContextType = {
   user: {
     name?: string;
     email?: string;
-    role?: 'user' | 'driver' | 'admin';
+    role?: ('USER' | 'DRIVER' | 'ADMIN')[];
   };
   token: string;
   setUserData: (data: object) => void;
