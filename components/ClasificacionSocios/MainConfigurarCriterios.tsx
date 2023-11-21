@@ -1,5 +1,5 @@
 import axios from "axios";
-import { BlueButton } from "./BlueButton";
+import { BlueButton } from "@/components/ClasificacionSocios/BlueButton";
 import { useState } from "react";
 
 const MainConfigurarCriterios = () => {
@@ -69,7 +69,7 @@ const MainConfigurarCriterios = () => {
                             name="criterio-clasificacion"
                             required
                             onChange={(e) => setCriterioClasificacion(e.target.value)}
-                            className="text-xl"
+                            className="text-xl input-configuracion-m2"
                         >
                             <option disabled>Seleccione un rol</option>
 

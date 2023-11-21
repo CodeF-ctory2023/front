@@ -5,13 +5,16 @@ const M2ConfigurarCriterios = () => {
 
     return (
 
-        <div className="flex w-screen h-screen bg-white">
+        <div className="w-screen h-screen bg-white">
+            <div className="flex w-[1400px] h-screen bg-white m-auto">
 
-            <AsideClasificacionSocios />
-            <MainConfigurarCriterios />
+                <AsideClasificacionSocios />
+                <MainConfigurarCriterios />
 
+            </div>
         </div>
-        
+
+
     );
 };
 

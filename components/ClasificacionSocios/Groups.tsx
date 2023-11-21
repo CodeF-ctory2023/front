@@ -30,7 +30,7 @@ const Groups = ({grupo, rowHandler}: groupProps) =>{
                     </span>Grupo {grupo.ident}
                 </td>
                 <td>{grupo.descripcion}</td>
-                <td>{grupo.ciudad}</td>
+                <td>Servicios completados</td>
                 <td>{grupo.cantidadPorGrupo}</td>                    
             </tr>
     )

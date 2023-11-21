@@ -206,11 +206,11 @@ const GroupTable = ({changeGrupos, changeSocios, filt}: tableProps) => {
 
         <table className='w-full socios-table-m2' cellSpacing="1">
 
-            <thead className="bg-zinc-400">
+            <thead className="bg-zinc-400 ">
                 <tr>
                     <th>Grupos Creados</th>
                     <th>Descripción del Grupo</th>
-                    <th>Ciudad del Grupo</th>
+                    <th>Criterio de Clasificación</th>
                     <th>Cantidad por Grupo</th>
                 </tr>
             </thead>
