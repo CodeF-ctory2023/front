@@ -52,6 +52,21 @@ import { useRouter } from 'next/router';
                 src="https://cdn-icons-png.flaticon.com/512/32/32213.png" alt="" /></button>
               </div>
             </div>
+            <div className='mb-6'>
+              <h4 className='font-bold mb-4'>Metodos de pago</h4>
+              <div className='flex justify-between items-center relative'>
+                <p className='mb-6 w-96 border-b-2 border-gray-200 border-0'>
+                  {loggedInUser.email}
+                </p>
+                <button 
+                onClick={() => router.push('/GestionUsuarios/AddCards')}
+                className='inline-block bg-white text-gray-500 w-7 h-7 rounded-full text-center leading-7 no-underline cursor-pointer absolute left-96'>
+                  <Image 
+                  width={15}
+                height={15}
+                src="https://cdn-icons-png.flaticon.com/512/32/32213.png" alt="" /></button>
+              </div>
+            </div>
           </div>
         </div>
     </section>
