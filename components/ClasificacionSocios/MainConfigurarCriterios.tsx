@@ -42,7 +42,7 @@ const MainConfigurarCriterios = () => {
                     <div className="flex flex-col">
                         <span className="titles-configuracion-m2">Nombre del grupo</span>
                         <input
-                            className="w-96 h-16 rounded-lg border border-gray-400 py-4 px-4 input-configuracion-m2"
+                            className="w-96 h-16 rounded-lg border border-gray-400 py-4 px-4 input-configuracion-m2 input-m2"
                             type="text"
                             placeholder="Type here"
                             value={nombreGrupo}
@@ -52,7 +52,7 @@ const MainConfigurarCriterios = () => {
                     <div className="flex flex-col">
                         <span className="titles-configuracion-m2">Descripcion del grupo</span>
                         <input
-                            className="w-96 h-16 rounded-lg border border-gray-400 py-4 px-4 input-configuracion-m2"
+                            className="w-96 h-16 rounded-lg border border-gray-400 py-4 px-4 input-configuracion-m2 input-m2"
                             type="text"
                             placeholder="Type here"
                             value={descripcionGrupo}
@@ -69,7 +69,7 @@ const MainConfigurarCriterios = () => {
                             name="criterio-clasificacion"
                             required
                             onChange={(e) => setCriterioClasificacion(e.target.value)}
-                            className="text-xl input-configuracion-m2"
+                            className="text-xl input-configuracion-m2 select-m2"
                         >
                             <option disabled>Seleccione un rol</option>
 
@@ -88,7 +88,7 @@ const MainConfigurarCriterios = () => {
                     <div className="flex flex-col">
                         <span className="titles-configuracion-m2">Valor criterio</span>
                         <input
-                            className="w-96 h-16 rounded-lg border border-gray-400 py-4 px-4 input-configuracion-m2"
+                            className="w-96 h-16 rounded-lg border border-gray-400 py-4 px-4 input-configuracion-m2 input-m2"
                             type="text"
                             placeholder="Type here"
                             value={valorCriterio}

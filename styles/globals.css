@@ -40,12 +40,8 @@
     @apply bg-blue-100;
 }
 
-table {
+.table-m2 {
     @apply w-full text-left border border-separate rounded border-slate-200;
-}
-
-.debug{
-    border: 1px solid red;
 }
 
 .titles-configuracion-m2{
@@ -56,10 +52,10 @@ table {
     @apply text-xl text-gray-500 font-medium;
 }
 
-input{
+.input-m2{
     @apply border border-gray-300 px-5 py-5 rounded-lg focus:outline-blue-400;
 }
 
-select{
+.select-m2{
     @apply border border-gray-300 px-5 py-5 rounded-lg focus:outline-blue-400;
 }
