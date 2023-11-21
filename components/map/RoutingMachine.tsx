@@ -44,7 +44,13 @@ const RoutingMachineLayer = ({ position, start, end, color }) => {
           }),
         });
       }
-    }
+    },
+    show: false,
+    addWaypoints: false,
+    routeWhileDragging: true,
+    draggableWaypoints: true,
+    fitSelectedRoutes: true,
+    showAlternatives: false
   });
 
   return instance;

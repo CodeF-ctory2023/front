@@ -84,6 +84,8 @@ stompClient.activate();
 
     const fillBlueOptions = { fillColor: 'blue' }
 
+    console.log(driverPosition);
+    
 
   const position: LatLngExpression = [6.271356482023135, -75.55728972772394]
   return (<MapContainer className='w-full h-1/2 absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/3'
@@ -94,7 +96,7 @@ stompClient.activate();
     />
     {/*poner en el mapa a ubicacion de usuario  */}
     {/* Marcador para la ubicación del usuario */}
-    {/* { <Marker icon={
+    { <Marker icon={
       new L.Icon({
         iconUrl: 'pin4.png',
         iconSize: [25, 41],
@@ -106,16 +108,16 @@ stompClient.activate();
       <Popup>
         Ubicación del Usuario,
       </Popup>
-    </Marker>} */}
-    
+    </Marker>}
+{/* 
 <RoutingMachine position={'topleft'}
       start={usuario}
-      end={driverPosition}
-      color={'#757de8'} />
+      end={conductorMasCercano}
+      color={'#757de8'} /> */}
     {/* <Circle center={usuario} pathOptions={fillBlueOptions} radius={500} /> */}
 
     {/* Marcador para el conductor más cercano */}
-    {/* <Marker icon={
+    <Marker icon={
       new L.Icon({
         iconUrl: 'pin3.png',
         iconSize: [25, 41],
@@ -127,7 +129,7 @@ stompClient.activate();
       <Popup>
         Ubicación del conductor,
       </Popup>
-    </Marker> */}
+    </Marker>
 
     
     {/* encontrar conductor mas cercano con respecto a un punto que es usuario y ponerlo en el mapa*/}
