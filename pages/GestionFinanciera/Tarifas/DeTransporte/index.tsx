@@ -1,169 +1,215 @@
-import { Button } from '@/components/GestionFinanciera/Button';
+import { crearTarifaDeTransporte } from '@/api/GestionFinanciera/Tarifas';
 import { Layout } from '@/components/GestionFinanciera/Layout';
-import Image from 'next/image';
+import { NonStopFee } from '@/interfaces/NonStopFee.interfaces';
+import {
+  Alert,
+  Button,
+  Grid,
+  Grow,
+  LinearProgress,
+  Paper,
+  TextField,
+  Typography,
+} from '@mui/material';
+import { DatePicker } from '@mui/x-date-pickers';
+import { useMutation } from '@tanstack/react-query';
+import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-
-import ReactDatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
+import { NumericFormat } from 'react-number-format';
 
 const DeTransportePage = () => {
   const router = useRouter();
+
   const [formData, setFormData] = useState({
     valorPorKm: '',
     recargo: '',
-    startDate: new Date(),
-    endDate: new Date(),
+    startDate: dayjs(),
+    endDate: dayjs(),
   });
-  const [triedToSubmit, setTriedToSubmit] = useState(false);
-  const datePickerIcon = (selectedDate: Date) => (
-    <div className='flex gap-1'>
-      <label>{`${selectedDate.getDate()}/${selectedDate.getMonth()}/${selectedDate.getFullYear()}`}</label>
-      <Image
-        className='hover:cursor-pointer'
-        src='/calendar-days.svg'
-        width={24}
-        height={24}
-        alt=''
-      />
-    </div>
-  );
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    inputType: string
-  ) => {
-    e.target.setCustomValidity('');
-    const [name, value] = [e.target.name, e.target.value];
-    let regex = /./;
-    if (inputType == 'int') {
-      regex = /^[0-9\b]+$/;
-    } else if (inputType == 'float') {
-      regex = /^[0-9\b]*(\.)?[0-9\b]*$/;
-    }
-    if (value === '' || regex.test(value)) {
-      setFormData((prevData) => {
-        return { ...prevData, [name]: value };
-      });
-    }
+  const [validateErrors, setValidateErrors] = useState({
+    recargo: '',
+    fechas: '',
+  });
+
+  const nonStopFeeMutation = useMutation({
+    mutationFn: async () => {
+      const req: NonStopFee = {
+        price: parseFloat(formData.valorPorKm),
+        surcharge: parseFloat(formData.recargo),
+        begin_date: formData.startDate.format('YYYY-MM-DD'),
+        end_date: formData.endDate.format('YYYY-MM-DD'),
+      };
+
+      return await crearTarifaDeTransporte(req);
+    },
+  });
+
+  const updateFieldValue = (e: {
+    target: { name: string; value: unknown };
+  }) => {
+    setFormData((prevData) => {
+      return {
+        ...prevData,
+        [e.target.name]: e.target.value,
+      };
+    });
   };
-  const handleSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
-    evt.preventDefault();
-    evt.currentTarget.valorPorKm.setCustomValidity('');
-    evt.currentTarget.recargo.setCustomValidity('');
-    if (formData.valorPorKm.length == 0) {
-      evt.currentTarget.valorPorKm.setCustomValidity('Rellene este campo');
-    }
-    if (formData.recargo.length == 0) {
-      evt.currentTarget.recargo.setCustomValidity('Rellene este campo');
-    }
-    setTriedToSubmit(true);
-    if (formData.startDate >= formData.endDate) {
+
+  const validateAndMutate = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    nonStopFeeMutation.reset();
+    const recargoValido =
+      formData.recargo.length > 0 &&
+      parseFloat(formData.recargo) >= 0 &&
+      parseFloat(formData.recargo) <= 30;
+    const fechasValidas =
+      formData.startDate.isValid() &&
+      formData.endDate.isValid() &&
+      !formData.startDate.isAfter(formData.endDate);
+
+    if (!recargoValido || !fechasValidas) {
+      setValidateErrors({
+        recargo: !recargoValido ? 'Ingrese un valor entre el 0% y 30%' : '',
+        fechas: !fechasValidas ? 'Ingrese un rango de fechas válido' : '',
+      });
       return;
     }
-    fetch('https://jsonplaceholder.typicode.com/posts', {
-      method: 'POST',
-      body: JSON.stringify({
-        valorKm: formData.valorPorKm,
-        recargo: formData.recargo,
-        fechaInicio: formData.startDate,
-        fechaFin: formData.endDate,
-      }),
-      headers: {
-        'Content-type': 'application/json; charset=UTF-8',
-      },
-    })
-      .then((response) => {
-        if (response.ok) {
-          router.reload();
-          return response.json();
-        }
-      })
-      // eslint-disable-next-line no-console
-      .then((json) => console.log(json));
+
+    // reset validation errors
+    setValidateErrors({
+      recargo: '',
+      fechas: '',
+    });
+
+    nonStopFeeMutation.mutate();
   };
 
   return (
     <Layout>
-      <div>
-        <form
-          className='flex flex-col items-center justify-center text-center gap-6 p-5 rounded-xl shadow-gray-300 shadow-xl'
-          onSubmit={handleSubmit}
+      <Grow in={true}>
+        <Paper
+          component='form'
+          elevation={4}
+          className='p-6'
+          onSubmit={validateAndMutate}
         >
-          <legend className='font-semibold text-lg pb-4'>
-            TARIFAS DE TRANSPORTE SIN PARADA
-          </legend>
-          <div className='flex justify-between items-center self-stretch gap-6'>
-            <label htmlFor='valorPorKm'>Valor por kilómetro cubierto</label>
-            <div className='pad-5 rounded-sm'>
-              <input
-                type='text'
-                value={formData.valorPorKm}
-                onChange={(e) => handleChange(e, 'int')}
+          <Grid container direction='column' spacing={{ xs: 2, sm: 4 }}>
+            <Grid item className='flex justify-center'>
+              <Typography variant='subtitle1' fontWeight={600}>
+                TARIFAS DE TRANSPORTE SIN PARADA
+              </Typography>
+            </Grid>
+            <Grid item className='flex justify-between items-baseline gap-4'>
+              <Typography variant='body1' component='label' htmlFor='valorPorKm'>
+                Valor por kilómetro cubierto:
+              </Typography>
+              <NumericFormat
+                customInput={TextField}
+                required
+                label='$/Km'
                 id='valorPorKm'
                 name='valorPorKm'
-                className='p-1.5 outline outline-1 invalid:outline-red-700'
-              ></input>
-            </div>
-          </div>
-          <div className='flex justify-between items-center self-stretch gap-6'>
-            <label htmlFor='valorPorKm'>% Recargo</label>
-            <div className='pad-5 rounded-sm'>
-              <input
-                type='text'
-                value={formData.recargo}
-                onChange={(e) => {
-                  handleChange(e, 'float');
-                  if (parseFloat(e.target.value) > 30) {
-                    e.target.setCustomValidity(
-                      'Ingrese un valor no mayor al 30%'
-                    );
-                  } else {
-                    e.target.setCustomValidity('');
-                  }
-                }}
+                value={formData.valorPorKm}
+                variant='filled'
+                size='small'
+                decimalScale={0}
+                thousandSeparator
+                onChange={updateFieldValue}
+              />
+            </Grid>
+            <Grid item className='flex justify-between items-baseline gap-4'>
+              <Typography variant='body1' component='label' htmlFor='recargo'>
+                Recargo:
+              </Typography>
+              <NumericFormat
+                customInput={TextField}
+                required
+                error={validateErrors.recargo.length > 0}
+                helperText={validateErrors.recargo}
+                label='%'
                 id='recargo'
                 name='recargo'
-                className='p-1.5 outline outline-1 invalid:outline-red-700'
-              ></input>
-            </div>
-          </div>
-          <div className='flex justify-between items-center self-stretch gap-6'>
-            <label htmlFor='vigencia'>Fechas de vigencia</label>
-            <ReactDatePicker
-              portalId='root-portal'
-              selectsStart
-              startDate={formData.startDate}
-              customInput={datePickerIcon(formData.startDate)}
-              popperPlacement='bottom'
-              onChange={(start: Date) => {
-                setFormData((prevData) => {
-                  return { ...prevData, startDate: start };
-                });
-              }}
-            />
-            <ReactDatePicker
-              portalId='root-portal'
-              selectsEnd
-              endDate={formData.endDate}
-              customInput={datePickerIcon(formData.endDate)}
-              popperPlacement='bottom'
-              onChange={(end: Date) => {
-                setFormData((prevData) => {
-                  return { ...prevData, endDate: end };
-                });
-              }}
-            />
-          </div>
-          {triedToSubmit && formData.startDate >= formData.endDate && (
-            <p className='text-red-700'>El rango de fechas es inválido</p>
-          )}
-          <div className='flex items-center justify-center gap-6 pt-4'>
-            <Button type='submit' text='GUARDAR' />
-            <Button text='REGRESAR' onClick={() => router.back()} />
-          </div>
-        </form>
-      </div>
+                value={formData.recargo}
+                variant='filled'
+                size='small'
+                onChange={updateFieldValue}
+              ></NumericFormat>
+            </Grid>
+
+            <Grid
+              container
+              item
+              spacing={{ xs: 1, sm: 2 }}
+              sx={{ flexWrap: { sm: 'nowrap' } }}
+              justifyContent={{ sm: 'start', xs: 'center' }}
+              className='flex items-baseline justify-between gap-2'
+            >
+              <Grid item>
+                <Typography variant='body1' component='legend'>Fechas de vigencia:</Typography>
+              </Grid>
+              <Grid item className='flex items-center flex-nowrap gap-2'>
+                <DatePicker
+                  slotProps={{ textField: { variant: 'filled' } }}
+                  label='Inicio'
+                  value={formData.startDate}
+                  className='w-36'
+                  onChange={(newValue) =>
+                    updateFieldValue({
+                      target: { name: 'startDate', value: newValue },
+                    })
+                  }
+                />
+                <Typography variant='body1'>-</Typography>
+                <DatePicker
+                  slotProps={{ textField: { variant: 'filled' } }}
+                  label='Fin'
+                  value={formData.endDate}
+                  className='w-36'
+                  onChange={(newValue) =>
+                    updateFieldValue({
+                      target: { name: 'endDate', value: newValue },
+                    })
+                  }
+                />
+              </Grid>
+            </Grid>
+            {/* Feedback section */}
+            <Grid item className='flex justify-center self-stretch'>
+              {validateErrors.fechas.length > 0 && (
+                <Alert severity='error'>{validateErrors.fechas}</Alert>
+              )}
+              {nonStopFeeMutation.isError &&
+                !nonStopFeeMutation.error.message.includes('no válid') && (
+                  <Alert severity='error'>
+                    {nonStopFeeMutation.error.message}
+                  </Alert>
+                )}
+              {nonStopFeeMutation.isSuccess && (
+                <Alert severity='success'>
+                  {nonStopFeeMutation.data?.message ?? 'Guardado exitoso'}
+                </Alert>
+              )}
+              {nonStopFeeMutation.isPending && (
+                <LinearProgress className='w-full m-4' />
+              )}
+            </Grid>
+            <Grid item className='flex justify-evenly'>
+              <Button variant='contained' size='large' type='submit'>
+                GUARDAR
+              </Button>
+              <Button
+                variant='contained'
+                size='large'
+                onClick={() => router.push('/GestionFinanciera/Tarifas')}
+              >
+                REGRESAR
+              </Button>
+            </Grid>
+          </Grid>
+        </Paper>
+      </Grow>
     </Layout>
   );
 };

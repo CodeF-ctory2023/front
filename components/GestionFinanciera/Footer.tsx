@@ -1,35 +1,78 @@
-import Link from 'next/link';
+import { Grid, Link, Paper, Typography } from '@mui/material';
 
 export const Footer = () => {
   return (
-    <footer
-      className='md:fixed w-full bg-sky-600 flex justify-between max-sm:flex-col items-start 
-    max-sm:items-center text-center self-stretch pt-9 pb-14 md:pr-36 md:pl-12 sm:pr-24 sm:pl-8 px-8 gap-9'
+    <Paper
+      component='footer'
+      className='bottom-0 relative p-6'
+      sx={{ bgcolor: 'primary.light', color: 'primary.contrastText' }}
     >
-      <div className='flex flex-col gap-2'>
-        <div className='text-white font-semibold text-4xl'>SSMU</div>
-        <div className='text-slate-300 pt-4'>
-          Experimenta de viajes seguros y rápidos.
-        </div>
-      </div>
-      <div className='flex flex-col items-center gap-2'>
-        <div className='text-white text-xl flex items-center gap-2 font-semibold'>
-          CONTACTO
-        </div>
-        <div className='text-slate-300 flex flex-col items-center pt-4 gap-3'>
-          <div>+55555555</div>
-          <div>mail@mail.com</div>
-        </div>
-      </div>
-      <div className='flex flex-col items-center gap-2'>
-        <div className='text-white text-xl flex items-center gap-2 font-semibold'>
-          AYUDA
-        </div>
-        <div className='text-slate-300 flex flex-col items-center pt-4 gap-3'>
-          <Link href='/blank'>Políticas de privacidad</Link>
-          <Link href='/blank'>Políticas de uso</Link>
-        </div>
-      </div>
-    </footer>
+      <Grid
+        container
+        direction={{ sm: 'row', xs: 'column' }}
+        spacing={4}
+        justifyContent={'space-around'}
+        // color={'primary.contrastText'}
+        // sx={{ bgcolor: 'primary.main' }}
+      >
+        <Grid
+          container
+          item
+          xs
+          direction={'column'}
+          spacing={0.4}
+          alignItems={'center'}
+        >
+          <Grid item>
+            <Typography variant='h4'>SSMU</Typography>
+          </Grid>
+          <Grid item>
+            <Typography variant='body2'>
+              Experimenta viajes seguros y rápidos
+            </Typography>
+          </Grid>
+        </Grid>
+        <Grid
+          container
+          item
+          xs
+          direction={'column'}
+          spacing={0.4}
+          alignItems={'center'}
+        >
+          <Grid item>
+            <Typography variant='h5'>CONTACTO</Typography>
+          </Grid>
+          <Grid item>
+            <Typography variant='body2'>+55555555</Typography>
+          </Grid>
+          <Grid item>
+            <Typography variant='body2'>mail@mail.com</Typography>
+          </Grid>
+        </Grid>
+        <Grid
+          container
+          item
+          xs
+          direction={'column'}
+          spacing={0.4}
+          alignItems={'center'}
+        >
+          <Grid item>
+            <Typography variant='h5'>AYUDA</Typography>
+          </Grid>
+          <Grid item>
+            <Link variant='body2' color={'primary.contrastText'} href='/blank'>
+              Políticas de privacidad
+            </Link>
+          </Grid>
+          <Grid item>
+            <Link variant='body2' color={'primary.contrastText'} href='/blank'>
+              Políticas de uso
+            </Link>
+          </Grid>
+        </Grid>
+      </Grid>
+    </Paper>
   );
 };

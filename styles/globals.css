@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 
+
 .socios-table-m2 td, .socios-table-m2 th{
     @apply  py-3 w-1/4 px-6 h-16;
 }
@@ -59,3 +60,8 @@
 .select-m2{
     @apply border border-gray-300 px-5 py-5 rounded-lg focus:outline-blue-400;
 }
+
+input:disabled {
+  opacity: 50%;
+}
+
