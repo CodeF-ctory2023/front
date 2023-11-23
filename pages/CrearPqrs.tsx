@@ -122,39 +122,6 @@ const CrearPqrs = () => {
                 </span>
               </div>
             </div>
-
-            {/* <div className='flex flex-row justify-center items-center space-x-5 w-full h-full border-dashed border-2 rounded-md p-5 border-gray-300 mt-3'>
-              <div className='p-5'>
-                <i className='fa-solid fa-cloud-arrow-up text-4xl text-zinc-800'></i>
-              </div>
-
-              <div className='flex flex-col ml-5 px-5 w-[65%] space-y-2'>
-                <span className='primary_text_bold'>
-                  Selecciona una imagen o archivo
-                </span>
-                <span className='primary_text'>
-                  JPG, PNG o PDF donde el tamaño no supere 10MB
-                </span>
-              </div>
-              <div className='w-[25%]'>
-                <input
-                  type='file'
-                  accept='.pdf, .png, .jpg, .jpeg'
-                  onChange={(e) => {
-                    setFile(e.target.files?.[0]);
-                  }}
-                  ref={fileInputRef}
-                  className='hidden'
-                />
-                <OperationsButton
-                  label='Cargar Archivos'
-                  onClick={handleButtonClick}
-                  color={secondaryColor}
-                  colorHover={secondaryColorHover}
-                  type={'button'}
-                />
-              </div>
-            </div> */}
             <div className='flex justify-end mt-5 space-x-4'>
               <OperationsButton
                 label='Volver'
