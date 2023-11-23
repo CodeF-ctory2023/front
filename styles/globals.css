@@ -2,6 +2,66 @@
 @tailwind components;
 @tailwind utilities;
 
+
+
+.socios-table-m2 td, .socios-table-m2 th{
+    @apply  py-3 w-1/4 px-6 h-16;
+}
+
+.socios-table-m2 th{
+    @apply text-black font-bold text-start text-xl;
+}
+
+.socios-table-m2 td{
+    @apply text-gray-900 font-normal;
+}
+
+.socios-table-m2 > tbody > tr{
+    @apply hover:bg-slate-300 hover:duration-100 bg-neutral-200;
+}
+
+.titles-m2{
+    @apply text-3xl font-bold text-gray-700;
+}
+
+.subtitles-m2{
+    @apply text-xl text-gray-500;
+}
+
+.font-m2{
+    font-family: 'Roboto';
+}
+
+#tablaSocios-m2{
+    @apply bg-blue-200;
+}
+
+
+#tablaSocios-tr-m2{
+    @apply bg-blue-100;
+}
+
+.table-m2 {
+    @apply w-full text-left border border-separate rounded border-slate-200;
+}
+
+.titles-configuracion-m2{
+    @apply font-bold text-xl mb-2 text-gray-500;
+}
+
+.input-configuracion-m2{
+    @apply text-xl text-gray-500 font-medium;
+}
+
+.input-m2{
+    @apply border border-gray-300 px-5 py-5 rounded-lg focus:outline-blue-400;
+}
+
+.select-m2{
+    @apply border border-gray-300 px-5 py-5 rounded-lg focus:outline-blue-400;
+}
+
 input:disabled {
   opacity: 50%;
 }
+
