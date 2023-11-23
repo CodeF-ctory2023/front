@@ -8,19 +8,32 @@ import { DriverSolicitude } from "@/interfaces/driverSolicitude";
 import { VehicleModel } from "@/interfaces/vehicleModel";
 import { useRouter } from "next/router";
 import Typography from '@mui/material/Typography';
+import { sendVehicleData } from "@/services/vehicleService";
+import { sendDriverSolicitudeData } from "@/services/driverSolicitudeService";
 
 const SignUp = () => {
     const [activeStep, setActiveStep] = useState(0);
     const router = useRouter();
 
     const [open, setOpen] = useState(false);
-    const handleOpen = () => setOpen(true); console.log("aiuda")
+    const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     const handleModalClick = () => {
         router.push('/');
     }
 
+    let [isFormValid, setIsFormValid] = useState(false);
+    const [isFormValidVehicle, setIsFormValidVehicle] = useState(false);
 
+    const handleFormValidityChange = (isValid:boolean) => {
+        setIsFormValid(isValid);
+    };
+
+    const handleFormValidityChangeVehicle = (isValid:boolean) => {
+        setIsFormValidVehicle(isValid);
+    }
+
+    
     const [formData, setFormData] = useState<DriverSolicitude>({
         id: '',
         id_type: '',
@@ -51,20 +64,33 @@ const SignUp = () => {
         allow_luggage: false
     });
 
-    const handleNextStep = () => {
-        if (activeStep == 0) {
-            const formPartnerJSON = JSON.stringify(formData);
-            console.table(formPartnerJSON);
-            setActiveStep(activeStep + 1);
+    const handleNextStep = async () => {
+        if (activeStep === 0) {
+            try {
+                const formDriverJSON = JSON.stringify(formData);
+                console.log('Datos del partner:', formDriverJSON);
+                await sendDriverSolicitudeData(formData);
+                console.log('Datos del partner enviados con éxito');
+                setActiveStep(activeStep + 1);
+                isFormValid = false;
+            } catch (error) {
+                console.error('Error al enviar datos del partner:', error);
+            }
         }
-        if (activeStep == 1) {
-            const formVehicleJSON = JSON.stringify(formDataVehicle);
-            console.table(formVehicleJSON);
-            handleOpen();
+        if (activeStep === 1) {
+            try {
+                const formVehicleJSON = JSON.stringify(formDataVehicle);
+                console.log('Datos del vehículo:', formVehicleJSON);
+                handleOpen();
+                await sendVehicleData(formDataVehicle);
+                console.log('Datos del vehículo enviados con éxito');
+            } catch (error) {
+                console.error('Error al enviar datos del vehículo:', error);
+            }
         }
     };
-
-    const handleFormDataChange = (fieldName: keyof DriverSolicitude, value: string) => {
+    
+    const handleFormDataChange = (fieldName: keyof DriverSolicitude, value: any) => {
         setFormData({ ...formData, [fieldName]: value });
     };
 
@@ -78,13 +104,16 @@ const SignUp = () => {
             content: <FormPartner
                 formData={formData}
                 onChange={handleFormDataChange}
-            />
+                onValidityChange={handleFormValidityChange}
+        />
+        
         },
         {
             label: 'Datos del Vehículo',
             content: <FormVehicle
                 formData={formDataVehicle}
                 onChange={handleFormDataVehicleChange}
+                onValidityChange={handleFormValidityChangeVehicle}
             />
         }
     ]
@@ -107,7 +136,7 @@ const SignUp = () => {
                     variant="contained"
                     handleClick={handleNextStep}
                     className="mb-4 p-2 px-5"
-                    disabled={false} />
+                    disabled={isFormValid || isFormValidVehicle} />
             </div>
 
             <CustomModal open={open} handleOpen={handleOpen} handleClose={handleClose}>

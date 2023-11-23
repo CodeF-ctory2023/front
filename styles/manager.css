@@ -1,0 +1,9 @@
+.container{
+    display: flexbox;
+    justify-content: center;
+    align-items: center;
+}
+
+.box-1{
+    border: solid red 1px;
+}
