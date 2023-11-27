@@ -1,0 +1,43 @@
+name: SonarCloud analysis
+
+on:
+  push:
+    branches:
+      - trunk
+      - 5-aceptar-solicitudes-servicio
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches:
+      - trunk
+      - 5-aceptar-solicitudes-servicio
+  workflow_dispatch:
+
+permissions:
+  pull-requests: read # allows SonarCloud to decorate PRs with analysis results
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '18'
+    - name: Install dependencies
+      run: npm install
+    - name: Run Jest Tests and Generate Coverage
+      run: npm run test:ci  # Make sure your package.json has this script
+    - name: Analyze with SonarCloud
+      uses: SonarSource/sonarcloud-github-action@de2e56b42aa84d0b1c5b622644ac17e505c9a049
+      env:
+          secrets: inherit
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information
+          SONAR_TOKEN : ${{ secrets.SONAR_TOKEN }} # Generate a token on Sonarcloud.io, add it to the secrets of this repo with the name SONAR_TOKEN (Settings > Secrets > Actions > add new repository secret)
+      with:
+          projectBaseDir: .
+          args:
+            -Dsonar.projectKey=CodeF-ctory2023_front
+            -Dsonar.organization=codef-ctory2023
+            
